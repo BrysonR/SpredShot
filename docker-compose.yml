@@ -1,0 +1,10 @@
+web:
+  build: ./web
+  ports:
+   - "3069:3069"
+  links:
+   - elastic
+elastic:
+  image: myelastic
+  ports:
+   - "9200:9200"
