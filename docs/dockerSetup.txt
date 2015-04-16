@@ -1,0 +1,11 @@
+Install docker client for mac
+http://boot2docker.io/
+
+Run boot2docker from apps to initialize vm and set up
+
+Set up environment so shell can talk to vm
+	eval "$(boot2docker shellinit)"
+
+Install docker-compose
+	curl -L https://github.com/docker/compose/releases/download/1.1.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+	chmod +x /usr/local/bin/docker-compose
