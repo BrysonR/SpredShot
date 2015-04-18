@@ -1,1 +1,1 @@
-curl -XPOST 'http://192.168.59.104:9200/ar15/listings/' -d @sample.json
+curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json
