@@ -10,9 +10,12 @@ server.set('views', path.join(__dirname, 'views'));
 //server.engine('html', require('ejs').renderFile);
 server.set('view engine', 'html');
 
+var host = process.env.APP_ENV == 'development'
+  ? 'http://elastic:9200'
+  : 'http://brentmills.cloudapp.net:9200';
 
 var client = new elasticsearch.Client({
-  host: 'http://brentmills.cloudapp.net:9200',
+  host: host,
   log: 'trace'
 });
 
