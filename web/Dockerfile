@@ -1,5 +1,7 @@
 FROM node:latest
 
+RUN npm install express browserify elasticsearch forever node-jsx react reactify
+
 RUN mkdir /gunsnfun
 
 ADD ./ /gunsnfun
