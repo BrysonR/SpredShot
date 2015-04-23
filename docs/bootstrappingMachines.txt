@@ -1,0 +1,12 @@
+docker-compose can be used to set up partial environments as well as boot the entire infrastructure.
+
+Basic commands:
+
+#build new versions of containers defined in the "build" section of the yaml
+docker-compose build
+
+#start up the web container and it's dependencies (links)
+docker-compose up web
+
+#stop all containers for the application
+docker-compose stop
