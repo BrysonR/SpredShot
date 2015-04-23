@@ -1,0 +1,28 @@
+web:
+  build: ./web/
+  environment:
+    APP_ENV: development
+  ports:
+   - "3069:3069"
+  links:
+   - "elastic"
+scraperqueue:
+  build: ./scraper-queue/
+  ports:
+   - "80:80"
+  links:
+   - "rabbit"
+
+
+elastic:
+  image: myelastic
+  ports:
+   - "9200:9200"
+rabbit:
+  image: rabbitmq:3.5.0-management
+  ports:
+   - "8080:15672"
+# postgres:
+#   image: postgres:9.4
+# redis:
+#   image: redis:3.0
