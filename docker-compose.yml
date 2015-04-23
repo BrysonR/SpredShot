@@ -14,10 +14,20 @@ scraperqueue:
    - "rabbit"
 
 
+consul:
+  image: progrium/consul
+  ports:
+   - "8400:8400"
+   - "8500:8500"
+   - "8600:53/udp"
+  command: -server -bootstrap -ui-dir /ui
+  hostname: node1
 elastic:
   image: myelastic
   ports:
    - "9200:9200"
+  links:
+   - "consul"
 rabbit:
   image: rabbitmq:3.5.0-management
   ports:
