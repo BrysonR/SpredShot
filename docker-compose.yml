@@ -12,6 +12,12 @@ scraperqueue:
    - "80:80"
   links:
    - "rabbit"
+scraper:
+  build: ./scraper/
+  environment:
+    APP_ENV: development
+  links:
+   - "elastic"
 
 
 consul:
