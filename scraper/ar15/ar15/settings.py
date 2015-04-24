@@ -17,7 +17,7 @@ ITEM_PIPELINES = [
   'scrapyelasticsearch.scrapyelasticsearch.ElasticSearchPipeline',
 ]
 
-ELASTICSEARCH_SERVER = 'http://brentmills.cloudapp.net'
+ELASTICSEARCH_SERVER = 'http://localhost'
 ELASTICSEARCH_PORT = 9200
 ELASTICSEARCH_INDEX = 'ar15'
 ELASTICSEARCH_TYPE = 'listing'
