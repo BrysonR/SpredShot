@@ -1,19 +1,15 @@
-FROM ubuntu
-MAINTAINER Bryson reynolds <bryson@brysonreynolds.com>
+FROM python
 
-RUN echo deb http://archive.ubuntu.com/ubuntu precise universe >> /etc/apt/sources.list
-RUN apt-get update
-
-## Python Family
-RUN apt-get install -qy python python-dev python-distribute python-pip ipython
+MAINTAINER Bryson Reynolds <bryson@brysonreynolds.com>
 
 ## Scraping Family
 RUN pip install beautifulsoup4 requests
-RUN apt-get install -qy libffi-dev libxml2-dev libxslt-dev lib32z1-dev libssl-dev
 RUN pip install scrapy service-identity ScrapyElasticSearch
 
 RUN mkdir /scraper
 
-ADD ./ /scraper
+ADD ./ar15/ /scraper/ar15/
 
-RUN cd /scraper/ar15 && scrapy runspider ar15/spiders/ar15_spider.py
+WORKDIR /
+
+CMD scrapy runspider /scraper/ar15/spiders/ar15_spider.py
