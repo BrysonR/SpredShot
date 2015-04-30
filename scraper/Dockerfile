@@ -16,4 +16,4 @@ ADD ./ar15/ /scraper/ar15/
 
 WORKDIR /scraper/ar15/
 
-CMD sleep 20 && scrapy runspider ar15/spiders/ar15_spider.py
+CMD scrapy runspider ar15/spiders/ar15_spider.py
