@@ -5,7 +5,10 @@ MAINTAINER Bryson Reynolds <bryson@brysonreynolds.com>
 ## Scraping Family
 RUN pip install --upgrade pip
 RUN pip install beautifulsoup4 requests
-RUN pip install scrapy service-identity ScrapyElasticSearch
+RUN pip install scrapy service-identity carrot
+
+RUN apt-get update
+RUN apt-get install vim
 
 RUN mkdir /scraper
 
