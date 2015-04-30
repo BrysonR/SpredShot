@@ -4,8 +4,8 @@ MAINTAINER Bryson Reynolds <bryson@brysonreynolds.com>
 
 ## Scraping Family
 RUN pip install --upgrade pip
-RUN pip install beautifulsoup4 requests
-RUN pip install scrapy service-identity carrot
+RUN pip install beautifulsoup4 requests librabbitmq
+RUN pip install scrapy service-identity kombu
 
 RUN apt-get update
 RUN apt-get -y install vim
