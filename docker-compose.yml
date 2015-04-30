@@ -17,8 +17,7 @@ scraper:
   environment:
     APP_ENV: development
   links:
-   - "elastic"
-   - "web"
+   - "rabbit"
 
 
 consul:

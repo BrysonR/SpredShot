@@ -8,7 +8,7 @@ RUN pip install beautifulsoup4 requests
 RUN pip install scrapy service-identity carrot
 
 RUN apt-get update
-RUN apt-get install vim
+RUN apt-get -y install vim
 
 RUN mkdir /scraper
 
