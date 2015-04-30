@@ -20,33 +20,29 @@ import settings
  
 class MessageQueuePipeline(object):
     """Emit processed items to a RabbitMQ exchange/queue"""
-    def __init__(self, host_name, port, userid, password, virtual_host):
-        self.q_connection = Connection('amqp://rabbit')
+    def __init__(self, host_name, exchange_name):
+        self.q_connection = Connection('amqp://' + host_name)
+        self.q_exchange = Exchange(exchange_name, 'direct', durable=True)
         dispatcher.connect(self.spider_opened, signals.spider_opened)
         dispatcher.connect(self.spider_closed, signals.spider_closed)
  
     @classmethod
     def from_settings(cls, settings):
         host_name = settings.get('BROKER_HOST')
-        port = settings.get('BROKER_PORT')
-        userid = settings.get('BROKER_USERID')
-        password = settings.get('BROKER_PASSWORD')
-        virtual_host = settings.get('BROKER_VIRTUAL_HOST')
-        encoder_class = settings.get('MESSAGE_Q_SERIALIZER', ScrapyJSONEncoder)
-        return cls(host_name, port, userid, password, virtual_host)
+        exchange_name = settings.get('EXCHANGE_NAME')
+        return cls(host_name, exchange_name)
  
     def spider_opened(self, spider):
         self.producer = self.q_connection.Producer(serializer='json')
-        self.exchange = Exchange('scraper.ar15', 'direct', durable=True)
  
     def spider_closed(self, spider):
-        self.publisher.close()
+        self.producer.close()
  
     def process_item(self, item, spider):
         return deferToThread(self._process_item, item, spider)
  
     def _process_item(self, item, spider):
-        self.producer.publish(dict(item), exchange=self.exchange)
+        self.producer.publish(dict(item), exchange=self.q_exchange)
         return item
 
         
