@@ -1,8 +1,9 @@
-FROM python
+FROM python:2.7
 
 MAINTAINER Bryson Reynolds <bryson@brysonreynolds.com>
 
 ## Scraping Family
+RUN pip install --upgrade pip
 RUN pip install beautifulsoup4 requests
 RUN pip install scrapy service-identity ScrapyElasticSearch
 
@@ -10,6 +11,6 @@ RUN mkdir /scraper
 
 ADD ./ar15/ /scraper/ar15/
 
-WORKDIR /
+WORKDIR /scraper/ar15/
 
-CMD scrapy runspider /scraper/ar15/spiders/ar15_spider.py
+CMD sleep 20 && scrapy runspider ar15/spiders/ar15_spider.py
