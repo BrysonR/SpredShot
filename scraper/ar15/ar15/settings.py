@@ -15,10 +15,6 @@ BOT_NAME = 'ar15'
 SPIDER_MODULES = ['ar15.spiders']
 NEWSPIDER_MODULE = 'ar15.spiders'
 
-ITEM_PIPELINES = {
-    'ar15.pipelines.MessageQueuePipeline': 300,
-}
- 
 try:
     BROKER_HOST = os.environ['BROKER_HOST']
 except KeyError:

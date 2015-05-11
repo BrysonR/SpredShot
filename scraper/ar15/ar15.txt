@@ -1,0 +1,32 @@
+2015-05-10 20:11:07-0500 [scrapy] INFO: Scrapy 0.24.5 started (bot: ar15)
+2015-05-10 20:11:07-0500 [scrapy] INFO: Optional features available: ssl, http11
+2015-05-10 20:11:07-0500 [scrapy] INFO: Overridden settings: {'NEWSPIDER_MODULE': 'ar15.spiders', 'SPIDER_MODULES': ['ar15.spiders'], 'LOG_STDOUT': True, 'LOG_FILE': './ar15.txt', 'BOT_NAME': 'ar15'}
+2015-05-10 20:11:07-0500 [scrapy] INFO: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, SpiderState
+2015-05-10 20:11:07-0500 [scrapy] INFO: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, MetaRefreshMiddleware, HttpCompressionMiddleware, RedirectMiddleware, CookiesMiddleware, ChunkedTransferMiddleware, DownloaderStats
+2015-05-10 20:11:07-0500 [scrapy] INFO: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
+2015-05-10 20:11:07-0500 [scrapy] INFO: Enabled item pipelines: 
+2015-05-10 20:11:07-0500 [AR15] INFO: Spider opened
+2015-05-10 20:11:07-0500 [AR15] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2015-05-10 20:11:07-0500 [scrapy] DEBUG: Telnet console listening on 127.0.0.1:6023
+2015-05-10 20:11:07-0500 [scrapy] DEBUG: Web service listening on 127.0.0.1:6080
+2015-05-10 20:11:09-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/b/7_Equipment_Exchange.html> (referer: None) ['partial']
+2015-05-10 20:11:10-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/170_Other_Military_Collectibles.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:10-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/167_Civil_War_Collectibles.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:10-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/133_Ammunition.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:10-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/143_Services_andamp__Customization.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:10-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/169_Old_West_Collectibles.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:10-0500 [scrapy] INFO: Received SIGINT, shutting down gracefully. Send again to force 
+2015-05-10 20:11:10-0500 [AR15] INFO: Closing spider (shutdown)
+2015-05-10 20:11:10-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/168_World_War_1_andamp__2_Collectibles.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:10-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/165_Competition_Guns_andamp__Gear.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:10-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/131_Curio_And_Relic.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:10-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/150_Strictly_Rimfire.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:10-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/118_NFA_Firearms_andamp__Parts.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:11-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/89_Handgun_Mags__Parts__andamp__Accessories.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:11-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/88_Handguns.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:11-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/f_7/47_Rifle_Parts_andamp__Accessories.html> (referer: http://www.ar15.com/forums/b/7_Equipment_Exchange.html)
+2015-05-10 20:11:11-0500 [AR15] DEBUG: Crawled (200) <GET http://www.ar15.com/forums/t_7_133/1390806_Nosler_64gr_Bonded_JSP.html> (referer: http://www.ar15.com/forums/f_7/133_Ammunition.html)
+2015-05-10 20:11:11-0500 [scrapy] INFO: Received SIGINT twice, forcing unclean shutdown
+2015-05-10 20:11:11-0500 [AR15] DEBUG: Retrying <GET http://www.ar15.com/forums/f_7/92_Shotgun_Parts_andamp__Accessories.html> (failed 1 times): [<twisted.python.failure.Failure <class 'twisted.internet.error.ConnectionLost'>>, <twisted.python.failure.Failure <class 'twisted.web.http._DataLoss'>>]
+2015-05-10 20:11:11-0500 [AR15] DEBUG: Retrying <GET http://www.ar15.com/forums/t_7_170/1398218_Musket_Bayonet__65.html> (failed 1 times): [<twisted.python.failure.Failure <class 'twisted.internet.error.ConnectionLost'>>, <twisted.python.failure.Failure <class 'twisted.web.http._DataLoss'>>]
+2015-05-10 20:11:11-0500 [AR15] DEBUG: Retrying <GET http://www.ar15.com/forums/f_7/162_Shotguns.html> (failed 1 times): [<twisted.python.failure.Failure <class 'twisted.internet.error.ConnectionLost'>>, <twisted.python.failure.Failure <class 'twisted.web.http._DataLoss'>>]
