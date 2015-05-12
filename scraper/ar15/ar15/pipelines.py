@@ -33,7 +33,7 @@ class MessageQueuePipeline(object):
         return cls(host_name, exchange_name)
  
     def spider_opened(self, spider):
-        self.producer = self.q_connection.Producer(serializer='json')
+        self.producer = self.q_connection.Producer(serializer='json', exchange=self.q_exchange)
  
     def spider_closed(self, spider):
         self.producer.close()
@@ -42,7 +42,7 @@ class MessageQueuePipeline(object):
         return deferToThread(self._process_item, item, spider)
  
     def _process_item(self, item, spider):
-        self.producer.publish(dict(item), exchange=self.q_exchange)
+        self.producer.publish(dict(item))
         return item
 
         
