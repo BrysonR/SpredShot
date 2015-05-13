@@ -69,7 +69,7 @@ var App = React.createClass({
             <script src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
             <script src="https://fb.me/react-0.13.1.js"></script>
             <script src="/searchComponent.js"></script>
-            <script src="/bundle.js"></script>
+            <script src="/js/build/bundle.js"></script>
 
           </head>
           <body>
@@ -89,7 +89,7 @@ var App = React.createClass({
 
             <script src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
             <script src="https://fb.me/react-0.13.1.js"></script>
-            <script src="/bundle.js"></script>
+            <script src="/js/build/bundle.js"></script>
 
           </head>
           <body>
