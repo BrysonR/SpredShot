@@ -1,1 +1,10 @@
 curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json
+curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json
+curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json
+curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json
+curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json
+curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json
+curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json
+curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json
+curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json
+curl -XPOST 'http://elastic:9200/ar15/listings/' -d @sample.json

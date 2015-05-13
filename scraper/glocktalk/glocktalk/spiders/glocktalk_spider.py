@@ -10,10 +10,16 @@ from glocktalk.items import GlockTalkItem
 class GlockTalk_Spider(CrawlSpider):
     name = 'GlockTalk'
     allowed_domains = ['glocktalk.com']
-    start_urls = ['http://glocktalk.com/forums/forumdisplay.php?f=39']
+    start_urls = ['http://glocktalk.com/forums/forumdisplay.php?f=39',
+                  'http://glocktalk.com/forums/forumdisplay.php?f=40',
+                  'http://glocktalk.com/forums/forumdisplay.php?f=67',
+                  'http://glocktalk.com/forums/forumdisplay.php?f=41']
 
     rules = (
         Rule(LinkExtractor(unique=True, allow=('showthread.php'), restrict_xpaths=('//tbody[@id="threadbits_forum_39"]/tr/td[2]/div/a')), callback='parse_item'),
+        Rule(LinkExtractor(unique=True, allow=('showthread.php'), restrict_xpaths=('//tbody[@id="threadbits_forum_40"]/tr/td[2]/div/a')), callback='parse_item'),
+        Rule(LinkExtractor(unique=True, allow=('showthread.php'), restrict_xpaths=('//tbody[@id="threadbits_forum_67"]/tr/td[2]/div/a')), callback='parse_item'),
+        Rule(LinkExtractor(unique=True, allow=('showthread.php'), restrict_xpaths=('//tbody[@id="threadbits_forum_41"]/tr/td[2]/div/a')), callback='parse_item'),
         Rule(LinkExtractor(allow=('forumdisplay.php'), restrict_xpaths=('//a[starts-with(@title, "Next Page")]')), follow=True),
     )
 
@@ -25,13 +31,13 @@ class GlockTalk_Spider(CrawlSpider):
         description = ''.join(sel.xpath('//div[starts-with(@id, "post_message_")]').extract()[0])
         priceList = sel.xpath('//div[starts-with(@id, "post_message_")]').re('(\$[0-9,]+(\.[0-9]{2})?)')
 
-        if not len(priceList) > 0:
-          return
+        # if not len(priceList) > 0:
+        #   return
 
-        if imageUrl == '':
-          return
+        # if imageUrl == '':
+        #   return
 
-        price = priceList[0]
+        price = priceList;
 
         item['title'] = title
         item['link'] = response.url

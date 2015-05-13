@@ -6,19 +6,12 @@ web:
    - "3069:3069"
   links:
    - "elastic"
-scraperqueue:
-  build: ./scraper-queue/
-  ports:
-   - "80:80"
-  links:
-   - "rabbit"
 scraper:
   build: ./scraper/
   environment:
     APP_ENV: development
   links:
    - "rabbit"
-
 
 consul:
   image: progrium/consul
@@ -39,7 +32,3 @@ rabbit:
   ports:
    - "8080:15672"
    - "5672:5672"
-# postgres:
-#   image: postgres:9.4
-# redis:
-#   image: redis:3.0
