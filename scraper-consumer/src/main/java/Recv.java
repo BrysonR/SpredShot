@@ -34,7 +34,7 @@ public class Recv {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             String message = new String(delivery.getBody());
 
-            System.out.println(" [x] Received '" + message + "'");
+            System.out.println(" [x] Receiveded '" + message + "'");
         }
     }
 }
