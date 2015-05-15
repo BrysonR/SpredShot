@@ -3,10 +3,19 @@
  */
 
 import java.io.IOException;
+import java.util.Date;
+
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.QueueingConsumer;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.Client;
+import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.node.Node;
+
+import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
 public class Recv {
 
@@ -16,8 +25,13 @@ public class Recv {
             throws java.io.IOException,
             java.lang.InterruptedException {
 
+        String hostName = "rabbit";
+
+        Client client = new TransportClient()
+                .addTransportAddress(new InetSocketTransportAddress(hostName, 9300));
+
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("192.168.59.103");
+        factory.setHost(hostName);
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
@@ -34,7 +48,14 @@ public class Recv {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             String message = new String(delivery.getBody());
 
-            System.out.println(" [x] Receiveded '" + message + "'");
+            IndexResponse response = client.prepareIndex("ar15", "listing")
+                    .setSource(message)
+                    .execute()
+                    .actionGet();
+
+            String _id = response.getId();
+
+            System.out.println(" [x] Receiveded '" + _id + ":  " + message + "'");
         }
     }
 }

@@ -25,6 +25,7 @@ elastic:
   image: myelastic
   ports:
    - "9200:9200"
+   - "9300:9300"
   links:
    - "consul"
 rabbit:
