@@ -13,13 +13,10 @@ import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.node.Node;
-
-import static org.elasticsearch.common.xcontent.XContentFactory.*;
 
 public class Recv {
 
-    private static final String EXCHANGE_NAME = "scraper.ar15";
+    private static final String EXCHANGE_NAME = "app.listing-post";
 
     public static void main(String[] argv)
             throws java.io.IOException,
@@ -35,7 +32,7 @@ public class Recv {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        channel.exchangeDeclare(EXCHANGE_NAME, "direct", true);
+        channel.exchangeDeclare(EXCHANGE_NAME, "fanout", true);
         String queueName = channel.queueDeclare().getQueue();
         channel.queueBind(queueName, EXCHANGE_NAME, "");
 
@@ -48,7 +45,7 @@ public class Recv {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             String message = new String(delivery.getBody());
 
-            IndexResponse response = client.prepareIndex("ar15", "listing")
+            IndexResponse response = client.prepareIndex("equipment", "listing")
                     .setSource(message)
                     .execute()
                     .actionGet();
