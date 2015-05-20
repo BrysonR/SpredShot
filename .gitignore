@@ -88,6 +88,10 @@ buildNumber.properties
 # Node Modules
 node_modules/
 
+# Static Build files
 public/js/
 public/css/
+
+# This BULLSHIT
+npm-debug.log
 
