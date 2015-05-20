@@ -1,13 +1,15 @@
-var express = require('express');
-var path = require('path');
-var server = express();
+// lets use jsx
 require('node-jsx').install();
-var React = require('react');
-var elasticsearch = require('elasticsearch');
-var AppComponent = require('./app').App;
+
+var express = require('express'),
+    path = require('path'),
+    server = express(),
+    React = require('react'),
+    elasticsearch = require('elasticsearch'),
+    AppComponent = require('./static/app');
+
 server.use(express.static(__dirname + '/public'));
 server.set('views', path.join(__dirname, 'views'));
-//server.engine('html', require('ejs').renderFile);
 server.set('view engine', 'html');
 
 var host = process.env.APP_ENV == 'development'
@@ -21,20 +23,11 @@ var client = new elasticsearch.Client({
 
 
 server.get('/', function(req, res) {
-    client.search({
-        index: 'ar15',
-        q: 'night',
-        size: 100
-    }).then(function (resp) {
+    var app = React.createFactory(AppComponent);
 
-        var app = React.createFactory(require('./app').App);
+    var markup = React.renderToString(app({page: 'search'}));
 
-        var markup = React.renderToString(app({data: resp.hits.hits, page: 'search'}));
-
-        res.send(markup);
-    }, function (err) {
-        console.log(err);
-    });
+    res.send(markup);
 });
 
 server.get('/listings/:query', function(req, res) {

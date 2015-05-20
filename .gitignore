@@ -85,4 +85,9 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
+# Node Modules
+node_modules/
+
+public/js/
+public/css/
 

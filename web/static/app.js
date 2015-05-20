@@ -1,27 +1,10 @@
-var React = require('react');
+var React = require('react'),
+    Card = require('./components/Card.js');
+
 var App = React.createClass({
   render: function() {
 
-    var Card = React.createClass({
-        render: function() {
-          var cardStyle = {
-            backgroundImage: 'url('+this.props.imageUrl+')',
-          }
-          return (
-            <div className="card" style={cardStyle}>
-              <div className="image-cover">
-                <img className="card-image" src={this.props.imageUrl} />
-              </div>
-              <div className="card-body">
-                <a href={this.props.url} className="card-title" dangerouslySetInnerHTML={{__html: this.props.title}} ></a>
-                <div className="card-price">{this.props.price}</div>
-              </div>
-            </div>
-          );
-        }
-    });
-
-    var CardCollection = React.createClass({
+    const CardCollection = React.createClass({
       render: function() {
         var Cards = this.props.data.map(function (listing) {
 
@@ -46,11 +29,22 @@ var App = React.createClass({
       }
     });
 
-    var SearchInput = React.createClass({
+    const SearchInput = React.createClass({
+      handleKeyDown: function(event) {
+        console.log(event);
+        if (event.which == 13) {
+          this.handleSubmit();
+        }
+      },
+      handleSubmit: function() {
+        debugger;
+        var query = $('.search-input').val();
+        window.location = window.location.href + 'listings/' + query;
+      },
       render: function() {
         return (
           <div className="search-container">
-            <input className="search-input" />
+            <input className="search-input" onKeyDown={this.handleKeyDown}/>
           </div>
         );
       }
@@ -63,13 +57,13 @@ var App = React.createClass({
           <head>
             <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
             <title>Guns N Fun</title>
-            <link rel="stylesheet" href="/styles/css/index.css" />
+            <link rel="stylesheet" href="/css/index.css" />
             <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
 
             <script src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
             <script src="https://fb.me/react-0.13.1.js"></script>
-            <script src="/searchComponent.js"></script>
-            <script src="/js/build/bundle.js"></script>
+            <script src="/js/searchComponent.js"></script>
+            <script src="/js/bundle.js"></script>
 
           </head>
           <body>
@@ -84,12 +78,12 @@ var App = React.createClass({
           <head>
             <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
             <title>Guns N Fun</title>
-            <link rel="stylesheet" href="/styles/css/index.css" />
+            <link rel="stylesheet" href="/css/index.css" />
             <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
 
             <script src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
             <script src="https://fb.me/react-0.13.1.js"></script>
-            <script src="/js/build/bundle.js"></script>
+            <script src="/js/bundle.js"></script>
 
           </head>
           <body>
@@ -101,4 +95,4 @@ var App = React.createClass({
   }
 });
 
-module.exports.App = App;
+module.exports = App;

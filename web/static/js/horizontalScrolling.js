@@ -42,11 +42,4 @@ $(function() {
   $('.card-collection').on('mousewheel', function (event, delta) {
     this.scrollLeft += (event.originalEvent.deltaY * 1);
   })
-
-  // $('.card').arc({
-  //   radius: 50,
-  //   start: 0,
-  //   end: 25,
-  //   rotate: false
-  // });
 })

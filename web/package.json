@@ -17,6 +17,10 @@
     "reactify": "*",
     "gulp": "*",
     "gulp-changed": "*",
-    "gulp-babel": "*"
+    "gulp-babel": "*",
+    "gulp-sass": "*",
+    "gulp-sourcemaps": "*",
+    "babelify": "*",
+    "vinyl-source-stream": "*"
   }
 }

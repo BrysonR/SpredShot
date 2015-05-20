@@ -1,10 +1,12 @@
-FROM node:latest
+FROM node:0.10.38
 
-RUN npm install debug express path browserify elasticsearch forever node-jsx react reactify gulp-changed gulp-babel gulp-sourcemaps
+RUN npm install debug express path elasticsearch forever node-jsx react gulp-sourcemaps gulp-babel babelify vinyl-source-stream gulp-sass
 
 RUN npm --global install browserify gulp
 
 RUN npm link gulp
+
+RUN npm link browserify
 
 RUN mkdir /gunsnfun
 
@@ -12,5 +14,4 @@ ADD ./ /gunsnfun
 
 EXPOSE 3069
 
-CMD browserify --transform reactify /gunsnfun/app.js --outfile /gunsnfun/public/js/src/bundle.js && gulp --gulpfile /gunsnfun/public/gulpfile.js build:js && node /gunsnfun/server.js
-
+CMD gulp --gulpfile /gunsnfun/static/gulpfile.js && node /gunsnfun/server.js

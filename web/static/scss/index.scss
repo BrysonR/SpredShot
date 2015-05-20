@@ -1,19 +1,7 @@
-@import "compass";
-
 @font-face {
   font-family: LeagueGothic;
   src: url("../../fonts/LeagueGothic-CondensedRegular.otf") format("opentype");
 }
-
-@include keyframes(slide) {
-  0% {
-    @include transform(translateY(150px));
-  }
-  100% {
-    @include transform(translateY(-15px));
-  }
-}
-
 
 html {
   width: 100%;
@@ -143,9 +131,5 @@ body {
     background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSItNjMuOCAzNjIuMyA1NzcuOCAzNTEuNyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAtNjMuOCAzNjIuMyA1NzcuOCAzNTEuNyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTE4MS4yLDM4MC4yYzI0LjEtMjQuMSw2My42LTIzLjgsODguMSwwLjdsMCwwYzI0LjUsMjQuNSwyNC45LDYzLjksMC43LDg4LjFMNDIuOSw2OTYuMWMtMjQuMSwyNC4xLTYzLjYsMjMuOC04OC4xLTAuN2wwLDBjLTI0LjUtMjQuNS0yNC45LTYzLjktMC43LTg4LjFMMTgxLjIsMzgwLjJ6Ii8+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTI2OS4xLDM4MC4yYy0yNC4xLTI0LjEtNjMuNi0yMy44LTg4LjEsMC43bDAsMGMtMjQuNSwyNC41LTI0LjksNjMuOS0wLjcsODguMWwyMjcuMSwyMjcuMWMyNC4xLDI0LjEsNjMuNiwyMy44LDg4LjEtMC43bDAsMGMyNC41LTI0LjUsMjQuOS02My45LDAuNy04OC4xTDI2OS4xLDM4MC4yeiIvPjwvc3ZnPg==);
     background-size: contain;
     background-repeat: no-repeat;
-  }
-
-  .bounce {
-    @include animation(slide 2s ease-in-out infinite);
   }
 }
