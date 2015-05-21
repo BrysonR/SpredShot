@@ -20,3 +20,4 @@ const Card = React.createClass({
 });
 
 module.exports = Card;
+

@@ -23,9 +23,9 @@ var client = new elasticsearch.Client({
 
 
 server.get('/', function(req, res) {
-    var app = React.createFactory(AppComponent);
+    var app = React.createFactory(AppComponent.SearchApp);
 
-    var markup = React.renderToString(app({page: 'search'}));
+    var markup = React.renderToString(app());
 
     res.send(markup);
 });
@@ -47,11 +47,12 @@ server.get('/listings/:query', function(req, res) {
         },
         size: 100
     }).then(function (resp) {
-        var app = React.createFactory(require('./app').App);
+        var app = React.createFactory(require(AppComponent.ListingsApp);
 
-        var markup = React.renderToString(app({data: resp.hits.hits, page: 'listings'}));
+        var markup = React.renderToString(app({data: resp.hits.hits}));
 
         res.send(markup);
+
     }, function (err) {
         res.send(err);
     });
