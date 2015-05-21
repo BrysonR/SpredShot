@@ -16,25 +16,28 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 
 public class Recv {
 
-    private static final String EXCHANGE_NAME = "app.listing-post";
 
     public static void main(String[] argv)
             throws java.io.IOException,
             java.lang.InterruptedException {
 
-        String hostName = "rabbit";
+        String rabbitHost = "rabbit";
+        String esHost = "elastic";
+        String exchangeName = System.getenv("RABBIT_EXCHANGE");
+        String esIndex = System.getenv("ES_INDEX");
+        String esType = System.getenv("ES_TYPE");
 
         Client client = new TransportClient()
-                .addTransportAddress(new InetSocketTransportAddress(hostName, 9300));
+                .addTransportAddress(new InetSocketTransportAddress(esHost, 9300));
 
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(hostName);
+        factory.setHost(rabbitHost);
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        channel.exchangeDeclare(EXCHANGE_NAME, "fanout", true);
+        channel.exchangeDeclare(exchangeName, "fanout", true);
         String queueName = channel.queueDeclare().getQueue();
-        channel.queueBind(queueName, EXCHANGE_NAME, "");
+        channel.queueBind(queueName, exchangeName, "");
 
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
@@ -45,7 +48,7 @@ public class Recv {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             String message = new String(delivery.getBody());
 
-            IndexResponse response = client.prepareIndex("equipment", "listing")
+            IndexResponse response = client.prepareIndex(esIndex, esType)
                     .setSource(message)
                     .execute()
                     .actionGet();

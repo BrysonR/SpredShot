@@ -12,6 +12,15 @@ scraper:
     APP_ENV: development
   links:
    - "rabbit"
+listingposter:
+  build: ./listing-poster/
+  environment:
+    RABBIT_EXCHANGE: app.listing.create
+    ES_INDEX: equipment
+    ES_TYPE: listings
+  links:
+   - "rabbit"
+   - "elastic"
 
 consul:
   image: progrium/consul
@@ -26,8 +35,6 @@ elastic:
   ports:
    - "9200:9200"
    - "9300:9300"
-  links:
-   - "consul"
 rabbit:
   image: rabbitmq:3.5.0-management
   ports:
