@@ -47,7 +47,7 @@ server.get('/listings/:query', function(req, res) {
         },
         size: 100
     }).then(function (resp) {
-        var app = React.createFactory(require(AppComponent.ListingsApp);
+        var app = React.createFactory(AppComponent.ListingsApp);
 
         var markup = React.renderToString(app({data: resp.hits.hits}));
 

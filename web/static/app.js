@@ -1,7 +1,7 @@
 var React = require('react'),
     Card = require('./components/Card.js'),
-    Card = require('./components/CardCollection.js'),
-    Card = require('./components/SearchInput.js');
+    CardCollection = require('./components/CardCollection.js'),
+    SearchInput = require('./components/SearchInput.js');
 
 const SearchApp = React.createClass({
   render: function() {

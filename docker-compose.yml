@@ -4,6 +4,8 @@ web:
     APP_ENV: development
   ports:
    - "3069:3069"
+  volumes:
+   - ./web:/gunsnfun:rw
   links:
    - "elastic"
 scraper:

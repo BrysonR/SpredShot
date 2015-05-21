@@ -10,8 +10,6 @@ RUN npm link browserify
 
 RUN mkdir /gunsnfun
 
-ADD ./ /gunsnfun
-
 EXPOSE 3069
 
 CMD gulp --gulpfile /gunsnfun/static/gulpfile.js && node /gunsnfun/server.js
