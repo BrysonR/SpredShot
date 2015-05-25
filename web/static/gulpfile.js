@@ -5,7 +5,8 @@ var gulp = require('gulp'),
     babel = require('gulp-babel'),
     source = require('vinyl-source-stream'),
     sourcemaps = require('gulp-sourcemaps'),
-    nodemon = require('gulp-nodemon');;
+    nodemon = require('gulp-nodemon'),
+    path = require('path');
 
 var jsPaths = {
     cleanPath: ['./../public/js/*'],
@@ -65,13 +66,19 @@ gulp.task('demon', function () {
     ext: 'js',
     env: {
       'NODE_ENV': 'development'
-    }
+    },
+    tasks: function (changedFiles) {
+        var tasks = []
+        changedFiles.forEach(function (file) {
+          if (path.extname(file) === '.js' && !~tasks.indexOf('bamfify:js')) tasks.push('bamfify:js') && tasks.push('bamfify-react:js')
+          if (path.extname(file) === '.scss' && !~tasks.indexOf('bamfify:scss')) tasks.push('bamfify:scss')
+        })
+        return tasks
+      }
   })
-    .on('start', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss'])
-    .on('change', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss'])
     .on('restart', function () {
       console.log('restarted!');
     });
 });
 
-gulp.task('default', ['demon']);
+gulp.task('default', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss', 'demon']);
