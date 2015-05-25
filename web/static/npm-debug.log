@@ -1,33 +1,49 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'install' ]
-2 info using npm@2.7.4
-3 info using node@v0.12.2
-4 error install Couldn't read dependencies
-5 verbose stack Error: Failed to parse json
-5 verbose stack Unexpected token '\n' at 21:22
-5 verbose stack     "gulp-sass": "*";
-5 verbose stack                      ^
-5 verbose stack     at parseError (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:406:25)
-5 verbose stack     at parseJson (/usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:86:51)
-5 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/read-package-json/read-json.js:60:33
-5 verbose stack     at evalmachine.<anonymous>:334:14
-5 verbose stack     at /usr/local/lib/node_modules/npm/node_modules/graceful-fs/graceful-fs.js:102:5
-5 verbose stack     at FSReqWrap.oncomplete (evalmachine.<anonymous>:95:15)
-6 verbose cwd /Users/Bryson/Documents/prototypes/gunsnfun/web/static
-7 error Darwin 14.4.0
-8 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install"
-9 error node v0.12.2
-10 error npm  v2.7.4
-11 error file /Users/Bryson/Documents/prototypes/gunsnfun/web/package.json
-12 error code EJSONPARSE
-13 error Failed to parse json
-13 error Unexpected token '\n' at 21:22
-13 error     "gulp-sass": "*";
-13 error                      ^
-14 error File: /Users/Bryson/Documents/prototypes/gunsnfun/web/package.json
-15 error Failed to parse package.json data.
-15 error package.json must be actual JSON, not just JavaScript.
-15 error
-15 error This is not a bug in npm.
-15 error Tell the package author to fix their package.json file. JSON.parse
-16 verbose exit [ 1, true ]
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'link', 'gulp' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.35
+4 verbose node_modules/gulp unbuild
+5 verbose link symlinking /usr/local/lib/node_modules/gulp to /Users/Bryson/Documents/prototypes/gunsnfun/web/node_modules/gulp
+6 info build /Users/Bryson/Documents/prototypes/gunsnfun/web/node_modules/gulp
+7 info preinstall gulp@3.8.11
+8 verbose linkStuff [ false,
+8 verbose linkStuff   false,
+8 verbose linkStuff   false,
+8 verbose linkStuff   '/Users/Bryson/Documents/prototypes/gunsnfun/web/node_modules' ]
+9 info linkStuff gulp@3.8.11
+10 verbose linkBins gulp@3.8.11
+11 verbose link bins [ { gulp: './bin/gulp.js' },
+11 verbose link bins   '/Users/Bryson/Documents/prototypes/gunsnfun/web/node_modules/.bin',
+11 verbose link bins   false ]
+12 verbose linkMans gulp@3.8.11
+13 verbose rebuildBundles gulp@3.8.11
+14 verbose rebuildBundles [ '.bin',
+14 verbose rebuildBundles   'archy',
+14 verbose rebuildBundles   'chalk',
+14 verbose rebuildBundles   'deprecated',
+14 verbose rebuildBundles   'gulp-util',
+14 verbose rebuildBundles   'interpret',
+14 verbose rebuildBundles   'liftoff',
+14 verbose rebuildBundles   'minimist',
+14 verbose rebuildBundles   'orchestrator',
+14 verbose rebuildBundles   'pretty-hrtime',
+14 verbose rebuildBundles   'semver',
+14 verbose rebuildBundles   'tildify',
+14 verbose rebuildBundles   'v8flags',
+14 verbose rebuildBundles   'vinyl-fs' ]
+15 error Error: EPERM, chmod '/Users/Bryson/Documents/prototypes/gunsnfun/web/node_modules/gulp/bin/gulp.js'
+15 error  { [Error: EPERM, chmod '/Users/Bryson/Documents/prototypes/gunsnfun/web/node_modules/gulp/bin/gulp.js']
+15 error   errno: 50,
+15 error   code: 'EPERM',
+15 error   path: '/Users/Bryson/Documents/prototypes/gunsnfun/web/node_modules/gulp/bin/gulp.js' }
+16 error Please try running this command again as root/Administrator.
+17 error System Darwin 14.4.0
+18 error command "node" "/usr/local/bin/npm" "link" "gulp"
+19 error cwd /Users/Bryson/Documents/prototypes/gunsnfun/web/static
+20 error node -v v0.10.35
+21 error npm -v 1.4.28
+22 error path /Users/Bryson/Documents/prototypes/gunsnfun/web/node_modules/gulp/bin/gulp.js
+23 error code EPERM
+24 error errno 50
+25 error stack Error: EPERM, chmod '/Users/Bryson/Documents/prototypes/gunsnfun/web/node_modules/gulp/bin/gulp.js'
+26 verbose exit [ 50, true ]

@@ -21,7 +21,6 @@ var client = new elasticsearch.Client({
   log: 'trace'
 });
 
-
 server.get('/', function(req, res) {
     var app = React.createFactory(AppComponent.SearchApp);
 

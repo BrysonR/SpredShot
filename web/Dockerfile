@@ -1,6 +1,6 @@
-FROM node:0.10.38
+FROM node:latest
 
-RUN npm install debug express path elasticsearch forever node-jsx react gulp-sourcemaps gulp-babel babelify vinyl-source-stream gulp-sass
+RUN npm install debug express path elasticsearch forever node-jsx react gulp-sourcemaps gulp-babel babelify vinyl-source-stream gulp-nodemon gulp-sass
 
 RUN npm --global install browserify gulp nodemon
 
@@ -14,4 +14,4 @@ RUN mkdir /gunsnfun
 
 EXPOSE 3069
 
-CMD gulp --gulpfile /gunsnfun/static/gulpfile.js && nodemon /gunsnfun/server.js && gulp --gulpfile /gunsnfun/static/gulpfile.js watch
+CMD gulp --gulpfile /gunsnfun/static/gulpfile.js

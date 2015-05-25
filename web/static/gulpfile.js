@@ -4,10 +4,12 @@ var gulp = require('gulp'),
     babelify = require('babelify'),
     babel = require('gulp-babel'),
     source = require('vinyl-source-stream'),
-    sourcemaps = require('gulp-sourcemaps');
+    sourcemaps = require('gulp-sourcemaps'),
+    nodemon = require('gulp-nodemon');;
 
 var jsPaths = {
     cleanPath: ['./../public/js/*'],
+    all: ['./js/*.js', './components/*.js', './app.js'],
     src: ['./js/*.js'],
     maps: './',
     build: './../public/js',
@@ -52,9 +54,24 @@ gulp.task('bamfify:scss', function () {
   return transpileScssSource(stylePaths.src, stylePaths.build);
 });
 
-gulp.task('watch', function () {
-  gulp.watch(stylePaths.src, ['bamfify:scss']);
-  gulp.watch(jsPaths.src, ['bamfify:js', 'bamfify-react:js']);
+gulp.task('watch', function() {
+    gulp.watch(stylePaths.src, ['bamfify:scss']);
+    gulp.watch(jsPaths.all, ['demon']);
+})
+
+gulp.task('demon', function () {
+  nodemon({
+    script: './../server.js',
+    ext: 'js',
+    env: {
+      'NODE_ENV': 'development'
+    }
+  })
+    .on('start', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss'])
+    .on('change', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss'])
+    .on('restart', function () {
+      console.log('restarted!');
+    });
 });
 
-gulp.task('default', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss']);
+gulp.task('default', ['demon']);
