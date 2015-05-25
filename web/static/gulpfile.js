@@ -50,6 +50,11 @@ gulp.task('bamfify-react:js', function () {
 
 gulp.task('bamfify:scss', function () {
   return transpileScssSource(stylePaths.src, stylePaths.build);
-})
+});
+
+gulp.task('watch', function () {
+  gulp.watch(stylePaths.src, ['bamfify:scss']);
+  gulp.watch(jsPaths.src, ['bamfify:js', 'bamfify-react:js']);
+});
 
 gulp.task('default', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss']);
