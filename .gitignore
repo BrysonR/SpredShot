@@ -89,8 +89,8 @@ buildNumber.properties
 node_modules/
 
 # Static Build files
-public/js/
-public/css/
+web/public/js/
+web/public/css/
 
 # This BULLSHIT
 npm-debug.log

@@ -29,6 +29,14 @@ server.get('/', function(req, res) {
     res.send(markup);
 });
 
+server.get('/list', function(req, res) {
+    var listApp = React.createFactory(AppComponent.ListApp);
+
+    var markup = React.renderToString(listApp());
+
+    res.send(markup);
+});
+
 server.get('/listings/:query', function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
