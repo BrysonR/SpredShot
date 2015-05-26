@@ -10,9 +10,12 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.QueueingConsumer;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.percolate.PercolateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.xcontent.XContentBuilder;
+import org.elasticsearch.common.xcontent.XContentFactory;
 
 public class Recv {
 
@@ -21,9 +24,9 @@ public class Recv {
             throws java.io.IOException,
             java.lang.InterruptedException {
 
-        String rabbitHost = "rabbit";
-        String esHost = "elastic";
-        String lsExchangeName = "app.listing.create";
+        String rabbitHost = "192.168.59.103";
+        String esHost = "192.168.59.103";
+        String ntExchangeName = "app.alert.notify";
         String pcExchangeName = "app.listing.percolate";
         String esIndex = "equipment";
         String esType = "listings";
@@ -37,11 +40,11 @@ public class Recv {
         Channel subChannel = connection.createChannel();
         Channel pubChannel = connection.createChannel();
 
-        subChannel.exchangeDeclare(lsExchangeName, "fanout", true);
+        subChannel.exchangeDeclare(pcExchangeName, "fanout", true);
         String queueName = subChannel.queueDeclare().getQueue();
-        subChannel.queueBind(queueName, lsExchangeName, "");
+        subChannel.queueBind(queueName, pcExchangeName, "");
 
-        pubChannel.exchangeDeclare(pcExchangeName, "fanout", true);
+        pubChannel.exchangeDeclare(ntExchangeName, "fanout", true);
 
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
@@ -51,17 +54,22 @@ public class Recv {
         while (true) {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
             String message = new String(delivery.getBody());
+            message = "{\"doc\": " + message + "}";
 
-            IndexResponse response = client.prepareIndex(esIndex, esType)
-                    .setSource(message)
-                    .execute()
-                    .actionGet();
 
-            String _id = response.getId();
+            PercolateResponse response = client.preparePercolate()
+                    .setIndices("equipment")
+                    .setDocumentType("listings")
+                    .setSource(message).execute().actionGet();
 
-            pubChannel.basicPublish(pcExchangeName, "", null, message.getBytes());
+            System.out.println("match count: " + response.getCount());
 
-            System.out.println(" [x] Receiveded '" + _id + ":  " + message + "'");
+            for(PercolateResponse.Match match : response) {
+                pubChannel.basicPublish(ntExchangeName, "", null, match.getId().toString().getBytes());
+
+                System.out.println(" [x] Receiveded '" + match.getId().toString() + ":  " + message + "'");
+            }
+
         }
     }
 }
