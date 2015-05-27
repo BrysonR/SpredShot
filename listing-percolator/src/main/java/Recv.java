@@ -9,13 +9,10 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.QueueingConsumer;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.percolate.PercolateResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
 
 public class Recv {
 
@@ -24,8 +21,8 @@ public class Recv {
             throws java.io.IOException,
             java.lang.InterruptedException {
 
-        String rabbitHost = "192.168.59.103";
-        String esHost = "192.168.59.103";
+        String rabbitHost = "rabbit";
+        String esHost = "elastic";
         String ntExchangeName = "app.alert.notify";
         String pcExchangeName = "app.listing.percolate";
         String esIndex = "equipment";
@@ -58,8 +55,8 @@ public class Recv {
 
 
             PercolateResponse response = client.preparePercolate()
-                    .setIndices("equipment")
-                    .setDocumentType("listings")
+                    .setIndices(esIndex)
+                    .setDocumentType(esType)
                     .setSource(message).execute().actionGet();
 
             System.out.println("match count: " + response.getCount());

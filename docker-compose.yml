@@ -6,39 +6,19 @@ web:
    - "3069:3069"
   volumes:
    - ./web:/gunsnfun
-  links:
-   - "elastic"
 scraper:
   build: ./scraper/
   environment:
     APP_ENV: development
-  links:
-   - "rabbit"
+  external_links:
+   - "gunsnfun_rabbit_1:rabbit"
 listingposter:
   build: ./listing-poster/
-  environment:
-    RABBIT_EXCHANGE: app.listing.create
-    ES_INDEX: equipment
-    ES_TYPE: listings
-  links:
-   - "rabbit"
-   - "elastic"
-
-consul:
-  image: progrium/consul
-  ports:
-   - "8400:8400"
-   - "8500:8500"
-   - "8600:53/udp"
-  command: -server -bootstrap -ui-dir /ui
-  hostname: node1
-elastic:
-  image: myelastic
-  ports:
-   - "9200:9200"
-   - "9300:9300"
-rabbit:
-  image: rabbitmq:3.5.0-management
-  ports:
-   - "8080:15672"
-   - "5672:5672"
+  external_links:
+   - "gunsnfun_rabbit_1:rabbit"
+   - "gunsnfun_elastic_1:elastic"
+listingpercolator:
+  build: ./listing-percolator/
+  external_links:
+   - "gunsnfun_rabbit_1:rabbit"
+   - "gunsnfun_elastic_1:elastic"
