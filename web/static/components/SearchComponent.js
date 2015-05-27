@@ -1,6 +1,6 @@
 var React = require('react');
 
-const SearchInput = React.createClass({
+const Search = React.createClass({
   handleKeyDown: function(event) {
     console.log(event);
     if (event.which == 13) {
@@ -21,5 +21,5 @@ const SearchInput = React.createClass({
   }
 });
 
-module.exports = SearchInput;
+module.exports = Search;
 

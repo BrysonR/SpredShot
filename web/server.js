@@ -6,7 +6,7 @@ var express = require('express'),
     server = express(),
     React = require('react'),
     elasticsearch = require('elasticsearch'),
-    AppComponent = require('./static/app');
+    App = require('./static/app');
 
 server.use(express.static(__dirname + '/public'));
 server.set('views', path.join(__dirname, 'views'));
@@ -16,23 +16,28 @@ var host = process.env.APP_ENV == 'development'
   ? 'http://elastic:9200'
   : 'http://brentmills.cloudapp.net:9200';
 
+
 var client = new elasticsearch.Client({
   host: host,
   log: 'trace'
 });
 
 server.get('/', function(req, res) {
-    var app = React.createFactory(AppComponent.SearchApp);
+    res.setHeader('Content-Type', 'text/html');
 
-    var markup = React.renderToString(app());
+    var searchApp = React.createFactory(App.SearchApp);
+
+    var markup = React.renderToStaticMarkup(searchApp());
 
     res.send(markup);
 });
 
 server.get('/list', function(req, res) {
-    var listApp = React.createFactory(AppComponent.ListApp);
+    res.setHeader('Content-Type', 'text/html');
 
-    var markup = React.renderToString(listApp());
+    var listApp = React.createFactory(App.ListApp);
+
+    var markup = React.renderToStaticMarkup(listApp());
 
     res.send(markup);
 });
@@ -40,6 +45,7 @@ server.get('/list', function(req, res) {
 server.get('/listings/:query', function(req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.setHeader('Content-Type', 'text/html');
 
     console.log(req.params.query);
 
@@ -54,9 +60,9 @@ server.get('/listings/:query', function(req, res) {
         },
         size: 100
     }).then(function (resp) {
-        var app = React.createFactory(AppComponent.ListingsApp);
+        var listingsApp = React.createFactory(App.ListingsApp);
 
-        var markup = React.renderToString(app({data: resp.hits.hits}));
+        var markup = React.renderToStaticMarkup(listingsApp({data: resp.hits.hits}));
 
         res.send(markup);
 

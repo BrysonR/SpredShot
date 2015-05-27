@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
+    literalify = require('literalify'),
     browserify = require('browserify'),
     babelify = require('babelify'),
     babel = require('gulp-babel'),
@@ -14,7 +15,7 @@ var jsPaths = {
     src: ['./js/*.js'],
     maps: './',
     build: './../public/js',
-    app: './app.js'
+    app: './browser.js'
 }
 
 var stylePaths = {
@@ -46,6 +47,7 @@ gulp.task('bamfify-react:js', function () {
     debug: false
   })
   .transform(babelify)
+  .transform(literalify.configure({react: 'window.React'}))
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(gulp.dest(jsPaths.build));
