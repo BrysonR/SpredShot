@@ -1,6 +1,6 @@
 FROM python:2.7
 
-MAINTAINER Bryson Reynolds <bryson@brysonreynolds.com>
+MAINTAINER Bryson Reynolds
 
 ## Scraping Family
 RUN pip install --upgrade pip
