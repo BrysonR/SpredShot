@@ -1,4 +1,3 @@
-// lets use jsx
 require('node-jsx').install();
 
 var express = require('express'),

@@ -3,6 +3,7 @@ var React = require('react'),
 
 const CardCollection = React.createClass({
   render: function() {
+    debugger;
     var Cards = this.props.data.map(function (listing) {
 
       if (listing._source.imageUrl &&

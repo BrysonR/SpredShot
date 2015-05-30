@@ -55,6 +55,7 @@ const ListApp = React.createClass({
 
 const ListingsApp = React.createClass({
   render: function() {
+    debugger;
     return (
       <html>
         <head>
@@ -65,9 +66,10 @@ const ListingsApp = React.createClass({
 
         </head>
         <body>
-          <div id="content" dangerouslySetInnerHTML={ { __html: React.renderToString(CardCollection({ data: this.props.data })) } }></div>
 
-          <script dangerouslySetInnerHTML={ { __html: 'var data = ' + this.props.data } }></script>
+          <script dangerouslySetInnerHTML={ { __html: 'var data = ' + JSON.stringify(this.props.data) } }></script>
+
+          <div id="content" dangerouslySetInnerHTML={ { __html: React.renderToString(CardCollection({ data: this.props.data })) } }></div>
 
           <script src="https://code.jquery.com/jquery-1.10.0.min.js"></script>
           <script src="https://fb.me/react-0.13.1.js"></script>
