@@ -2,6 +2,8 @@ require('node-jsx').install();
 
 var express = require('express'),
     path = require('path'),
+    amqp = require('amqplib'),
+    when = require('when'),
     server = express(),
     React = require('react'),
     elasticsearch = require('elasticsearch'),
@@ -70,19 +72,27 @@ server.get('/listings/:query', function(req, res) {
     });
 });
 
-server.get('/Glocks', function(req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+server.get('/rabbit', function(req, res) {
+    amqp.connect('amqp://rabbit').then(function(conn) {
+        return when(conn.createChannel().then(function(ch) {
+            var ex = 'ar15';
+            var ok = ch.assertExchange(ex, 'direct', {
+                durable: false
+            })
 
-    client.search({
-        index: 'gunsnfun',
-        q: 'glock+sig',
-        size: 1000
-    }).then(function (resp) {
-        res.send(resp.hits.hits);
-    }, function (err) {
-        res.send(err);
-    });
+            console.log(JSON.stringify(req));
+
+            var message = req.message;
+
+            return ok.then(function() {
+                ch.publish(ex, '', new Buffer(message));
+                console.log(" [x] Sent '%s'", message);
+                return ch.close();
+            });
+        })).ensure(function() {
+            conn.close();
+        });
+    }).then(null, console.warn);
 });
 
 server.listen(3069);
