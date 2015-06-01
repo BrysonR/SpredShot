@@ -1,5 +1,5 @@
 var React = require('react'),
-    jQuery = require('jquery');
+    $ = require('jquery');
 
 var List = React.createClass({
   getInitialState: function () {
@@ -10,35 +10,48 @@ var List = React.createClass({
       description: ''
     };
   },
-  handleKeyDown: function (evt) {
-    console.log('bryson');
-
+  handleTitleChange: function (evt) {
     this.setState({
       title: evt.target.value
     });
-
-    return false;
   },
   handlePriceChange: function (evt) {
-    console.log('bryson');
     this.setState({
       price: evt.target.value
     });
   },
   handleImageChange: function (evt) {
-    console.log('bryson');
     this.setState({
       image: evt.target.value
     });
   },
   handleDescriptionChange: function (evt) {
-    console.log('bryson');
     this.setState({
       description: evt.target.value
     });
   },
   handleSubmit: function (evt) {
-    console.log('bryson is awesome');
+    var data = {
+      body: this.state
+    }
+
+    console.log(data);
+
+    $.ajax({
+      url: '/rabbit',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(data)
+    })
+    .done(function(res) {
+      console.log("success and response is: " + res);
+    })
+    .fail(function(err) {
+      console.log("Epic Fail: " + err);
+    })
+    .always(function() {
+      console.log("Attempted to post listing to rabbit");
+    });
   },
   render: function() {
     return (

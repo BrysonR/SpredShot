@@ -6,10 +6,12 @@ var express = require('express'),
     when = require('when'),
     server = express(),
     React = require('react'),
+    bodyParser = require('body-parser'),
     elasticsearch = require('elasticsearch'),
     App = require('./static/app');
 
 server.use(express.static(__dirname + '/public'));
+server.use(bodyParser.json());
 server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'html');
 
@@ -72,17 +74,16 @@ server.get('/listings/:query', function(req, res) {
     });
 });
 
-server.get('/rabbit', function(req, res) {
+server.post('/rabbit', function(req, res) {
     amqp.connect('amqp://rabbit').then(function(conn) {
+
         return when(conn.createChannel().then(function(ch) {
             var ex = 'ar15';
-            var ok = ch.assertExchange(ex, 'direct', {
-                durable: false
-            })
+            var ok = ch.assertExchange(ex, 'fanout', {
+                durable: true
+            });
 
-            console.log(JSON.stringify(req));
-
-            var message = req.message;
+            var message = JSON.stringify(req.body);
 
             return ok.then(function() {
                 ch.publish(ex, '', new Buffer(message));
@@ -93,6 +94,8 @@ server.get('/rabbit', function(req, res) {
             conn.close();
         });
     }).then(null, console.warn);
+
+    res.send("success you bastard");
 });
 
 server.listen(3069);
