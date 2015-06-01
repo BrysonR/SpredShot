@@ -4,10 +4,12 @@ GunsNFun is an online marketplace for guns.
 
 ## Installation
 
-//bring up the services layer first
-1. `docker-compose -f services.yml -d up`
+1. `docker-compose build`
 
-2. `docker-compose -d up web`
+//bring up the services layer first
+2. `docker-compose -f services.yml -d up`
+
+3. `docker-compose -d up web`
 
 ## Usage
 
