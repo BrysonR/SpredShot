@@ -8,6 +8,7 @@ web:
    - ./web:/gunsnfun
   external_links:
    - "gunsnfun_elastic_1:elastic"
+   - "gunsnfun_rabbit_1:rabbit"
 scraper:
   build: ./scraper/
   environment:

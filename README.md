@@ -4,7 +4,10 @@ GunsNFun is an online marketplace for guns.
 
 ## Installation
 
-No installation needed. Just clone and run "npm start" at the projects root.
+//bring up the services layer first
+1. `docker-compose -f services.yml -d up`
+
+2. `docker-compose -d up web`
 
 ## Usage
 
@@ -25,7 +28,6 @@ Just some good ol' boys tryin to make a difference...and buy some shit.
 ## Credits
 
 Brent Mills
-Luke Matthew Deanda
 Bryson Reynolds
 
 ## License
