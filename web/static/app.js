@@ -26,6 +26,7 @@ const SearchApp = React.createClass({
             <script src="https://fb.me/react-0.13.1.js"></script>
             <script src="/js/materialize.min.js"></script>
             <script src="/js/bundle.js"></script>
+            <script src="/js/nav_init.js"></script>
             <script src="/js/searchInit.js"></script>
         </body>
       </html>

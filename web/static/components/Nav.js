@@ -5,16 +5,16 @@ const Nav = React.createClass({
     return (
       <div className="navbar-fixed">
         <nav>
-          <div className="nav-wrapper brown">
+          <div className="nav-wrapper teal darken-3">
             <a href="#!" className="brand-logo">Logo</a>
-            <a href="#" data-activates="mobile-demo" className="button-collapse"><i className="mdi-navigation-menu"></i></a>
+            <a href="#" data-activates="sideBar" className="button-collapse"><i className="mdi-navigation-menu"></i></a>
             <ul className="right hide-on-med-and-down">
               <li><a href="sass.html">Profile</a></li>
               <li><a href="components.html">Auction</a></li>
               <li><a href="javascript.html">Brands</a></li>
               <li><a href="mobile.html">Something</a></li>
             </ul>
-            <ul className="side-nav" id="mobile-demo">
+            <ul className="side-nav" id="sideBar">
               <li><a href="sass.html">Profile</a></li>
               <li><a href="components.html">Auction</a></li>
               <li><a href="javascript.html">Brands</a></li>

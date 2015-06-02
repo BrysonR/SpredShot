@@ -15,7 +15,7 @@ const Search = React.createClass({
   render: function() {
     return (
       <div className="row">
-        <form className="col s7">
+        <form className="col s12 l7">
           <div className="row">
             <div className="input-field col s12">
               <input placeholder="search" id="search" type="text" className="validate" />
