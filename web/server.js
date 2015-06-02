@@ -78,7 +78,7 @@ server.post('/rabbit', function(req, res) {
     amqp.connect('amqp://rabbit').then(function(conn) {
 
         return when(conn.createChannel().then(function(ch) {
-            var ex = 'ar15';
+            var ex = 'app.listing.create';
             var ok = ch.assertExchange(ex, 'fanout', {
                 durable: true
             });
