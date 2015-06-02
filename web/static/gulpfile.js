@@ -11,8 +11,8 @@ var gulp = require('gulp'),
 
 var jsPaths = {
     cleanPath: ['./../public/js/*'],
-    all: ['./js/*.js', './components/*.js', './app.js'],
-    src: ['./js/*.js'],
+    all: ['./js/**/*.js', './components/**/*.js', './app.js'],
+    src: ['./js/**/*.js'],
     maps: './',
     build: './../public/js',
     app: './browser.js'

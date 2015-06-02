@@ -1,7 +1,10 @@
 var React = require('react'),
     ListApp = React.createFactory(require('./components/ListComponent.js')),
     SearchApp = React.createFactory(require('./components/SearchComponent.js')),
-    ListingsApp = React.createFactory(require('./components/CardCollection.js'));
+    ListingsApp = React.createFactory(require('./components/CardCollection.js')),
+    Nav = React.createFactory(require('./components/Nav.js'));
+
+React.render(Nav(), document.getElementById('nav'));
 
 if (window.location.href.indexOf('list') != -1 && window.location.href.indexOf('listings') == -1) {
   React.render(ListApp(), document.getElementById('content'));

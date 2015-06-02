@@ -2,9 +2,11 @@ var React = require('react');
 
 const Card = React.createClass({
     render: function() {
+
       var cardStyle = {
         backgroundImage: 'url('+this.props.imageUrl+')',
-      }
+      };
+
       return (
         <div className="card" style={cardStyle}>
           <div className="image-cover">

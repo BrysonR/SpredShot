@@ -1,8 +1,3 @@
-@font-face {
-  font-family: LeagueGothic;
-  src: url("../../fonts/LeagueGothic-CondensedRegular.otf") format("opentype");
-}
-
 html {
   width: 100%;
   height: 100%;
@@ -11,11 +6,17 @@ html {
 body {
   width: 100%;
   height: 100%;
-  font-family: LeagueGothic, Helvetica, Verdana, Sans-Serif;
   margin: 0;
-  background-color: black;
   font-weight: lighter;
   letter-spacing: 2px;
+}
+
+.container {
+  height: 100%;
+}
+
+.container .row {
+  width: 100%;
 }
 
 .card-collection {
@@ -94,7 +95,6 @@ body {
   -webkit-justify-content: center;
   align-items: center;
   -webkit-align-items: center;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(212,213,214,1)), color-stop(1%,rgba(212,213,214,1)), color-stop(43%,rgba(213,219,223,0.02)), color-stop(56%,rgba(213,221,226,0.24)), color-stop(91%,rgba(225,230,247,0.84)), color-stop(100%,rgba(239,244,247,1)));
   background-size: cover;
 }
 

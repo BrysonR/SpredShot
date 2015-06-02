@@ -14,8 +14,15 @@ const Search = React.createClass({
   },
   render: function() {
     return (
-      <div className="search-container">
-        <input className="search-input" onKeyDown={this.handleKeyDown}/>
+      <div className="row">
+        <form className="col s7">
+          <div className="row">
+            <div className="input-field col s12">
+              <input placeholder="search" id="search" type="text" className="validate" />
+              <label htmlFor="search">Search</label>
+            </div>
+          </div>
+        </form>
       </div>
     );
   }
