@@ -18,7 +18,7 @@ const Search = React.createClass({
         <form className="col s12 l7">
           <div className="row">
             <div className="input-field col s12">
-              <input placeholder="search" id="search" type="text" className="validate" />
+              <input placeholder="What are you looking for?" id="search" type="text" className="validate" />
               <label htmlFor="search">Search</label>
             </div>
           </div>

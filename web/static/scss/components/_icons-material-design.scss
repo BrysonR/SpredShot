@@ -3,11 +3,11 @@ $mdi-prefix : 'mdi-';
 
 @font-face {
     font-family: "#{$font-mdi}";
-    src:url("#{$icons-font-path}#{$font-mdi}.eot?#iefix") format("embedded-opentype"),
-        url("#{$icons-font-path}#{$font-mdi}.woff2") format("woff2"),
-        url("#{$icons-font-path}#{$font-mdi}.woff") format("woff"),
-        url("#{$icons-font-path}#{$font-mdi}.ttf") format("truetype"),
-        url("#{$icons-font-path}#{$font-mdi}.svg##{$font-mdi}") format("svg");
+    src:url("../icons/material-design-icons/Material-Design-Icons.eot?#iefix") format("embedded-opentype"),
+        url("../icons/material-design-icons/Material-Design-Icons.woff2") format("woff2"),
+        url("../icons/material-design-icons/Material-Design-Icons.woff") format("woff"),
+        url("../icons/material-design-icons/Material-Design-Icons.ttf") format("truetype"),
+        url("../icons/material-design-icons/Material-Design-Icons.svg") format("svg");
     font-weight: normal;
     font-style: normal;
 }
@@ -773,7 +773,7 @@ $mdi-list-icons: (
 
 // remove after bug fix sass 3.3.x and add quote in $mdi-list-icons: ( 'foo': \exxx )
 @function unicode($str){
-  @return unquote("\"") + $str + unquote("\"");
+  @return "'" + $str + "'";
 }
 
 @each $mdi-icon-name, $mdi-icon-value in $mdi-list-icons {
