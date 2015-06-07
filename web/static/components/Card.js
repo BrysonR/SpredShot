@@ -8,13 +8,18 @@ const Card = React.createClass({
       };
 
       return (
-        <div className="card" style={cardStyle}>
-          <div className="image-cover">
-            <img className="card-image" src={this.props.imageUrl} />
-          </div>
-          <div className="card-body">
-            <a href={this.props.url} className="card-title" dangerouslySetInnerHTML={{__html: this.props.title}} ></a>
-            <div className="card-price">{this.props.price}</div>
+        <div className="col s12 m7 l3">
+          <div className="card">
+            <div className="card-image">
+              <img src={this.props.imageUrl} />
+              <span className="card-title">{this.props.price}</span>
+            </div>
+            <div className="card-content">
+              <p dangerouslySetInnerHTML={{__html: this.props.title}}></p>
+            </div>
+            <div className="card-action">
+              <a href={this.props.url}>Click Here For Details</a>
+            </div>
           </div>
         </div>
       );

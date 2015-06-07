@@ -14,13 +14,16 @@ const Search = React.createClass({
   },
   render: function() {
     return (
-      <div className="row">
-        <form className="col s12 l7">
+      <div className="row row-collapse">
+        <form className="col s12 l7 z-depth-4 teal darken-2">
           <div className="row">
             <div className="input-field col s12">
               <input placeholder="What are you looking for?" id="search" type="text" className="validate" />
               <label htmlFor="search">Search</label>
             </div>
+              <button className="btn waves-effect waves-light" type="submit"name="action">search
+                <i className="mdi-content-send right"></i>
+              </button>
           </div>
         </form>
       </div>

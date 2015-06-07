@@ -13,7 +13,7 @@ const SearchApp = React.createClass({
           <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
           <title>Guns N Fun</title>
           <link rel="stylesheet" href="/css/index.css" />
-          <link href='/css/materialize.css' rel='stylesheet'/>
+          <link rel="stylesheet" href='/css/materialize.css' />
 
         </head>
         <body>
@@ -41,19 +41,20 @@ const ListApp = React.createClass({
             <head>
               <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
               <title>Guns N Fun</title>
-              <link rel="stylesheet" href="/css/list.css" />
-              <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+              <link rel="stylesheet" href="/css/index.css" />
+              <link rel='stylesheet' href='/css/materialize.css' />
 
             </head>
             <body>
+              <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav()) } }></div>
 
-              <div id="content" dangerouslySetInnerHTML={ { __html: React.renderToString(List()) } }></div>
+              <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(List()) } }></div>
 
               <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
               <script src="https://fb.me/react-0.13.1.js"></script>
               <script src="/js/materialize.min.js"></script>
               <script src="/js/bundle.js"></script>
-
+              <script src="/js/nav_init.js"></script>
             </body>
         </html>
     );
@@ -69,10 +70,12 @@ const ListingsApp = React.createClass({
           <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
           <title>Guns N Fun</title>
           <link rel="stylesheet" href="/css/index.css" />
-          <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css' />
+          <link rel="stylesheet" href="/css/listings.css" />
+          <link rel='stylesheet' href='/css/materialize.css' />
 
         </head>
         <body>
+          <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav()) } }></div>
 
           <script dangerouslySetInnerHTML={ { __html: 'var data = ' + JSON.stringify(this.props.data) } }></script>
 

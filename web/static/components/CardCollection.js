@@ -3,7 +3,6 @@ var React = require('react'),
 
 const CardCollection = React.createClass({
   render: function() {
-    debugger;
     var Cards = this.props.data.map(function (listing) {
 
       if (listing._source.imageUrl &&
@@ -19,9 +18,8 @@ const CardCollection = React.createClass({
     });
 
     return (
-      <div className="card-collection">
-        <div className="arrow bounce"></div>
-        {Cards}
+      <div className="row">
+          {Cards}
       </div>
     );
   }
