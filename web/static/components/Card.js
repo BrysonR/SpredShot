@@ -17,7 +17,7 @@ const Card = React.createClass({
             <div className="card-content">
               <p dangerouslySetInnerHTML={{__html: this.props.title}}></p>
             </div>
-            <div className="card-action">
+            <div className="card-action waves-effect">
               <a href={this.props.url}>Click Here For Details</a>
             </div>
           </div>

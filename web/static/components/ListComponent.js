@@ -31,6 +31,7 @@ var List = React.createClass({
     });
   },
   handleSubmit: function (evt) {
+    debugger;
     var data = {
       body: this.state
     }
@@ -74,7 +75,7 @@ var List = React.createClass({
               <input placeholder="description" id="description" type="text" value={ this.state.description } onChange={ this.handleDescriptionChange } />
               <label htmlFor="description">description</label>
             </div>
-            <button className="btn waves-effect waves-light" onClick={ this.handleSubmit } type="submit"name="action">List Yo Shit
+            <button href="#" className="btn waves-effect waves-light" onClick={ this.handleSubmit }>List Yo Shit
               <i className="mdi-content-send right"></i>
             </button>
           </div>

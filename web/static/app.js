@@ -19,8 +19,7 @@ const SearchApp = React.createClass({
         <body>
             <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav()) } }></div>
 
-            <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Search()) } }>
-            </div>
+            <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Search()) } }></div>
 
             <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
             <script src="https://fb.me/react-0.13.1.js"></script>
@@ -63,7 +62,6 @@ const ListApp = React.createClass({
 
 const ListingsApp = React.createClass({
   render: function() {
-    debugger;
     return (
       <html>
         <head>
@@ -85,6 +83,7 @@ const ListingsApp = React.createClass({
           <script src="https://fb.me/react-0.13.1.js"></script>
           <script src="/js/materialize.min.js"></script>
           <script src="/js/bundle.js"></script>
+          <script src="/js/nav_init.js"></script>
         </body>
       </html>
     );

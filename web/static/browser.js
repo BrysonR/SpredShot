@@ -9,7 +9,7 @@ React.render(Nav(), document.getElementById('nav'));
 if (window.location.href.indexOf('list') != -1 && window.location.href.indexOf('listings') == -1) {
   React.render(ListApp(), document.getElementById('content'));
 }
-else if (window.location.href.indexOf('listings') != 1) {
+else if (window.location.href.indexOf('listings') != -1) {
   React.render(ListingsApp({data: data}), document.getElementById('content'));
 }
 else {

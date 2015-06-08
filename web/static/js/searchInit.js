@@ -1,8 +1,9 @@
 $(function() {
-  $('.search-input').keypress(function(event) {
+  $('#search').keydown(function(event) {
     if (event.which == 13) {
-      var query = $('.search-input').val();
-      window.location = window.location.href + 'listings/' + query;
+      event.preventDefault();
+      var query = $('#search').val();
+      window.location = 'listings/' + query;
     }
   })
 })
