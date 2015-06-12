@@ -1,7 +1,7 @@
 var React = require('react'),
     $ = require('jquery');
 
-var List = React.createClass({
+const List = React.createClass({
   getInitialState: function () {
     return {
       title: '',

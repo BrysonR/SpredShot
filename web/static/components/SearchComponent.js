@@ -1,6 +1,6 @@
 var React = require('react');
 
-var Search = React.createClass({
+const Search = React.createClass({
   getInitialState: function () {
     return {
       query: ''
@@ -11,6 +11,9 @@ var Search = React.createClass({
       query: evt.target.value
     });
   },
+  handleSubmit: function () {
+    window.location.assign("listings/" + this.state.query);
+  },
   render: function() {
     return (
       <div className="row row-collapse">
@@ -20,7 +23,7 @@ var Search = React.createClass({
               <input value={this.state.query} onChange={this.handleInput} id="search" type="text" />
               <label htmlFor="search">what are you looking for?</label>
             </div>
-            <a href={ "listings/" + this.state.query} className="btn waves-effect waves-light">search
+            <a className="btn waves-effect waves-light" onClick={this.handleSubmit}>search
               <i className="mdi-action-search right"></i>
             </a>
           </div>
