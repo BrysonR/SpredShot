@@ -17,67 +17,22 @@ body:before {
   width: 100%;
   background-image: url("/images/background.svg");
   background-size: cover;
+  background-attachment: fixed;
   z-index: -1;
 }
 
 input,
-label {
+label,
+textarea {
   color: white !important;
 }
 
 .container {
   height: -webkit-calc(100% - 64px);
+  padding-top: 50px !important;
 }
 
 .container .row {
   width: 100%;
 }
 
-// .card {
-//   margin: 25px;
-//   position: relative;
-//   background-repeat: no-repeat;
-//   background-position: center;
-//   background-size: cover;
-//   width: 250px;
-// }
-
-// .card-image {
-//   width: 250px;
-// }
-
-// .image-cover {
-//   opacity: 0;
-// }
-
-// .card-body {
-//   background-color: rgba(0,0,0,.5);
-//   position: absolute;
-//   text-align: center;
-//   display: flex;
-//   flex-direction: column;
-//   -webkit-justify-content: center;
-//   justify-content: center;
-//   top: 0;
-//   height: 100%;
-//   width: 100%;
-// }
-
-// .card-title {
-//   color: white;
-//   font-size: 25px;
-//   text-overflow: ellipsis;
-//   display: inline-block;
-//   width: 225px;
-//   margin: 0 auto;
-//   overflow: hidden;
-//   white-space: nowrap;
-//   text-decoration: none;
-//   padding-bottom: 25px;
-// }
-
-// .card-price {
-//   color: white;
-//   font-size: 50px;
-//   font-weight: bolder;
-// }

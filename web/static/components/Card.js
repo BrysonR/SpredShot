@@ -9,15 +9,15 @@ const Card = React.createClass({
 
       return (
         <div className="col s12 m7 l3">
-          <div className="card">
-            <div className="card-image">
+          <div className="card brown lighten-4">
+            <div className="card-image waves-effect waves-block waves-brown lighten-2">
               <img src={this.props.imageUrl} />
               <span className="card-title">{this.props.price}</span>
             </div>
             <div className="card-content">
               <p dangerouslySetInnerHTML={{__html: this.props.title}}></p>
             </div>
-            <div className="card-action waves-effect">
+            <div className="card-action brown lighten-1 waves-effect">
               <a href={this.props.url}>Click Here For Details</a>
             </div>
           </div>

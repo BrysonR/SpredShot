@@ -7,7 +7,8 @@ var gulp = require('gulp'),
     source = require('vinyl-source-stream'),
     sourcemaps = require('gulp-sourcemaps'),
     nodemon = require('gulp-nodemon'),
-    path = require('path');
+    path = require('path'),
+    autoprefixer = require('gulp-autoprefixer');
 
 var jsPaths = {
     cleanPath: ['./../public/js/*'],
@@ -27,6 +28,10 @@ var stylePaths = {
 function transpileScssSource(path, dest) {
     return gulp.src(path)
         .pipe(sass())
+        .pipe(autoprefixer({
+          browsers: ['last 2 versions'],
+          cascade: false
+        }))
         .pipe(gulp.dest(dest));
 };
 

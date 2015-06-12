@@ -2,7 +2,7 @@ FROM node:latest
 
 MAINTAINER Bryson Reynolds
 
-RUN npm install debug express path elasticsearch literalify forever node-jsx react gulp-sourcemaps gulp-babel babelify vinyl-source-stream gulp-nodemon gulp-sass jquery amqplib when body-parser
+RUN npm install debug express path elasticsearch literalify forever node-jsx react gulp-sourcemaps gulp-babel babelify vinyl-source-stream gulp-nodemon gulp-sass jquery amqplib when body-parser gulp-autoprefixer
 
 RUN npm --global install browserify gulp nodemon
 

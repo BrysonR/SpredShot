@@ -15,14 +15,17 @@ body:before {
   width: 100%;
   background-image: url("/images/background.svg");
   background-size: cover;
+  background-attachment: fixed;
   z-index: -1; }
 
 input,
-label {
+label,
+textarea {
   color: white !important; }
 
 .container {
-  height: -webkit-calc(100% - 64px); }
+  height: -webkit-calc(100% - 64px);
+  padding-top: 50px !important; }
 
 .container .row {
   width: 100%; }
