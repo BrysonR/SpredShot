@@ -5,7 +5,7 @@ web:
   ports:
    - "3069:3069"
   volumes:
-   - ./web:/gunsnfun
+   - /Users/Bryson/Documents/prototypes/gunsnfun/web:/gunsnfun
   external_links:
    - "gunsnfun_elastic_1:elastic"
    - "gunsnfun_rabbit_1:rabbit"

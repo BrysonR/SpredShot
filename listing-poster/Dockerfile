@@ -1,4 +1,4 @@
-FROM java:openjdk-8
+FROM java:openjdk-7
 
 WORKDIR /root
 

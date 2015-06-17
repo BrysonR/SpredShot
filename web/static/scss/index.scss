@@ -21,6 +21,11 @@ body:before {
   z-index: -1;
 }
 
+.nav-wrapper {
+  max-width: 70em;
+  margin: 0 auto;
+}
+
 input,
 label,
 textarea {
@@ -35,4 +40,3 @@ textarea {
 .container .row {
   width: 100%;
 }
-
