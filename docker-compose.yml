@@ -9,6 +9,7 @@ web:
   external_links:
    - "gunsnfun_elastic_1:elastic"
    - "gunsnfun_rabbit_1:rabbit"
+   - "gunsnfun_mongo_1:mongo"
 scraper:
   build: ./scraper/
   environment:
