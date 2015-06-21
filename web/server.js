@@ -179,7 +179,7 @@ server.get('/login', function(req, res) {
     res.send(markup);
 });
 
-server.post('/login', passport.authenticate('local', { successRedirect: '/',
+server.post('/login', passport.authenticate('local', { successRedirect: '/#loggedin',
                                 failureRedirect: '/login#fail',
                                 failureFlash: false })
 );
@@ -223,7 +223,9 @@ server.post('/register', function(req, res) {
                 console.dir(user);
             });
 
-            res.redirect('/login');
+            req.login(user, function() {
+                return res.redirect('/#loggedin');
+            });
         });
     });
 });
