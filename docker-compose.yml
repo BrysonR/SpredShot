@@ -26,8 +26,3 @@ listingpercolator:
   external_links:
    - "gunsnfun_rabbit_1:rabbit"
    - "gunsnfun_elastic_1:elastic"
-elastic:
-  build: ./elastic/
-  ports:
-   - "9200:9200"
-   - "9300:9300"
