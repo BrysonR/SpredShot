@@ -25,6 +25,7 @@ const SearchApp = React.createClass({
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
           <title>Guns N Fun</title>
+          <link rel="shortcut icon" href="/images/favicon.png">
           <link rel="stylesheet" href="/css/index.css" />
           <link rel="stylesheet" href='/css/materialize.css' />
 
@@ -53,6 +54,7 @@ const ListApp = React.createClass({
             <head>
               <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
               <title>Guns N Fun</title>
+               <link rel="shortcut icon" href="/images/favicon.png">
               <link rel="stylesheet" href="/css/index.css" />
               <link rel='stylesheet' href='/css/materialize.css' />
 
@@ -80,8 +82,8 @@ const ListingsApp = React.createClass({
               <head>
                 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
                 <title>Guns N Fun</title>
+                <link rel="shortcut icon" href="/images/favicon.png">
                 <link rel="stylesheet" href="/css/index.css" />
-                <link rel="stylesheet" href="/css/listings.css" />
                 <link rel='stylesheet' href='/css/materialize.css' />
 
               </head>
@@ -110,6 +112,8 @@ const LoginApp = React.createClass({
         <head>
           <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
           <title>Guns N Fun</title>
+          <link rel="shortcut icon" href="/images/favicon.png">
+
           <link rel="stylesheet" href="/css/index.css" />
           <link rel='stylesheet' href='/css/materialize.css' />
 
@@ -137,6 +141,7 @@ const RegisterApp = React.createClass({
             <head>
               <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
               <title>Guns N Fun</title>
+              <link rel="shortcut icon" href="/images/favicon.png">
               <link rel="stylesheet" href="/css/index.css" />
               <link rel='stylesheet' href='/css/materialize.css' />
 
