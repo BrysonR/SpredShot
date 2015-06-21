@@ -10,13 +10,13 @@ const Nav = React.createClass({
             <a href="#" data-activates="sideBar" className="button-collapse"><i className="waves-effect waves-teal lighten-2 large mdi-navigation-menu"></i></a>
             <ul className="right hide-on-med-and-down">
               <li><a className="waves-effect waves-teal darken-2" href="/">search</a></li>
-              {this.props.authenticated ? "" : <li><a className="waves-effect waves-teal darken-2" href="/list">list</a></li>}
+              {this.props.authenticated ? <li><a className="waves-effect waves-teal darken-2" href="/list">list</a></li> : ""}
               <li><a className="waves-effect waves-teal darken-2" href={this.props.authenticated ? "/logout" : "/login"}>{this.props.authenticated ? "logout" : "login"}</a></li>
               {this.props.authenticated ? "" : <li><a className="waves-effect waves-teal darken-2" href="/register">register</a></li>}
             </ul>
             <ul className="side-nav z-depth-4" id="sideBar">
               <li><a className="waves-effect waves-teal darken-2" href="/">search</a></li>
-              {this.props.authenticated ? "" : <li><a className="waves-effect waves-teal darken-2" href="/list">list</a></li>}
+              {this.props.authenticated ? <li><a className="waves-effect waves-teal darken-2" href="/list">list</a></li> : ""}
               <li><a className="waves-effect waves-teal darken-2" href={this.props.authenticated ? "/logout" : "/login"}>{this.props.authenticated ? "logout" : "login"}</a></li>
               {this.props.authenticated ? "" : <li><a className="waves-effect waves-teal darken-2" href="/register">register</a></li>}
             </ul>
