@@ -89,8 +89,9 @@ buildNumber.properties
 node_modules/
 
 # Static Build files
-web/public/js/
-web/public/css/
+web/public/js/*
+!web/public/js/materialize.min.js
+web/public/css/*
 
 # This BULLSHIT
 npm-debug.log
