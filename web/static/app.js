@@ -7,6 +7,17 @@ var React = require('react'),
     Register = React.createFactory(require('./components/RegisterComponent.js')),
     Nav = React.createFactory(require('./components/Nav.js'));
 
+const NavBar = React.createClass({
+    render: function() {
+        return (
+            <div>
+                <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav({authenticated: this.props.authenticated})) } }></div>
+                <script dangerouslySetInnerHTML={ { __html: 'var authenticated = ' + JSON.stringify(this.props.authenticated) } }></script>
+            </div>
+        )
+    }
+})
+
 const SearchApp = React.createClass({
   render: function() {
     return (
@@ -19,7 +30,7 @@ const SearchApp = React.createClass({
 
         </head>
         <body>
-            <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav()) } }></div>
+            <NavBar authenticated={this.props.authenticated} />
 
             <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Search()) } }></div>
 
@@ -47,15 +58,15 @@ const ListApp = React.createClass({
 
             </head>
             <body>
-              <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav()) } }></div>
+                <NavBar authenticated={this.props.authenticated} />
 
-              <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(List()) } }></div>
+                <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(List()) } }></div>
 
-              <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-              <script src="https://fb.me/react-0.13.1.js"></script>
-              <script src="/js/materialize.min.js"></script>
-              <script src="/js/bundle.js"></script>
-              <script src="/js/nav_init.js"></script>
+                <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+                <script src="https://fb.me/react-0.13.1.js"></script>
+                <script src="/js/materialize.min.js"></script>
+                <script src="/js/bundle.js"></script>
+                <script src="/js/nav_init.js"></script>
             </body>
         </html>
     );
@@ -64,31 +75,31 @@ const ListApp = React.createClass({
 
 const ListingsApp = React.createClass({
   render: function() {
-    return (
-      <html>
-        <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-          <title>Guns N Fun</title>
-          <link rel="stylesheet" href="/css/index.css" />
-          <link rel="stylesheet" href="/css/listings.css" />
-          <link rel='stylesheet' href='/css/materialize.css' />
+      return (
+          <html>
+              <head>
+                <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+                <title>Guns N Fun</title>
+                <link rel="stylesheet" href="/css/index.css" />
+                <link rel="stylesheet" href="/css/listings.css" />
+                <link rel='stylesheet' href='/css/materialize.css' />
 
-        </head>
-        <body>
-          <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav()) } }></div>
+              </head>
+              <body>
+                  <NavBar authenticated={this.props.authenticated} />
 
-          <script dangerouslySetInnerHTML={ { __html: 'var data = ' + JSON.stringify(this.props.data) } }></script>
+                  <script dangerouslySetInnerHTML={ { __html: 'var data = ' + JSON.stringify(this.props.data) } }></script>
 
-          <div id="content" dangerouslySetInnerHTML={ { __html: React.renderToString(CardCollection({ data: this.props.data })) } }></div>
+                  <div id="content" dangerouslySetInnerHTML={ { __html: React.renderToString(CardCollection({ data: this.props.data })) } }></div>
 
-          <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-          <script src="https://fb.me/react-0.13.1.js"></script>
-          <script src="/js/materialize.min.js"></script>
-          <script src="/js/bundle.js"></script>
-          <script src="/js/nav_init.js"></script>
-        </body>
-      </html>
-    );
+                  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+                  <script src="https://fb.me/react-0.13.1.js"></script>
+                  <script src="/js/materialize.min.js"></script>
+                  <script src="/js/bundle.js"></script>
+                  <script src="/js/nav_init.js"></script>
+              </body>
+          </html>
+      );
   }
 });
 
@@ -103,17 +114,17 @@ const LoginApp = React.createClass({
           <link rel='stylesheet' href='/css/materialize.css' />
 
         </head>
-        <body>
-          <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav()) } }></div>
+          <body>
+              <NavBar authenticated={this.props.authenticated} />
 
-          <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Login()) } }></div>
+              <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Login()) } }></div>
 
-          <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-          <script src="https://fb.me/react-0.13.1.js"></script>
-          <script src="/js/materialize.min.js"></script>
-          <script src="/js/bundle.js"></script>
-          <script src="/js/nav_init.js"></script>
-        </body>
+              <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+              <script src="https://fb.me/react-0.13.1.js"></script>
+              <script src="/js/materialize.min.js"></script>
+              <script src="/js/bundle.js"></script>
+              <script src="/js/nav_init.js"></script>
+          </body>
       </html>
     );
   }
@@ -122,26 +133,27 @@ const LoginApp = React.createClass({
 const RegisterApp = React.createClass({
   render: function() {
     return (
-      <html>
-        <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-          <title>Guns N Fun</title>
-          <link rel="stylesheet" href="/css/index.css" />
-          <link rel='stylesheet' href='/css/materialize.css' />
+        <html>
+            <head>
+              <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+              <title>Guns N Fun</title>
+              <link rel="stylesheet" href="/css/index.css" />
+              <link rel='stylesheet' href='/css/materialize.css' />
 
-        </head>
-        <body>
-          <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav()) } }></div>
+            </head>
+            <body>
+                <NavBar authenticated={this.props.authenticated} />
 
-          <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Register()) } }></div>
 
-          <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-          <script src="https://fb.me/react-0.13.1.js"></script>
-          <script src="/js/materialize.min.js"></script>
-          <script src="/js/bundle.js"></script>
-          <script src="/js/nav_init.js"></script>
-        </body>
-      </html>
+                <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Register()) } }></div>
+
+                <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+                <script src="https://fb.me/react-0.13.1.js"></script>
+                <script src="/js/materialize.min.js"></script>
+                <script src="/js/bundle.js"></script>
+                <script src="/js/nav_init.js"></script>
+            </body>
+        </html>
     );
   }
 });

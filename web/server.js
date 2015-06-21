@@ -11,6 +11,9 @@ var express = require('express'),
     db = mongoose.connection,
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
+    session = require('express-session'),
+    uuid = require('node-uuid'),
+    bcrypt = require('bcrypt-nodejs'),
     App = require('./static/app');
 
 server.use(express.static(__dirname + '/public'));
@@ -18,6 +21,15 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.set('views', path.join(__dirname, 'views'));
 server.set('view engine', 'html');
+server.use(session({
+    genid: function(req) {
+            return uuid.v4()
+        },
+    cookie: {
+        maxAge: 60000
+    },
+    resave: true,
+    secret: 'keyboard cat' }));
 server.use(passport.initialize());
 server.use(passport.session());
 
@@ -45,33 +57,27 @@ db.once('open', function() {
 
 mongoose.connect('mongodb://mongo');
 
-// User Authentication
-passport.initialize();
-
 passport.use(new LocalStrategy(
     function(username, password, done) {
-        console.log(username);
-        console.log(password)
         User.findOne({ username: username }, function(err, user) {
-            console.log(err);
-            console.log(user);
-            console.log(password);
             if (err) { return done(err); }
 
             if (!user) {
                 return done(null, false, { message: 'Wrong Username' });
             }
-            if (user.password != password) {
-                return done(null, false, { message: 'Wrong password betch' });
-            }
+            bcrypt.compare(password, user.password, function(err, res) {
+                if (res == true) {
+                    return done(null, user);
+                }
 
-            return done(null, user);
+                return done(null, false, { message: 'Wrong password betch' });
+            });
         });
     }
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user._id);
+  done(null, user.id);
 });
 
 passport.deserializeUser(function(id, done) {
@@ -80,12 +86,22 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+var isAuthenticated = function (req) {
+    if (req.session.passport.user) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 server.get('/', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
 
+    console.log(req.session);
+
     var searchApp = React.createFactory(App.SearchApp);
 
-    var markup = React.renderToStaticMarkup(searchApp());
+    var markup = React.renderToStaticMarkup(searchApp({authenticated: isAuthenticated(req)}));
 
     res.send(markup);
 });
@@ -95,7 +111,7 @@ server.get('/list', function(req, res) {
 
     var listApp = React.createFactory(App.ListApp);
 
-    var markup = React.renderToStaticMarkup(listApp());
+    var markup = React.renderToStaticMarkup(listApp({authenticated: isAuthenticated(req)}));
 
     res.send(markup);
 });
@@ -120,7 +136,7 @@ server.get('/listings/:query', function(req, res) {
     }).then(function (resp) {
         var listingsApp = React.createFactory(App.ListingsApp);
 
-        var markup = React.renderToStaticMarkup(listingsApp({data: resp.hits.hits}));
+        var markup = React.renderToStaticMarkup(listingsApp({data: resp.hits.hits, authenticated: isAuthenticated(req)}));
 
         res.send(markup);
 
@@ -153,7 +169,7 @@ server.get('/login', function(req, res) {
 
     var loginApp = React.createFactory(App.LoginApp);
 
-    var markup = React.renderToStaticMarkup(loginApp());
+    var markup = React.renderToStaticMarkup(loginApp({authenticated: isAuthenticated(req)}));
 
     res.send(markup);
 });
@@ -163,12 +179,18 @@ server.post('/login', passport.authenticate('local', { successRedirect: '/',
                                 failureFlash: false })
 );
 
+server.get('/logout', function(req, res) {
+    req.session.destroy(function(){
+        res.redirect('/#loggedout');
+    });
+})
+
 server.get('/register', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
 
     var registerApp = React.createFactory(App.RegisterApp);
 
-    var markup = React.renderToStaticMarkup(registerApp());
+    var markup = React.renderToStaticMarkup(registerApp({authenticated: isAuthenticated(req)}));
 
     res.send(markup);
 });
@@ -176,17 +198,29 @@ server.get('/register', function(req, res) {
 server.post('/register', function(req, res) {
     console.log(req.body);
 
-    var user = new User({
-        username: req.body.username,
-        password: req.body.password
+    User.findOne({username: req.body.username}, function (err, user) {
+        if (user != null) {
+            res.redirect('/register#fail');
+        }
+
+        bcrypt.hash(req.body.password, null, null, function(err, hash) {
+            if (err) {
+                console.log(err);
+                res.end();
+            }
+            var user = new User({
+                username: req.body.username,
+                password: hash
+            });
+
+            user.save(function(err, user) {
+                if (err) return console.error(err);
+                console.dir(user);
+            });
+
+            res.redirect('/login');
+        });
     });
-
-    user.save(function(err, user) {
-        if (err) return console.error(err);
-        console.dir(user);
-    })
-
-    res.redirect('/login');
 });
 
 server.listen(3069);
