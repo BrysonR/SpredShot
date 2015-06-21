@@ -28,6 +28,7 @@ server.use(session({
     cookie: {
         maxAge: 60000
     },
+    saveUninitialized: false,
     resave: true,
     secret: 'keyboard cat' }));
 server.use(passport.initialize());
