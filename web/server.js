@@ -108,6 +108,10 @@ server.get('/', function(req, res) {
 });
 
 server.get('/list', function(req, res) {
+    if (!isAuthenticated(req)) {
+        res.redirect('/login');
+    }
+
     res.setHeader('Content-Type', 'text/html');
 
     var listApp = React.createFactory(App.ListApp);
