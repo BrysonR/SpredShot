@@ -64,6 +64,20 @@
 
 
 // Fixed side-nav shown
+.loggedInNav {
+    width: -webkit-calc(100% - 240px);
+    float: right;
+
+    .nav-wrapper {
+      width: 70%;
+      margin: 0 5%;
+    }
+}
+
+@media #{$medium-and-down} {
+
+}
+
 .side-nav.fixed {
   left: 0;
   position: fixed;

@@ -30,7 +30,7 @@ const SearchApp = React.createClass({
           <link rel="stylesheet" href='/css/materialize.css' />
 
         </head>
-        <body>
+        <body className={ this.props.authenticated ? "loggedInNav" : "" }>
             <NavBar authenticated={this.props.authenticated} />
 
             <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Search()) } }></div>
@@ -59,7 +59,7 @@ const ListApp = React.createClass({
               <link rel='stylesheet' href='/css/materialize.css' />
 
             </head>
-            <body>
+            <body className={ this.props.authenticated ? "loggedInNav" : "" }>
                 <NavBar authenticated={this.props.authenticated} />
 
                 <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(List()) } }></div>
@@ -87,7 +87,7 @@ const ListingsApp = React.createClass({
                 <link rel='stylesheet' href='/css/materialize.css' />
 
               </head>
-              <body>
+              <body className={ this.props.authenticated ? "loggedInNav" : "" }>
                   <NavBar authenticated={this.props.authenticated} />
 
                   <script dangerouslySetInnerHTML={ { __html: 'var data = ' + JSON.stringify(this.props.data) } }></script>
@@ -118,7 +118,7 @@ const LoginApp = React.createClass({
           <link rel='stylesheet' href='/css/materialize.css' />
 
         </head>
-          <body>
+          <body className={ this.props.authenticated ? "loggedInNav" : "" }>
               <NavBar authenticated={this.props.authenticated} />
 
               <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Login()) } }></div>
@@ -146,7 +146,7 @@ const RegisterApp = React.createClass({
               <link rel='stylesheet' href='/css/materialize.css' />
 
             </head>
-            <body>
+            <body className={ this.props.authenticated ? "loggedInNav" : "" }>
                 <NavBar authenticated={this.props.authenticated} />
 
 
