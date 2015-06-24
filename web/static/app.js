@@ -11,8 +11,9 @@ const NavBar = React.createClass({
     render: function() {
         return (
             <div>
-                <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav({authenticated: this.props.authenticated})) } }></div>
+                <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav({authenticated: this.props.authenticated, activeLink: this.props.activeLink})) } }></div>
                 <script dangerouslySetInnerHTML={ { __html: 'var authenticated = ' + JSON.stringify(this.props.authenticated) } }></script>
+                <script dangerouslySetInnerHTML={ { __html: 'var activeLink = ' + JSON.stringify(this.props.activeLink) } }></script>
             </div>
         )
     }
@@ -31,7 +32,7 @@ const SearchApp = React.createClass({
 
         </head>
         <body className={ this.props.authenticated ? "loggedInNav" : "" }>
-            <NavBar authenticated={this.props.authenticated} />
+            <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink}/>
 
             <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Search()) } }></div>
 
@@ -60,7 +61,7 @@ const ListApp = React.createClass({
 
             </head>
             <body className={ this.props.authenticated ? "loggedInNav" : "" }>
-                <NavBar authenticated={this.props.authenticated} />
+                <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink} />
 
                 <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(List()) } }></div>
 
@@ -88,7 +89,7 @@ const ListingsApp = React.createClass({
 
               </head>
               <body className={ this.props.authenticated ? "loggedInNav" : "" }>
-                  <NavBar authenticated={this.props.authenticated} />
+                  <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink} />
 
                   <script dangerouslySetInnerHTML={ { __html: 'var data = ' + JSON.stringify(this.props.data) } }></script>
 
@@ -119,7 +120,7 @@ const LoginApp = React.createClass({
 
         </head>
           <body className={ this.props.authenticated ? "loggedInNav" : "" }>
-              <NavBar authenticated={this.props.authenticated} />
+              <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink} />
 
               <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Login()) } }></div>
 
@@ -147,7 +148,7 @@ const RegisterApp = React.createClass({
 
             </head>
             <body className={ this.props.authenticated ? "loggedInNav" : "" }>
-                <NavBar authenticated={this.props.authenticated} />
+                <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink} />
 
 
                 <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Register()) } }></div>

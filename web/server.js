@@ -102,7 +102,7 @@ server.get('/', function(req, res) {
 
     var searchApp = React.createFactory(App.SearchApp);
 
-    var markup = React.renderToStaticMarkup(searchApp({authenticated: isAuthenticated(req)}));
+    var markup = React.renderToStaticMarkup(searchApp({authenticated: isAuthenticated(req), activeLink: "search"}));
 
     res.send(markup);
 });
@@ -116,7 +116,7 @@ server.get('/list', function(req, res) {
 
     var listApp = React.createFactory(App.ListApp);
 
-    var markup = React.renderToStaticMarkup(listApp({authenticated: isAuthenticated(req)}));
+    var markup = React.renderToStaticMarkup(listApp({authenticated: isAuthenticated(req), activeLink: "list"}));
 
     res.send(markup);
 });
@@ -174,7 +174,7 @@ server.get('/login', function(req, res) {
 
     var loginApp = React.createFactory(App.LoginApp);
 
-    var markup = React.renderToStaticMarkup(loginApp({authenticated: isAuthenticated(req)}));
+    var markup = React.renderToStaticMarkup(loginApp({authenticated: isAuthenticated(req), activeLink: "login"}));
 
     res.send(markup);
 });
@@ -195,7 +195,7 @@ server.get('/register', function(req, res) {
 
     var registerApp = React.createFactory(App.RegisterApp);
 
-    var markup = React.renderToStaticMarkup(registerApp({authenticated: isAuthenticated(req)}));
+    var markup = React.renderToStaticMarkup(registerApp({authenticated: isAuthenticated(req), activeLink: "register"}));
 
     res.send(markup);
 });
