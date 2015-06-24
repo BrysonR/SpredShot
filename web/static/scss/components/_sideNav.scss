@@ -75,7 +75,14 @@
 }
 
 @media #{$medium-and-down} {
+  .loggedInNav {
+    width: 100%;
 
+    .nav-wrapper {
+      width: auto;
+      margin: 0 auto;
+    }
+  }
 }
 
 .side-nav.fixed {
