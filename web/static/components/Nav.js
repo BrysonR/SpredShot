@@ -20,7 +20,7 @@ const Nav = React.createClass({
               {this.props.authenticated ? "" :
                 this.props.activeLink == "register" ?
                 <li className="active"><a className="waves-effect waves-teal darken-2" href="/register">register</a></li> :
-                <li><a className="waves-effect waves-teal darken-2" href="/">register</a></li>}
+                <li><a className="waves-effect waves-teal darken-2" href="/register">register</a></li>}
             </ul>
             <ul className={ this.props.authenticated ? "side-nav fixed z-depth-4 teal darken-2" : "side-nav z-depth-4 teal darken-2" } id="sideBar">
               {this.props.activeLink == "search" ?
