@@ -45,6 +45,8 @@ const List = React.createClass({
     })
     .done(function(res) {
       console.log("success and response is: " + res);
+      debugger;
+      window.location = '/';
     })
     .fail(function(err) {
       console.log("Epic Fail: " + err);

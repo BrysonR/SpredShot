@@ -110,15 +110,14 @@ server.get('/', function(req, res) {
 server.get('/list', function(req, res) {
     if (!isAuthenticated(req)) {
         res.redirect('/login');
+    } else {
+        res.setHeader('Content-Type', 'text/html');
+
+        var listApp = React.createFactory(App.ListApp);
+        var markup = React.renderToStaticMarkup(listApp({authenticated: isAuthenticated(req), activeLink: "list"}));
+
+        res.send(markup);
     }
-
-    res.setHeader('Content-Type', 'text/html');
-
-    var listApp = React.createFactory(App.ListApp);
-
-    var markup = React.renderToStaticMarkup(listApp({authenticated: isAuthenticated(req), activeLink: "list"}));
-
-    res.send(markup);
 });
 
 server.get('/listings/:query', function(req, res) {
@@ -153,7 +152,7 @@ server.get('/listings/:query', function(req, res) {
 var rabbitConn = amqp.connect('amqp://rabbit');
 
 server.post('/rabbit', function(req, res) {
-    var rabitChannel = rabbitConn.createChannel();
+    var rabbitChannel = rabbitConn.createChannel();
 
     var ex = 'app.listing.create';
     var ok = rabbitChannel.assertExchange(ex, 'fanout', {
