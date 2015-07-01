@@ -15,6 +15,7 @@ var express = require('express'),
     uuid = require('node-uuid'),
     bcrypt = require('bcrypt-nodejs'),
     App = require('./static/app');
+    when = require('when');
 
 server.use(express.static(__dirname + '/public'));
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -149,24 +150,28 @@ server.get('/listings/:query', function(req, res) {
     });
 });
 
-var rabbitConn = amqp.connect('amqp://rabbit');
-
 server.post('/rabbit', function(req, res) {
-    var rabbitChannel = rabbitConn.createChannel();
 
-    var ex = 'app.listing.create';
-    var ok = rabbitChannel.assertExchange(ex, 'fanout', {
-        durable: true
-    });
+            amqp.connect('amqp://rabbit').then(function(conn) {
+                return when(conn.createChannel().then(function(ch) {
+                    var ex = 'app.listing.create';
+                    var ok = ch.assertExchange(ex, 'fanout', {
+                        durable: true
+                    })
 
-    var message = JSON.stringify(req.body);
+                    var message = JSON.stringify(req.body);
 
-    rabbitChannel.publish(ex, '', new Buffer(message));
-
-    console.log(" [x] Sent '%s'", message);
-
-    res.send("success you bastard");
+                    return ok.then(function() {
+                        ch.publish(ex, '', new Buffer(message));
+                        console.log(" [x] Sent '%s'", message);
+                        return ch.close();
+                    });
+                })).ensure(function() {
+                    conn.close();
+                });
+            }).then(null, console.warn);
 });
+
 
 server.get('/login', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
