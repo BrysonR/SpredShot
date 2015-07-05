@@ -2,7 +2,7 @@ require('node-jsx').install();
 
 var express = require('express'),
     path = require('path'),
-    amqp = require('amqplib'),
+    rabbitConn = require('amqplib').connect('amqp://rabbit'),
     server = express(),
     React = require('react'),
     bodyParser = require('body-parser'),
@@ -151,25 +151,23 @@ server.get('/listings/:query', function(req, res) {
 });
 
 server.post('/rabbit', function(req, res) {
+    rabbitConn.then(function (conn) {
 
-            amqp.connect('amqp://rabbit').then(function(conn) {
-                return when(conn.createChannel().then(function(ch) {
-                    var ex = 'app.listing.create';
-                    var ok = ch.assertExchange(ex, 'fanout', {
-                        durable: true
-                    })
+        return when(conn.createChannel().then(function(ch) {
+            var ex = 'app.listing.create';
+            var ok = ch.assertExchange(ex, 'fanout', {
+                durable: true
+            })
 
-                    var message = JSON.stringify(req.body);
+            var message = JSON.stringify(req.body);
 
-                    return ok.then(function() {
-                        ch.publish(ex, '', new Buffer(message));
-                        console.log(" [x] Sent '%s'", message);
-                        return ch.close();
-                    });
-                })).ensure(function() {
-                    conn.close();
-                });
-            }).then(null, console.warn);
+            return ok.then(function() {
+                ch.publish(ex, '', new Buffer(message));
+                console.log(" [x] Sent '%s'", message);
+                return ok;
+            });
+        }));
+    });
 });
 
 
