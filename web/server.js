@@ -129,16 +129,17 @@ server.get('/listings/:query', function(req, res) {
     console.log(req.params.query);
 
     client.search({
-        index: 'ar15',
+        index: 'equipment',
         body: {
             query: {
                 match: {
-                    'description': req.params.query
+                    'title': req.params.query
                 }
             }
         },
         size: 100
     }).then(function (resp) {
+        console.log(resp.hits.hits);
         var listingsApp = React.createFactory(App.ListingsApp);
 
         var markup = React.renderToStaticMarkup(listingsApp({data: resp.hits.hits, authenticated: isAuthenticated(req)}));
@@ -159,7 +160,10 @@ server.post('/rabbit', function(req, res) {
                 durable: true
             })
 
-            var message = JSON.stringify(req.body);
+            req.body.body.guid = uuid.v4();
+            req.body.body.link = "/listing/" + req.body.body.title;
+
+            var message = JSON.stringify(req.body.body);
 
             return ok.then(function() {
                 ch.publish(ex, '', new Buffer(message));

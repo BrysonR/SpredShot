@@ -23,6 +23,7 @@ const Register = React.createClass({
       <div className="valign row row-collapse">
         <form action="/register" method="post" className="col s12 l7">
           <div className="row z-depth-4 teal darken-2">
+            <h5 className="component-title">register</h5>
             <div className="input-field col s12">
               <input id="username" name="username" type="text" value={ this.state.username } onChange={ this.handleUsernameInput } />
               <label htmlFor="username">username</label>

@@ -93,7 +93,7 @@ const ListingsApp = React.createClass({
 
                   <script dangerouslySetInnerHTML={ { __html: 'var data = ' + JSON.stringify(this.props.data) } }></script>
 
-                  <div id="content" dangerouslySetInnerHTML={ { __html: React.renderToString(CardCollection({ data: this.props.data })) } }></div>
+                  <div id="content" className="container" dangerouslySetInnerHTML={ { __html: React.renderToString(CardCollection({ data: this.props.data })) } }></div>
 
                   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
                   <script src="https://fb.me/react-0.13.1.js"></script>

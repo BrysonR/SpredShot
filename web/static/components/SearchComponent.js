@@ -19,6 +19,7 @@ const Search = React.createClass({
       <div className="row row-collapse">
         <form className="col s12 l7">
           <div className="row z-depth-4 teal darken-2">
+            <h5 className="component-title">search</h5>
             <div className="input-field col s12">
               <input value={this.state.query} onChange={this.handleInput} id="search" type="text" />
               <label htmlFor="search">what are you looking for?</label>

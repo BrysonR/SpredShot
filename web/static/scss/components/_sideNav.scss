@@ -68,9 +68,12 @@
     width: -webkit-calc(100% - 240px);
     float: right;
 
+    nav {
+      width: -webkit-calc(100% - 240px);
+    }
+
     .nav-wrapper {
-      width: 70%;
-      margin: 0 5%;
+      width: 90%;
     }
 }
 

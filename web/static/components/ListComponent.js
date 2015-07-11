@@ -6,7 +6,7 @@ const List = React.createClass({
     return {
       title: '',
       price: '',
-      image: '',
+      imageUrl: '',
       description: ''
     };
   },
@@ -22,7 +22,7 @@ const List = React.createClass({
   },
   handleImageChange: function (evt) {
     this.setState({
-      image: evt.target.value
+      imageUrl: evt.target.value
     });
   },
   handleDescriptionChange: function (evt) {
@@ -60,6 +60,7 @@ const List = React.createClass({
       <div className="valign row row-collapse">
         <form className="col s12 l7">
           <div className="row z-depth-4 teal darken-2">
+            <h5 className="component-title">list</h5>
             <div className="input-field col s12">
               <input id="title" type="text" value={ this.state.title } onChange={ this.handleTitleChange } />
               <label htmlFor="title">title</label>
