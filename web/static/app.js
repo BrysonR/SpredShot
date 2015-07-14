@@ -15,122 +15,71 @@ const NavBar = React.createClass({
                 <script dangerouslySetInnerHTML={ { __html: 'var authenticated = ' + JSON.stringify(this.props.authenticated) } }></script>
                 <script dangerouslySetInnerHTML={ { __html: 'var activeLink = ' + JSON.stringify(this.props.activeLink) } }></script>
             </div>
-        )
+        );
     }
 })
 
-const SearchApp = React.createClass({
-  render: function() {
-    return (
-      <html>
-        <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-          <title>Guns N Fun</title>
-          <link rel="shortcut icon" href="/images/favicon.png" />
-          <link rel="stylesheet" href="/css/index.css" />
-          <link rel="stylesheet" href='/css/materialize.css' />
+const Head = React.createClass({
+    render: function() {
+        if (this.props.styles) {
+            var additionalStyles = this.props.styles.map(function(src) {
+                return (
+                    <link rel="stylesheet" href={ src } />
+                );
+            });
+        }
 
-        </head>
-        <body className={ this.props.authenticated ? "loggedInNav" : "" }>
-            <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink}/>
-
-            <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Search()) } }></div>
-
-            <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-            <script src="https://fb.me/react-0.13.1.js"></script>
-            <script src="/js/materialize.min.js"></script>
-            <script src="/js/bundle.js"></script>
-            <script src="/js/nav_init.js"></script>
-            <script src="/js/searchInit.js"></script>
-        </body>
-      </html>
-    );
-  }
-});
-
-const ListApp = React.createClass({
-  render: function() {
-    return(
-        <html>
+        return (
             <head>
               <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
               <title>Guns N Fun</title>
-               <link rel="shortcut icon" href="/images/favicon.png" />
+              <link rel="shortcut icon" href="/images/favicon.png" />
               <link rel="stylesheet" href="/css/index.css" />
-              <link rel='stylesheet' href='/css/materialize.css' />
-
+              <link rel="stylesheet" href="/css/materialize.css" />
+              { additionalStyles }
             </head>
-            <body className={ this.props.authenticated ? "loggedInNav" : "" }>
-                <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink} />
+        );
+    }
+})
 
-                <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(List()) } }></div>
+const Scripts = React.createClass({
+    render: function() {
+        if(this.props.scripts) {
+            var additionalScripts = this.props.scripts.map(function(src) {
+                return (
+                    <script src={ src }></script>
+                );
+            });
+        }
 
+        return (
+            <div>
                 <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
                 <script src="https://fb.me/react-0.13.1.js"></script>
                 <script src="/js/materialize.min.js"></script>
                 <script src="/js/bundle.js"></script>
                 <script src="/js/nav_init.js"></script>
-            </body>
-        </html>
-    );
-  }
+                { additionalScripts }
+            </div>
+        );
+    }
 })
 
-const ListingsApp = React.createClass({
-  render: function() {
-      return (
-          <html>
-              <head>
-                <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-                <title>Guns N Fun</title>
-                <link rel="shortcut icon" href="/images/favicon.png" />
-                <link rel="stylesheet" href="/css/index.css" />
-                <link rel='stylesheet' href='/css/materialize.css' />
-
-              </head>
-              <body className={ this.props.authenticated ? "loggedInNav" : "" }>
-                  <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink} />
-
-                  <script dangerouslySetInnerHTML={ { __html: 'var data = ' + JSON.stringify(this.props.data) } }></script>
-
-                  <div id="content" className="container" dangerouslySetInnerHTML={ { __html: React.renderToString(CardCollection({ data: this.props.data })) } }></div>
-
-                  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-                  <script src="https://fb.me/react-0.13.1.js"></script>
-                  <script src="/js/materialize.min.js"></script>
-                  <script src="/js/bundle.js"></script>
-                  <script src="/js/nav_init.js"></script>
-              </body>
-          </html>
-      );
-  }
-});
-
-const LoginApp = React.createClass({
+const Page = React.createClass({
   render: function() {
     return (
-      <html>
-        <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-          <title>Guns N Fun</title>
-          <link rel="shortcut icon" href="/images/favicon.png" />
-
-          <link rel="stylesheet" href="/css/index.css" />
-          <link rel='stylesheet' href='/css/materialize.css' />
-
-        </head>
+        <html>
+          <Head styles={ this.props.styles }/>
           <body className={ this.props.authenticated ? "loggedInNav" : "" }>
               <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink} />
 
-              <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Login()) } }></div>
+              { this.props.data ? <script dangerouslySetInnerHTML={ { __html: 'var data = ' + JSON.stringify(this.props.data) } }></script> : '' }
 
-              <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-              <script src="https://fb.me/react-0.13.1.js"></script>
-              <script src="/js/materialize.min.js"></script>
-              <script src="/js/bundle.js"></script>
-              <script src="/js/nav_init.js"></script>
+              <div id="content" className={ this.props.valign ? "container valign-wrapper" : "container" } dangerouslySetInnerHTML={ { __html: React.renderToString( this.props.app({ data: this.props.data }) ) } }></div>
+
+              <Scripts scripts={ this.props.scripts } />
           </body>
-      </html>
+        </html>
     );
   }
 });
@@ -139,14 +88,8 @@ const RegisterApp = React.createClass({
   render: function() {
     return (
         <html>
-            <head>
-              <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-              <title>Guns N Fun</title>
-              <link rel="shortcut icon" href="/images/favicon.png" />
-              <link rel="stylesheet" href="/css/index.css" />
-              <link rel='stylesheet' href='/css/materialize.css' />
+            <Head />
 
-            </head>
             <body className={ this.props.authenticated ? "loggedInNav" : "" }>
                 <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink} />
 
@@ -164,8 +107,9 @@ const RegisterApp = React.createClass({
   }
 });
 
-module.exports.SearchApp = SearchApp;
-module.exports.ListingsApp = ListingsApp;
-module.exports.ListApp = ListApp;
-module.exports.LoginApp = LoginApp;
-module.exports.RegisterApp = RegisterApp;
+module.exports.Page = Page;
+module.exports.Search = Search;
+module.exports.CardCollection = CardCollection;
+module.exports.List = List;
+module.exports.Login = Login;
+module.exports.Register = Register;

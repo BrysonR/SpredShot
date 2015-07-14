@@ -101,9 +101,9 @@ server.get('/', function(req, res) {
 
     console.log(req.session);
 
-    var searchApp = React.createFactory(App.SearchApp);
+    var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(searchApp({authenticated: isAuthenticated(req), activeLink: "search"}));
+    var markup = React.renderToStaticMarkup(page({ app: App.Search, scripts: ['/js/searchInit.js'], valign: true, authenticated: isAuthenticated(req), activeLink: "search" }));
 
     res.send(markup);
 });
@@ -114,8 +114,9 @@ server.get('/list', function(req, res) {
     } else {
         res.setHeader('Content-Type', 'text/html');
 
-        var listApp = React.createFactory(App.ListApp);
-        var markup = React.renderToStaticMarkup(listApp({authenticated: isAuthenticated(req), activeLink: "list"}));
+        var page = React.createFactory(App.Page);
+
+        var markup = React.renderToStaticMarkup(page({app: App.List, authenticated: isAuthenticated(req), activeLink: "list"}));
 
         res.send(markup);
     }
@@ -140,9 +141,9 @@ server.get('/listings/:query', function(req, res) {
         size: 100
     }).then(function (resp) {
         console.log(resp.hits.hits);
-        var listingsApp = React.createFactory(App.ListingsApp);
+        var page = React.createFactory(App.Page);
 
-        var markup = React.renderToStaticMarkup(listingsApp({data: resp.hits.hits, authenticated: isAuthenticated(req)}));
+        var markup = React.renderToStaticMarkup(page({app: App.CardCollection, data: resp.hits.hits, authenticated: isAuthenticated(req)}));
 
         res.send(markup);
 
@@ -178,9 +179,9 @@ server.post('/rabbit', function(req, res) {
 server.get('/login', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
 
-    var loginApp = React.createFactory(App.LoginApp);
+    var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(loginApp({authenticated: isAuthenticated(req), activeLink: "login"}));
+    var markup = React.renderToStaticMarkup(page({app: App.Login, valign: true, authenticated: isAuthenticated(req), activeLink: "login"}));
 
     res.send(markup);
 });
@@ -199,9 +200,9 @@ server.get('/logout', function(req, res) {
 server.get('/register', function(req, res) {
     res.setHeader('Content-Type', 'text/html');
 
-    var registerApp = React.createFactory(App.RegisterApp);
+    var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(registerApp({authenticated: isAuthenticated(req), activeLink: "register"}));
+    var markup = React.renderToStaticMarkup(page({app: App.Register, valign: true, authenticated: isAuthenticated(req), activeLink: "register"}));
 
     res.send(markup);
 });
