@@ -84,29 +84,6 @@ const Page = React.createClass({
   }
 });
 
-const RegisterApp = React.createClass({
-  render: function() {
-    return (
-        <html>
-            <Head />
-
-            <body className={ this.props.authenticated ? "loggedInNav" : "" }>
-                <NavBar authenticated={this.props.authenticated} activeLink={this.props.activeLink} />
-
-
-                <div id="content" className="container valign-wrapper" dangerouslySetInnerHTML={ { __html: React.renderToString(Register()) } }></div>
-
-                <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-                <script src="https://fb.me/react-0.13.1.js"></script>
-                <script src="/js/materialize.min.js"></script>
-                <script src="/js/bundle.js"></script>
-                <script src="/js/nav_init.js"></script>
-            </body>
-        </html>
-    );
-  }
-});
-
 module.exports.Page = Page;
 module.exports.Search = Search;
 module.exports.CardCollection = CardCollection;
