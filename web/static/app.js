@@ -1,10 +1,10 @@
 var React = require('react'),
-    Card = require('./components/Card.js'),
-    CardCollection = React.createFactory(require('./components/CardCollection.js')),
-    Login = React.createFactory(require('./components/LoginComponent.js')),
-    Search = React.createFactory(require('./components/SearchComponent.js')),
-    List = React.createFactory(require('./components/ListComponent.js')),
-    Register = React.createFactory(require('./components/RegisterComponent.js')),
+    Card = require('./components/Listing.js'),
+    Listings = React.createFactory(require('./components/Listings.js')),
+    Login = React.createFactory(require('./components/Login.js')),
+    Search = React.createFactory(require('./components/Search.js')),
+    List = React.createFactory(require('./components/List.js')),
+    Register = React.createFactory(require('./components/Register.js')),
     Nav = React.createFactory(require('./components/Nav.js'));
 
 const NavBar = React.createClass({
@@ -86,7 +86,7 @@ const Page = React.createClass({
 
 module.exports.Page = Page;
 module.exports.Search = Search;
-module.exports.CardCollection = CardCollection;
+module.exports.Listings = Listings;
 module.exports.List = List;
 module.exports.Login = Login;
 module.exports.Register = Register;

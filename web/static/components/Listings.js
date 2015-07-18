@@ -1,5 +1,5 @@
 var React = require('react'),
-    Card = require('./Card.js');
+    Card = require('./Listing.js');
 
 const CardCollection = React.createClass({
   render: function() {

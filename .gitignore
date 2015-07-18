@@ -96,3 +96,4 @@ web/public/css/*
 # This BULLSHIT
 npm-debug.log
 
+*.sublime-workspace

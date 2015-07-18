@@ -143,7 +143,7 @@ server.get('/listings/:query', function(req, res) {
         console.log(resp.hits.hits);
         var page = React.createFactory(App.Page);
 
-        var markup = React.renderToStaticMarkup(page({app: App.CardCollection, data: resp.hits.hits, authenticated: isAuthenticated(req)}));
+        var markup = React.renderToStaticMarkup(page({app: App.Listings, data: resp.hits.hits, authenticated: isAuthenticated(req)}));
 
         res.send(markup);
 
