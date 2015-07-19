@@ -1,11 +1,13 @@
 var React = require('react'),
+    Nav = React.createFactory(require('./components/Nav.js')),
     Card = require('./components/Listing.js'),
     Listings = React.createFactory(require('./components/Listings.js')),
     Login = React.createFactory(require('./components/Login.js')),
     Search = React.createFactory(require('./components/Search.js')),
     List = React.createFactory(require('./components/List.js')),
     Register = React.createFactory(require('./components/Register.js')),
-    Nav = React.createFactory(require('./components/Nav.js'));
+    Messages = React.createFactory(require('./components/Messages.js')),
+    ComposeMessage = React.createFactory(require('./components/ComposeMessage.js'));
 
 const NavBar = React.createClass({
     render: function() {
@@ -23,8 +25,9 @@ const Head = React.createClass({
     render: function() {
         if (this.props.styles) {
             var additionalStyles = this.props.styles.map(function(src) {
+                var i = 69;
                 return (
-                    <link rel="stylesheet" href={ src } />
+                    <link key={ i++ } rel="stylesheet" href={ src } />
                 );
             });
         }
@@ -45,9 +48,10 @@ const Head = React.createClass({
 const Scripts = React.createClass({
     render: function() {
         if(this.props.scripts) {
+            var i = 69;
             var additionalScripts = this.props.scripts.map(function(src) {
                 return (
-                    <script src={ src }></script>
+                    <script key={ i++ } src={ src }></script>
                 );
             });
         }
@@ -90,3 +94,5 @@ module.exports.Listings = Listings;
 module.exports.List = List;
 module.exports.Login = Login;
 module.exports.Register = Register;
+module.exports.Messages = Messages;
+module.exports.ComposeMessage = ComposeMessage;

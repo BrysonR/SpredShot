@@ -31,9 +31,7 @@ const List = React.createClass({
     });
   },
   handleSubmit: function (evt) {
-    var data = {
-      body: this.state
-    }
+    var data = this.state;
 
     console.log(data);
 
@@ -45,7 +43,6 @@ const List = React.createClass({
     })
     .done(function(res) {
       console.log("success and response is: " + res);
-      debugger;
       window.location = '/';
     })
     .fail(function(err) {
@@ -57,7 +54,7 @@ const List = React.createClass({
   },
   render: function() {
     return (
-      <div className="valign row row-collapse">
+      <div className="row row-collapse">
         <form className="col s12 l7">
           <div className="row z-depth-4 teal darken-2">
             <h5 className="component-title">list</h5>

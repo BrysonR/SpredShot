@@ -64,17 +64,19 @@
 
 
 // Fixed side-nav shown
-.loggedInNav {
-    width: -webkit-calc(100% - 240px);
-    float: right;
-
-    nav {
+@media only screen and (min-width: 768px) {
+  .loggedInNav {
       width: -webkit-calc(100% - 240px);
-    }
+      float: right;
 
-    .nav-wrapper {
-      width: 90%;
-    }
+      nav {
+        width: -webkit-calc(100% - 240px);
+      }
+
+      .nav-wrapper {
+        width: 90%;
+      }
+  }
 }
 
 @media #{$medium-and-down} {

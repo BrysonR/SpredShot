@@ -20,8 +20,6 @@ var express = require('express'),
 server.use(express.static(__dirname + '/public'));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-server.set('views', path.join(__dirname, 'views'));
-server.set('view engine', 'html');
 server.use(session({
     genid: function(req) {
             return uuid.v4()
@@ -35,11 +33,10 @@ server.use(session({
 server.use(passport.initialize());
 server.use(passport.session());
 
-var host = process.env.APP_ENV == 'development'
-  ? 'http://elastic:9200'
-  : 'http://brentmills.cloudapp.net:9200';
+// Setup Elastic
+var host = 'http://elastic:9200';
 
-var client = new elasticsearch.Client({
+var elasticClient = new elasticsearch.Client({
   host: host,
   log: 'trace'
 });
@@ -51,7 +48,8 @@ db.on('error', console.error);
 db.once('open', function() {
     var userSchema = new mongoose.Schema({
         username: String,
-        password: String
+        password: String,
+        userId: String
     });
 
     User = mongoose.model('User', userSchema);
@@ -89,7 +87,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 var isAuthenticated = function (req) {
-    if (req.session.passport.user) {
+    if (req.session.passport.user || process.env.APP_ENV == 'development') {
         return true;
     } else {
         return false;
@@ -103,7 +101,13 @@ server.get('/', function(req, res) {
 
     var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(page({ app: App.Search, scripts: ['/js/searchInit.js'], valign: true, authenticated: isAuthenticated(req), activeLink: "search" }));
+    var markup = React.renderToStaticMarkup(page({
+        app: App.Search,
+        scripts: ['/js/searchInit.js'],
+        valign: true,
+        authenticated: isAuthenticated(req),
+        activeLink: "search"
+    }));
 
     res.send(markup);
 });
@@ -116,7 +120,12 @@ server.get('/list', function(req, res) {
 
         var page = React.createFactory(App.Page);
 
-        var markup = React.renderToStaticMarkup(page({app: App.List, authenticated: isAuthenticated(req), activeLink: "list"}));
+        var markup = React.renderToStaticMarkup(page({
+            app: App.List,
+            valign: true,
+            authenticated: isAuthenticated(req),
+            activeLink: "list"
+        }));
 
         res.send(markup);
     }
@@ -129,7 +138,7 @@ server.get('/listings/:query', function(req, res) {
 
     console.log(req.params.query);
 
-    client.search({
+    elasticClient.search({
         index: 'equipment',
         body: {
             query: {
@@ -143,7 +152,11 @@ server.get('/listings/:query', function(req, res) {
         console.log(resp.hits.hits);
         var page = React.createFactory(App.Page);
 
-        var markup = React.renderToStaticMarkup(page({app: App.Listings, data: resp.hits.hits, authenticated: isAuthenticated(req)}));
+        var markup = React.renderToStaticMarkup(page({
+            app: App.Listings,
+            data: resp.hits.hits,
+            authenticated: isAuthenticated(req)
+        }));
 
         res.send(markup);
 
@@ -161,10 +174,10 @@ server.post('/rabbit', function(req, res) {
                 durable: true
             })
 
-            req.body.body.guid = uuid.v4();
-            req.body.body.link = "/listing/" + req.body.body.title;
+            req.body.guid = uuid.v4();
+            req.body.link = "/listing/" + req.body.title;
 
-            var message = JSON.stringify(req.body.body);
+            var message = JSON.stringify(req.body);
 
             return ok.then(function() {
                 ch.publish(ex, '', new Buffer(message));
@@ -181,7 +194,12 @@ server.get('/login', function(req, res) {
 
     var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(page({app: App.Login, valign: true, authenticated: isAuthenticated(req), activeLink: "login"}));
+    var markup = React.renderToStaticMarkup(page({
+        app: App.Login,
+        valign: true,
+        authenticated: isAuthenticated(req),
+        activeLink: "login"
+    }));
 
     res.send(markup);
 });
@@ -202,7 +220,11 @@ server.get('/register', function(req, res) {
 
     var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(page({app: App.Register, valign: true, authenticated: isAuthenticated(req), activeLink: "register"}));
+    var markup = React.renderToStaticMarkup(page({
+        app: App.Register,
+        valign: true, authenticated: isAuthenticated(req),
+        activeLink: "register"
+    }));
 
     res.send(markup);
 });
@@ -222,7 +244,8 @@ server.post('/register', function(req, res) {
             }
             var user = new User({
                 username: req.body.username,
-                password: hash
+                password: hash,
+                userId: parseInt(uuid.v4())
             });
 
             user.save(function(err, user) {
@@ -234,6 +257,74 @@ server.post('/register', function(req, res) {
                 return res.redirect('/#loggedin');
             });
         });
+    });
+});
+
+server.get('/messages', function(req, res) {
+    res.setHeader('Content-Type', 'text/html');
+
+    var page = React.createFactory(App.Page);
+
+    var markup = React.renderToStaticMarkup(page({
+            app: App.Messages,
+            valign: false,
+            authenticated: isAuthenticated(req),
+            activeLink: "messages"
+    }));
+
+    res.send(markup);
+});
+
+server.get('/messages/compose', function(req, res) {
+    res.setHeader('Content-Type', 'text/html');
+
+    var page = React.createFactory(App.Page);
+
+    var markup = React.renderToStaticMarkup(page({
+            app: App.ComposeMessage,
+            valign: true,
+            authenticated: isAuthenticated(req),
+            activeLink: "messages"
+    }));
+
+    res.send(markup);
+});
+
+server.post('/messages/send', function(req, res) {
+    var recipientId = 0;
+
+    User.findOne({username: req.body.recipient}, function (err, user) {
+        if(err) {
+            console.log(err);
+        } else {
+            recipientId = user.userId;
+
+            elasticClient.index({
+                index: 'messages',
+                type: 'post',
+                recipient: {
+                    type: 'string'
+                },
+                body: {
+                    subject: req.body.subject,
+                    recipient: recipientId,
+                    message: req.body.message,
+                    date: new Date()
+                }
+            }, function (err, resp) {
+              if(err) {
+                  console.log(err);
+              } else {
+                    console.log(resp);
+                    var response = {
+                        status  : 200,
+                        success : 'Updated Successfully'
+                    }
+
+                    res.end(JSON.stringify(response));
+              }
+            });
+        }
     });
 });
 
