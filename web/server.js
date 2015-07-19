@@ -87,7 +87,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 var isAuthenticated = function (req) {
-    if (req.session.passport.user || process.env.APP_ENV == 'development') {
+    if (req.session.passport.user) {
         return true;
     } else {
         return false;
@@ -154,6 +154,7 @@ server.get('/listings/:query', function(req, res) {
 
         var markup = React.renderToStaticMarkup(page({
             app: App.Listings,
+            valign: false,
             data: resp.hits.hits,
             authenticated: isAuthenticated(req)
         }));
@@ -261,33 +262,57 @@ server.post('/register', function(req, res) {
 });
 
 server.get('/messages', function(req, res) {
-    res.setHeader('Content-Type', 'text/html');
+    if (!isAuthenticated(req)) {
+        res.redirect('/login');
+    } else {
 
-    var page = React.createFactory(App.Page);
+        elasticClient.search({
+            index: 'messages',
+            body: {
+                query: {
+                    match: {
+                        'recipient': 45
+                    }
+                }
+            },
+            size: 100
+        }).then(function (resp) {
+            console.log(resp.hits.hits);
+            var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(page({
-            app: App.Messages,
-            valign: false,
-            authenticated: isAuthenticated(req),
-            activeLink: "messages"
-    }));
+            var markup = React.renderToStaticMarkup(page({
+                app: App.Messages,
+                styles: ['/css/messages.css'],
+                data: resp.hits.hits,
+                valign: false,
+                authenticated: isAuthenticated(req)
+            }));
 
-    res.send(markup);
+            res.send(markup);
+
+        }, function (err) {
+            res.send(err);
+        });
+    }
 });
 
 server.get('/messages/compose', function(req, res) {
-    res.setHeader('Content-Type', 'text/html');
+    if (!isAuthenticated(req)) {
+        res.redirect('/login');
+    } else {
+        res.setHeader('Content-Type', 'text/html');
 
-    var page = React.createFactory(App.Page);
+        var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(page({
-            app: App.ComposeMessage,
-            valign: true,
-            authenticated: isAuthenticated(req),
-            activeLink: "messages"
-    }));
+        var markup = React.renderToStaticMarkup(page({
+                app: App.ComposeMessage,
+                valign: true,
+                authenticated: isAuthenticated(req),
+                activeLink: "messages"
+        }));
 
-    res.send(markup);
+        res.send(markup);
+    }
 });
 
 server.post('/messages/send', function(req, res) {

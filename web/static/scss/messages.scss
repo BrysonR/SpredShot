@@ -1,0 +1,21 @@
+.messages {
+	.message {
+	    display: flex;
+	    display: -webkit-flex;
+	    align-items: center;
+	    -webkit-align-items: center;
+	}
+	.btn {
+		padding: 0 1rem;
+	}
+	.messages-header {
+		&> div:last-child {
+			text-align: center;
+		}
+	}
+	.message {
+		&> div:last-child {
+			text-align: center;
+		}
+	}
+}

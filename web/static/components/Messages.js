@@ -5,10 +5,11 @@ var React = require('react'),
 var Messages = React.createClass({
     render: function() {
     	if (this.props.data) {
+    		var i = 0;
 	    	var Messages = this.props.data.map(function(message) {
 	    		return (
-	    			<Message message={ message } />
-				)
+	    			<Message key={ i++ } subject={ message._source.subject } date={ message._source.date.split('T')[0] }/>
+				);
 	    	});
     	}
 
@@ -19,7 +20,7 @@ var Messages = React.createClass({
 		        		<div className="row z-depth-4 teal">
 		        			<MessagesHeader />
 		        		</div>
-		        		<div className="row z-depth-4 teal darken-2">
+		        		<div className="row z-depth-4 teal">
 		        			{ Messages ? Messages : "" }
 		        		</div>
 		        	</div>

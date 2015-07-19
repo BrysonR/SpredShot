@@ -20,7 +20,7 @@ else if (window.location.href.indexOf('istings') != -1) {
 } else if (window.location.href.indexOf('egister') != -1) {
   React.render(RegisterApp(), document.getElementById('content'));
 } else if (window.location.href.indexOf('essages') != -1 && window.location.href.indexOf('ompose') == -1) {
-  React.render(MessagesApp(), document.getElementById('content'));
+  React.render(MessagesApp({data: data}), document.getElementById('content'));
 } else if (window.location.href.indexOf('ompose') != -1) {
   React.render(ComposeMessageApp(), document.getElementById('content'));
 } else {

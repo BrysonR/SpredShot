@@ -1,6 +1,6 @@
 var React = require('react');
 
-var MessagesHeader = React.createClass({
+var ComposeMessage = React.createClass({
 	getInitialState: function () {
     	return {
       		subject: '',
@@ -74,4 +74,4 @@ var MessagesHeader = React.createClass({
 	}
 });
 
-module.exports = MessagesHeader;
+module.exports = ComposeMessage;
