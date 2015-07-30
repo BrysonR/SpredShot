@@ -8,7 +8,7 @@ var Message = React.createClass({
 					<h5 className="white-text">{ this.props.subject }</h5>
 				</div>
 				<div className="col hide-on-med-and-down l3">
-					<h5 className="white-text">bryson</h5>
+					<h5 className="white-text">{ this.props.sender }</h5>
 				</div>
 				<div className="col hide-on-med-and-down l2">
 					<h6 className="white-text">{ this.props.date }</h6>

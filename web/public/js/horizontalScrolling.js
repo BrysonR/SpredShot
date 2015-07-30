@@ -21,7 +21,7 @@ $.fn.arc = function (options) {
     var css = {};
     return this.each(function () {
         var self = $(this),
-            collection = $(".card-collection"),
+            collection = $('.listings'),
             doc = $(document),
             win = $(window);
 
@@ -41,7 +41,7 @@ $.fn.arc = function (options) {
 };
 
 $(function () {
-    $(".card-collection").on("mousewheel", function (event, delta) {
+    $('.card-collection').on('mousewheel', function (event, delta) {
         this.scrollLeft += event.originalEvent.deltaY * 1;
     });
 });

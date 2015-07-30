@@ -15,7 +15,8 @@ var express = require('express'),
     uuid = require('node-uuid'),
     bcrypt = require('bcrypt-nodejs'),
     App = require('./static/app');
-    when = require('when');
+    when = require('when'),
+    async = require('async');
 
 server.use(express.static(__dirname + '/public'));
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -25,7 +26,7 @@ server.use(session({
             return uuid.v4()
         },
     cookie: {
-        maxAge: 60000
+        maxAge: 600000
     },
     saveUninitialized: false,
     resave: true,
@@ -92,6 +93,52 @@ var isAuthenticated = function (req) {
     } else {
         return false;
     }
+}
+
+// Create UserId
+
+var i = 0;
+
+var generateUserId = function (callback) {
+    var userId = Math.floor((Math.random() * 1000000) + 1);
+
+    User.findOne({userId: userId}, function(err, user) {
+        if(user != null) {
+            i++;
+            console.log(userId);
+            if(i <= 5) {
+                generateUserId();
+            } else {
+                callback(null);
+            }
+        } else {
+            console.log(userId);
+            callback(userId);
+        }
+    });
+}
+
+var getUserId = function (req, callback) {
+    var userMongoId = req.session.passport.user;
+
+    User.findOne({_id: userMongoId}, function (err, user) {
+        if (user != null) {
+            callback(user.userId);
+        }
+        else {
+            callback(null);
+        }
+    });
+}
+
+var getUserName = function (userId, callback) {
+    User.findOne({userId: userId}, function(err, user) {
+        if (err) {
+            return callback(null);
+        } else {
+            callback(user.username);
+        }
+    })
 }
 
 server.get('/', function(req, res) {
@@ -183,7 +230,12 @@ server.post('/rabbit', function(req, res) {
             return ok.then(function() {
                 ch.publish(ex, '', new Buffer(message));
                 console.log(" [x] Sent '%s'", message);
-                return ok;
+                var response = {
+                    status  : 200,
+                    success : 'Listing Posted Successfully'
+                }
+
+                res.end(JSON.stringify(response));
             });
         }));
     });
@@ -238,25 +290,33 @@ server.post('/register', function(req, res) {
             res.redirect('/register#fail');
         }
 
-        bcrypt.hash(req.body.password, null, null, function(err, hash) {
-            if (err) {
-                console.log(err);
-                res.end();
+        generateUserId(function(userId) {
+            if(userId != null) {
+                console.log(userId);
+
+                bcrypt.hash(req.body.password, null, null, function(err, hash) {
+                    if (err) {
+                        console.log(err);
+                        res.end();
+                    }
+                    var user = new User({
+                        username: req.body.username,
+                        password: hash,
+                        userId: userId
+                    });
+
+                    user.save(function(err, user) {
+                        if (err) return console.error(err);
+                        console.dir(user);
+                    });
+
+                    req.login(user, function() {
+                        return res.redirect('/#loggedin');
+                    });
+                });
+            } else {
+                return res.redirect('/register/#registrationfailed')
             }
-            var user = new User({
-                username: req.body.username,
-                password: hash,
-                userId: parseInt(uuid.v4())
-            });
-
-            user.save(function(err, user) {
-                if (err) return console.error(err);
-                console.dir(user);
-            });
-
-            req.login(user, function() {
-                return res.redirect('/#loggedin');
-            });
         });
     });
 });
@@ -265,33 +325,60 @@ server.get('/messages', function(req, res) {
     if (!isAuthenticated(req)) {
         res.redirect('/login');
     } else {
+        var markup;
 
-        elasticClient.search({
-            index: 'messages',
-            body: {
-                query: {
-                    match: {
-                        'recipient': 45
-                    }
-                }
-            },
-            size: 100
-        }).then(function (resp) {
-            console.log(resp.hits.hits);
-            var page = React.createFactory(App.Page);
+        getUserId(req, function(userId) {
+            if (userId != null) {
+                elasticClient.search({
+                    index: 'messages',
+                    body: {
+                        query: {
+                            match: {
+                                'recipient': userId
+                            }
+                        }
+                    },
+                    size: 100
+                }).then(function (resp) {
 
-            var markup = React.renderToStaticMarkup(page({
-                app: App.Messages,
-                styles: ['/css/messages.css'],
-                data: resp.hits.hits,
-                valign: false,
-                authenticated: isAuthenticated(req)
-            }));
+                    var renderApp = function(data) {
+                        var page = React.createFactory(App.Page);
 
-            res.send(markup);
+                        markup = React.renderToStaticMarkup(page({
+                            app: App.Messages,
+                            styles: ['/css/messages.css'],
+                            data: data,
+                            valign: false,
+                            authenticated: isAuthenticated(req),
+                            activeLink: "messages"
+                        }));
 
-        }, function (err) {
-            res.send(err);
+                        res.send(markup);
+
+                        console.log(data);
+                    };
+
+                    (function next(index, data) {
+                        if (data.length === 0) {
+                            renderApp();
+                        }
+                        else if (index < data.length) {
+                            getUserName(data[index]._source.sender, function (username) {
+                                console.log(username);
+                                data[index]._source.sender = username;
+                                console.log(data);
+                                next(index + 1, data);
+                            });
+                        } else {
+                            renderApp(data);
+                        }
+                    })(0, resp.hits.hits);
+                }, function (err) {
+                    res.send(err);
+                });
+            } else {
+                res.redirect('/messages#userIdError');
+            }
         });
     }
 });
@@ -324,30 +411,37 @@ server.post('/messages/send', function(req, res) {
         } else {
             recipientId = user.userId;
 
-            elasticClient.index({
-                index: 'messages',
-                type: 'post',
-                recipient: {
-                    type: 'string'
-                },
-                body: {
-                    subject: req.body.subject,
-                    recipient: recipientId,
-                    message: req.body.message,
-                    date: new Date()
-                }
-            }, function (err, resp) {
-              if(err) {
-                  console.log(err);
-              } else {
-                    console.log(resp);
-                    var response = {
-                        status  : 200,
-                        success : 'Updated Successfully'
-                    }
+            User.findOne({_id: req.session.passport.user}, function(err, user) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    elasticClient.index({
+                        index: 'messages',
+                        type: 'post',
+                        recipient: {
+                            type: 'string'
+                        },
+                        body: {
+                            subject: req.body.subject,
+                            recipient: recipientId,
+                            sender: user.userId,
+                            message: req.body.message,
+                            date: new Date()
+                        }
+                    }, function (err, resp) {
+                      if(err) {
+                          console.log(err);
+                      } else {
+                            console.log(resp);
+                            var response = {
+                                status  : 200,
+                                success : 'Updated Successfully'
+                            }
 
-                    res.end(JSON.stringify(response));
-              }
+                            res.end(JSON.stringify(response));
+                      }
+                    });
+                }
             });
         }
     });

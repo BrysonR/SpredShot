@@ -8,7 +8,7 @@ var Messages = React.createClass({
     		var i = 0;
 	    	var Messages = this.props.data.map(function(message) {
 	    		return (
-	    			<Message key={ i++ } subject={ message._source.subject } date={ message._source.date.split('T')[0] }/>
+	    			<Message key={ i++ } sender={ message._source.sender } subject={ message._source.subject } date={ message._source.date.split('T')[0] }/>
 				);
 	    	});
     	}

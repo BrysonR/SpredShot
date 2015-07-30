@@ -6,8 +6,7 @@ const Listings = React.createClass({
     var ListingsArray = this.props.data.map(function (listing) {
 
       if (listing._source.imageUrl &&
-          listing._source.imageUrl.indexOf('http') != -1 &&
-          listing._source.price.indexOf('.') != -1)
+          listing._source.imageUrl.indexOf('http') != -1)
       {
         return (
             <Listing key={listing._id} imageUrl={listing._source.imageUrl} title={listing._source.title} price={listing._source.price} url={listing._source.link} />
@@ -16,8 +15,8 @@ const Listings = React.createClass({
     });
 
     return (
-      <div className="row">
-          {Listings}
+      <div className="listings row">
+          {ListingsArray}
       </div>
     );
   }
