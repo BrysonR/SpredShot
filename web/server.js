@@ -15,8 +15,7 @@ var express = require('express'),
     uuid = require('node-uuid'),
     bcrypt = require('bcrypt-nodejs'),
     App = require('./static/app');
-    when = require('when'),
-    async = require('async');
+    when = require('when');
 
 server.use(express.static(__dirname + '/public'));
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -325,10 +324,65 @@ server.get('/messages', function(req, res) {
     if (!isAuthenticated(req)) {
         res.redirect('/login');
     } else {
-        var markup;
+        var markup,
+            userId;
 
-        getUserId(req, function(userId) {
-            if (userId != null) {
+        var getSentMessages = function (data) {
+            elasticClient.search({
+                index: 'messages',
+                body: {
+                    query: {
+                        match: {
+                            'recipient': userId
+                        }
+                    }
+                },
+                size: 100
+            }).then(function (resp) {
+
+                var renderApp = function(data) {
+                    var page = React.createFactory(App.Page);
+
+                    markup = React.renderToStaticMarkup(page({
+                        app: App.Messages,
+                        styles: ['/css/messages.css'],
+                        data: data,
+                        valign: false,
+                        authenticated: isAuthenticated(req),
+                        activeLink: "messages"
+                    }));
+
+                    res.send(markup);
+
+                    console.log(data);
+                };
+
+                data.sent = resp.hits.hits;
+
+                (function next(index, data) {
+                    if (data.sent.length === 0) {
+                        renderApp();
+                    }
+                    else if (index < data.sent.length) {
+                        getUserName(data.sent[index]._source.sender, function (username) {
+                            console.log(username);
+                            data.sent[index]._source.sender = username;
+                            console.log(data);
+                            next(index + 1, data);
+                        });
+                    } else {
+                        renderApp(data);
+                    }
+                })(0, data);
+            }, function (err) {
+                res.send(err);
+            });
+        }
+
+        getUserId(req, function(id) {
+            if (id != null) {
+                userId = id;
+
                 elasticClient.search({
                     index: 'messages',
                     body: {
@@ -340,39 +394,26 @@ server.get('/messages', function(req, res) {
                     },
                     size: 100
                 }).then(function (resp) {
-
-                    var renderApp = function(data) {
-                        var page = React.createFactory(App.Page);
-
-                        markup = React.renderToStaticMarkup(page({
-                            app: App.Messages,
-                            styles: ['/css/messages.css'],
-                            data: data,
-                            valign: false,
-                            authenticated: isAuthenticated(req),
-                            activeLink: "messages"
-                        }));
-
-                        res.send(markup);
-
-                        console.log(data);
+                    var data = {
+                        inbox: resp.hits.hits,
+                        sent: []
                     };
 
                     (function next(index, data) {
-                        if (data.length === 0) {
-                            renderApp();
+                        if (data.inbox.length === 0) {
+                            getSentMessages();
                         }
-                        else if (index < data.length) {
-                            getUserName(data[index]._source.sender, function (username) {
+                        else if (index < data.inbox.length) {
+                            getUserName(data.inbox[index]._source.sender, function (username) {
                                 console.log(username);
                                 data[index]._source.sender = username;
                                 console.log(data);
                                 next(index + 1, data);
                             });
                         } else {
-                            renderApp(data);
+                            getSentMessages(data);
                         }
-                    })(0, resp.hits.hits);
+                    })(0, data);
                 }, function (err) {
                     res.send(err);
                 });

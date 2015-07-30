@@ -15,16 +15,27 @@ var Messages = React.createClass({
 
         return (
         	<div className="messages">
-	        	<div className="row row-collapse">
-		        	<div className="col s12">
-		        		<div className="row z-depth-4 teal">
-		        			<MessagesHeader />
+        		<div className="row">
+				    <div className="col s12">
+				      <ul className="tabs">
+				        <li className="tab col s3"><a className="active" href="#inbox">inbox</a></li>
+				        <li className="tab col s3"><a href="#sent">sent</a></li>
+				      </ul>
+				    </div>
+				    <div id="inbox" className="col s12">
+				    	<div className="row row-collapse">
+				        	<div className="message-list col s12">
+				        		<div className="row header-wrapper z-depth-4 teal">
+				        			<MessagesHeader />
+				        		</div>
+				        		<div className="row z-depth-4 teal">
+				        			{ Messages ? Messages : "" }
+				        		</div>
+				        	</div>
 		        		</div>
-		        		<div className="row z-depth-4 teal">
-		        			{ Messages ? Messages : "" }
-		        		</div>
-		        	</div>
-        		</div>
+				    </div>
+				    <div id="sent" className="col s12">sent</div>
+				  </div>
         	</div>
         );
     }
