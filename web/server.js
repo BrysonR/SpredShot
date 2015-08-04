@@ -333,7 +333,7 @@ server.get('/messages', function(req, res) {
                 body: {
                     query: {
                         match: {
-                            'recipient': userId
+                            'sender': userId
                         }
                     }
                 },
@@ -364,9 +364,9 @@ server.get('/messages', function(req, res) {
                         renderApp();
                     }
                     else if (index < data.sent.length) {
-                        getUserName(data.sent[index]._source.sender, function (username) {
+                        getUserName(data.sent[index]._source.recipient, function (username) {
                             console.log(username);
-                            data.sent[index]._source.sender = username;
+                            data.sent[index]._source.recipient = username;
                             console.log(data);
                             next(index + 1, data);
                         });
@@ -406,7 +406,7 @@ server.get('/messages', function(req, res) {
                         else if (index < data.inbox.length) {
                             getUserName(data.inbox[index]._source.sender, function (username) {
                                 console.log(username);
-                                data[index]._source.sender = username;
+                                data.inbox[index]._source.sender = username;
                                 console.log(data);
                                 next(index + 1, data);
                             });

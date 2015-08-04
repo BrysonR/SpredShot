@@ -4,11 +4,20 @@ var React = require('react'),
 
 var Messages = React.createClass({
     render: function() {
-    	if (this.props.data) {
+    	if (this.props.data.inbox) {
     		var i = 0;
-	    	var Messages = this.props.data.map(function(message) {
+	    	var InboxMessages = this.props.data.inbox.map(function(message) {
 	    		return (
-	    			<Message key={ i++ } sender={ message._source.sender } subject={ message._source.subject } date={ message._source.date.split('T')[0] }/>
+	    			<Message key={ i++ } recipientSender={ message._source.sender } type='recipient' subject={ message._source.subject } date={ message._source.date.split('T')[0] }/>
+				);
+	    	});
+    	}
+
+    	if (this.props.data.sent) {
+    		var i = 0;
+	    	var SentMessages = this.props.data.sent.map(function(message) {
+	    		return (
+	    			<Message key={ i++ } recipientSender={ message._source.recipient } type='sender' subject={ message._source.subject } date={ message._source.date.split('T')[0] }/>
 				);
 	    	});
     	}
@@ -26,15 +35,26 @@ var Messages = React.createClass({
 				    	<div className="row row-collapse">
 				        	<div className="message-list col s12">
 				        		<div className="row header-wrapper z-depth-4 teal">
-				        			<MessagesHeader />
+				        			<MessagesHeader recipientSender="sender" />
 				        		</div>
 				        		<div className="row z-depth-4 teal">
-				        			{ Messages ? Messages : "" }
+				        			{ InboxMessages ? InboxMessages : "" }
 				        		</div>
 				        	</div>
 		        		</div>
 				    </div>
-				    <div id="sent" className="col s12">sent</div>
+				    <div id="sent" className="col s12">
+				    	<div className="row row-collapse">
+				        	<div className="message-list col s12">
+				        		<div className="row header-wrapper z-depth-4 teal">
+				        			<MessagesHeader recipientSender="recipient" />
+				        		</div>
+				        		<div className="row z-depth-4 teal">
+				        			{ SentMessages ? SentMessages : "" }
+				        		</div>
+				        	</div>
+		        		</div>
+				    </div>
 				  </div>
         	</div>
         );
