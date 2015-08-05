@@ -24,7 +24,7 @@ var Messages = React.createClass({
 
         return (
         	<div className="messages">
-        		<div className="row">
+        		<div className="row-collapse">
 				    <div className="col s12">
 				      <ul className="tabs">
 				        <li className="tab col s3"><a className="active" href="#inbox">inbox</a></li>
@@ -32,24 +32,24 @@ var Messages = React.createClass({
 				      </ul>
 				    </div>
 				    <div id="inbox" className="col s12">
-				    	<div className="row row-collapse">
+				    	<div className="row-collapse">
 				        	<div className="message-list col s12">
-				        		<div className="row header-wrapper z-depth-4 teal">
+				        		<div className="row row-collapse header-wrapper z-depth-4 teal">
 				        			<MessagesHeader recipientSender="sender" />
 				        		</div>
-				        		<div className="row z-depth-4 teal">
+				        		<div className="row row-collapse z-depth-4 teal">
 				        			{ InboxMessages ? InboxMessages : "" }
 				        		</div>
 				        	</div>
 		        		</div>
 				    </div>
 				    <div id="sent" className="col s12">
-				    	<div className="row row-collapse">
+				    	<div className="row-collapse">
 				        	<div className="message-list col s12">
-				        		<div className="row header-wrapper z-depth-4 teal">
+				        		<div className="row row-collapse header-wrapper z-depth-4 teal">
 				        			<MessagesHeader recipientSender="recipient" />
 				        		</div>
-				        		<div className="row z-depth-4 teal">
+				        		<div className="row row-collapse z-depth-4 teal">
 				        			{ SentMessages ? SentMessages : "" }
 				        		</div>
 				        	</div>

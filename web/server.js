@@ -325,9 +325,13 @@ server.get('/messages', function(req, res) {
         res.redirect('/login');
     } else {
         var markup,
-            userId;
+            userId,
+            finalData = {
+                inbox: [],
+                sent: []
+            };
 
-        var getSentMessages = function (data) {
+        var getSentMessages = function () {
             elasticClient.search({
                 index: 'messages',
                 body: {
@@ -340,13 +344,13 @@ server.get('/messages', function(req, res) {
                 size: 100
             }).then(function (resp) {
 
-                var renderApp = function(data) {
+                var renderApp = function() {
                     var page = React.createFactory(App.Page);
 
                     markup = React.renderToStaticMarkup(page({
                         app: App.Messages,
                         styles: ['/css/messages.css'],
-                        data: data,
+                        data: finalData,
                         valign: false,
                         authenticated: isAuthenticated(req),
                         activeLink: "messages"
@@ -354,26 +358,29 @@ server.get('/messages', function(req, res) {
 
                     res.send(markup);
 
-                    console.log(data);
+                    console.log(finalData);
                 };
 
-                data.sent = resp.hits.hits;
+                console.log(finalData);
 
-                (function next(index, data) {
-                    if (data.sent.length === 0) {
+                finalData.sent = resp.hits.hits;
+
+                (function next(index) {
+                    if (finalData.sent.length === 0) {
                         renderApp();
                     }
-                    else if (index < data.sent.length) {
-                        getUserName(data.sent[index]._source.recipient, function (username) {
+                    else if (index < finalData.sent.length) {
+                        getUserName(finalData.sent[index]._source.recipient, function (username) {
                             console.log(username);
-                            data.sent[index]._source.recipient = username;
-                            console.log(data);
-                            next(index + 1, data);
+                            finalData.sent[index]._source.recipient = username;
+                            console.log(finalData);
+                            next(index + 1);
                         });
                     } else {
-                        renderApp(data);
+                        console.log(finalData)
+                        renderApp();
                     }
-                })(0, data);
+                })(0);
             }, function (err) {
                 res.send(err);
             });
@@ -394,26 +401,23 @@ server.get('/messages', function(req, res) {
                     },
                     size: 100
                 }).then(function (resp) {
-                    var data = {
-                        inbox: resp.hits.hits,
-                        sent: []
-                    };
+                    finalData.inbox = resp.hits.hits;
 
-                    (function next(index, data) {
-                        if (data.inbox.length === 0) {
+                    (function next(index) {
+                        if (finalData.inbox.length === 0) {
                             getSentMessages();
                         }
-                        else if (index < data.inbox.length) {
-                            getUserName(data.inbox[index]._source.sender, function (username) {
+                        else if (index < finalData.inbox.length) {
+                            getUserName(finalData.inbox[index]._source.sender, function (username) {
                                 console.log(username);
-                                data.inbox[index]._source.sender = username;
-                                console.log(data);
-                                next(index + 1, data);
+                                finalData.inbox[index]._source.sender = username;
+                                console.log(finalData);
+                                next(index + 1);
                             });
                         } else {
-                            getSentMessages(data);
+                            getSentMessages();
                         }
-                    })(0, data);
+                    })(0, finalData);
                 }, function (err) {
                     res.send(err);
                 });
