@@ -16,15 +16,17 @@
     "gulp": "*",
     "gulp-changed": "*",
     "gulp-babel": "*",
+    "gulp-nodemon": "*",
     "gulp-sass": "*",
     "gulp-sourcemaps": "*",
-    "gulp-nodemon": "*",
+    "gulp-uglify": "*",
     "jquery": "*",
     "literalify": "*",
     "node-jsx": "*",
     "path": "~0.11.14",
     "react": "~0.13.1",
     "reactify": "*",
+    "vinyl-buffer": "*",
     "vinyl-source-stream": "*"
   }
 }

@@ -429,7 +429,7 @@ server.get('/messages', function(req, res) {
 });
 
 server.get('/messages/compose', function(req, res) {
-    if (!isAuthenticated(req)) {
+    if (isAuthenticated(req)) {
         res.redirect('/login');
     } else {
         res.setHeader('Content-Type', 'text/html');
