@@ -24,6 +24,8 @@
     "literalify": "*",
     "node-jsx": "*",
     "path": "~0.11.14",
+    "passport": "*",
+    "passport-local": "*",
     "react": "~0.13.1",
     "reactify": "*",
     "vinyl-buffer": "*",
