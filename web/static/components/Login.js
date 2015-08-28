@@ -46,7 +46,7 @@ const Login = React.createClass({
                     className={ this.state.failure && this.state.login.username.length == 0 ? "invalid" : "" }
                     value={ this.state.login.username }
                     onChange={ this.handleUsernameInput } />
-              <label htmlFor="username">{ this.state.failure && this.state.login.username.length == 0 ? "invalid username. please reenter" : "username" }</label>
+              <label htmlFor="username">{ this.state.failure && this.state.login.username.length == 0 ? "invalid username. please re-enter" : "username" }</label>
             </div>
             <div className="input-field col s12">
               <input id="password"
@@ -55,7 +55,7 @@ const Login = React.createClass({
                     className={ this.state.failure && this.state.login.password.length == 0 ? "invalid" : "" }
                     value={ this.state.login.password }
                     onChange={ this.handlePasswordInput } />
-              <label htmlFor="password">{ this.state.failure && this.state.login.password.length == 0 ? "invalid password. please reenter" : "password" }</label>
+              <label htmlFor="password">{ this.state.failure && this.state.login.password.length == 0 ? "invalid password. please re-enter" : "password" }</label>
             </div>
             <button className="btn waves-effect waves-light" type="submit">Sign In
               <i className="mdi-content-send right"></i>

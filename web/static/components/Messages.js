@@ -57,7 +57,7 @@ var Messages = React.createClass({
 				    </div>
 			  	</div>
 			  	<div className="fixed-action-btn">
-				  	<a href="messages/compose" className="btn-floating btn-large waves-effect waves-light teal darken-2">
+				  	<a href="/messages/compose" className="btn-floating btn-large waves-effect waves-light teal darken-2">
 				  		<i className="material-icons">add</i>
 			  		</a>
 		  		</div>

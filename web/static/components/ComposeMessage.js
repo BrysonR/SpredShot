@@ -34,17 +34,26 @@ var ComposeMessage = React.createClass({
 	      	contentType: 'application/json',
 	      	async: true,
 	      	data: JSON.stringify(data)
-	    })
-	    .done(function(res) {
-	      	console.log("successfully sent message and response is: " + res);
-	      	window.location = '/messages#messagesent';
-	    })
-	    .fail(function(err) {
-	      	console.log("Epic Fail: " + err);
-	    })
-	    .always(function() {
-	      	console.log("Attempted to send message");
+	    }).always(function(res) {
+	    	var response = JSON.parse(res);
+	    	debugger;
+	      	if (response.status == 200) {
+	      		debugger;
+	      		window.location = '/#messagesent';
+	      	} else if (response.status == 69) {
+	      		window.location = '/#naughtyboy';
+	      	} else {
+	      		window.location = '/#somefailureinsendingmessage';
+	      	}
 	    });
+	    // .done(function(res) {
+	    //   	console.log("successfully sent message and response is: " + res);
+	    //   	window.location = '/messages#messagesent';
+	    // })
+	    // .fail(function(err) {
+	    //   	console.log("Epic Fail: " + err);
+	    // })
+
   	},
   	render: function() {
 		return (
@@ -64,9 +73,9 @@ var ComposeMessage = React.createClass({
 		              	<textarea className="materialize-textarea" id="description" type="text" value={ this.state.message } onChange={ this.handleMessageChange }></textarea>
 		              	<label htmlFor="description">message</label>
 		            </div>
-		            <button href="#" className="btn waves-effect waves-light" onClick={ this.handleSubmit }>Send Message
+		            <div href="#" className="btn waves-effect waves-light" onClick={ this.handleSubmit }>Send Message
 		              	<i className="mdi-content-send right"></i>
-		            </button>
+		            </div>
 		          	</div>
 		        </form>
 			</div>

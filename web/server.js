@@ -15,7 +15,8 @@ var express = require('express'),
     uuid = require('node-uuid'),
     bcrypt = require('bcrypt-nodejs'),
     App = require('./static/app');
-    when = require('when');
+    when = require('when'),
+    blns = require('./blns.json');
 
 server.use(express.static(__dirname + '/public'));
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -138,6 +139,27 @@ var getUserName = function (userId, callback) {
             callback(user.username);
         }
     })
+}
+
+var isSanitary = function (message, callback) {
+    // blns.forEach(function(naughtString) {
+    //     if(message.indexOf(naughtyString) > -1) {
+    //         callback(false);
+    //     }
+    // });
+
+    var sanitary = true;
+
+    for (var i = 0; i < blns.length; i++) {
+        console.log(message);
+        console.log(blns[i]);
+        if(message.indexOf(blns[i]) > -1) {
+            console.log(blns[i]);
+            sanitary = false;
+            break;
+        }
+    }
+    callback(sanitary);
 }
 
 server.get('/', function(req, res) {
@@ -429,7 +451,7 @@ server.get('/messages', function(req, res) {
 });
 
 server.get('/messages/compose', function(req, res) {
-    if (isAuthenticated(req)) {
+    if (!isAuthenticated(req)) {
         res.redirect('/login');
     } else {
         res.setHeader('Content-Type', 'text/html');
@@ -449,6 +471,7 @@ server.get('/messages/compose', function(req, res) {
 
 server.post('/messages/send', function(req, res) {
     var recipientId = 0;
+    var userId = 0;
 
     User.findOne({username: req.body.recipient}, function (err, user) {
         if(err) {
@@ -460,31 +483,66 @@ server.post('/messages/send', function(req, res) {
                 if (err) {
                     console.log(err);
                 } else {
-                    elasticClient.index({
-                        index: 'messages',
-                        type: 'post',
-                        recipient: {
-                            type: 'string'
-                        },
-                        body: {
-                            subject: req.body.subject,
-                            recipient: recipientId,
-                            sender: user.userId,
-                            message: req.body.message,
-                            date: new Date()
-                        }
-                    }, function (err, resp) {
-                      if(err) {
-                          console.log(err);
-                      } else {
-                            console.log(resp);
+                    userId = user.userId;
+
+                    isSanitary(req.body.message, function(sanitary) {
+                        console.log("it says it's " + sanitary);
+                        if (sanitary) {
+                            isSanitary(req.body.recipient, function(sanitary) {
+                                if (sanitary) {
+                                    isSanitary(req.body.subject, function(sanitary) {
+                                        if (sanitary) {
+                                            elasticClient.index({
+                                                index: 'messages',
+                                                type: 'message',
+                                                recipient: {
+                                                    type: 'string'
+                                                },
+                                                body: {
+                                                    subject: req.body.subject,
+                                                    recipient: recipientId,
+                                                    sender: userId,
+                                                    message: req.body.message,
+                                                    date: new Date()
+                                                }
+                                            }, function (err, resp) {
+                                                if(err) {
+                                                    console.log(err);
+                                                } else {
+                                                    var response = {
+                                                        status  : 200,
+                                                        success : 'Updated Successfully'
+                                                    }
+
+                                                    res.send(JSON.stringify(response));
+                                                }
+                                            });
+                                        } else {
+                                            var response = {
+                                                status  : 69,
+                                                success : 'Naughty Boy'
+                                            }
+
+                                            res.send(JSON.stringify(response));
+                                        }
+                                    })
+                                } else {
+                                    var response = {
+                                        status  : 69,
+                                        success : 'Naughty Boy'
+                                    }
+
+                                    res.send(JSON.stringify(response));
+                                }
+                            })
+                        } else {
                             var response = {
-                                status  : 200,
-                                success : 'Updated Successfully'
+                                status  : 69,
+                                success : 'Naughty Boy'
                             }
 
-                            res.end(JSON.stringify(response));
-                      }
+                            res.send(JSON.stringify(response));
+                        }
                     });
                 }
             });
