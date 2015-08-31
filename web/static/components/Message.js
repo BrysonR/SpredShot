@@ -14,7 +14,7 @@ var Message = React.createClass({
 					<h6 className="white-text">{ this.props.date }</h6>
 				</div>
 				<div className="col hide-on-med-and-down l2">
-					<a className='dropdown-button btn teal darken-2 white-text' href='#' data-activates={this.props.type + 'ActionDropdown'}>Action</a>
+					<a className='dropdown-button btn brown white-text' href='#' data-activates={this.props.type + 'ActionDropdown'}>Action</a>
 					<ul id={this.props.type + 'ActionDropdown'} className='dropdown-content'>
 					    <li><a href="#!">reply</a></li>
 					    <li className="divider"></li>
