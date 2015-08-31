@@ -49,7 +49,7 @@ var Messages = React.createClass({
 				        		<div className="row row-collapse header-wrapper z-depth-4 brown darken-2">
 				        			<MessagesHeader recipientSender="recipient" />
 				        		</div>
-				        		<div className="row row-collapse z-depth-4 brown-lighten-1">
+				        		<div className="row row-collapse z-depth-4 brown lighten-1">
 				        			{ SentMessages ? SentMessages : "" }
 				        		</div>
 				        	</div>
