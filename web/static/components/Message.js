@@ -17,10 +17,8 @@ var Message = React.createClass({
 					<a className='dropdown-button btn brown white-text' href='#' data-activates={this.props.type + 'ActionDropdown'}>Action</a>
 					<ul id={this.props.type + 'ActionDropdown'} className='dropdown-content'>
 					    <li><a href="#!">reply</a></li>
-					    <li className="divider"></li>
-					    <li><a href="#!">forward</a></li>
-					    <li className="divider"></li>
-					    <li><a href="#!">delete</a></li>
+					    // <li className="divider"></li>
+					    // <li><a href="#!">delete</a></li>
 					</ul>
 				</div>
 			</div>

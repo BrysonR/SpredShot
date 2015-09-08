@@ -74,9 +74,9 @@ const List = React.createClass({
               <textarea className="materialize-textarea" id="description" type="text" value={ this.state.description } onChange={ this.handleDescriptionChange }></textarea>
               <label htmlFor="description">description</label>
             </div>
-            <button href="#" className="btn waves-effect waves-light" onClick={ this.handleSubmit }>List Yo Shit
+            <div className="btn waves-effect waves-light" onClick={ this.handleSubmit }>List Yo Shit
               <i className="mdi-content-send right"></i>
-            </button>
+            </div>
           </div>
         </form>
       </div>

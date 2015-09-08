@@ -26,7 +26,7 @@ public class Recv {
         String lsExchangeName = "app.listing.create";
         String pcExchangeName = "app.listing.percolate";
         String esIndex = "equipment";
-        String esType = "listings";
+        String esType = "listing";
 
         Client client = new TransportClient()
                 .addTransportAddress(new InetSocketTransportAddress(esHost, 9300));
