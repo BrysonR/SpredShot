@@ -59,8 +59,8 @@ const Scripts = React.createClass({
 
         return (
             <div>
-                <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-                <script src="https://fb.me/react-0.13.1.js"></script>
+                <script src="/js/jquery-2.1.1.min.js"></script>
+                <script src="/js/react-0.13.1.js"></script>
                 <script src="/js/materialize.min.js"></script>
                 <script src="/js/bundle.min.js"></script>
                 <script src="/js/nav_init.js"></script>

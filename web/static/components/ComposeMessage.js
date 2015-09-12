@@ -3,8 +3,8 @@ var React = require('react');
 var ComposeMessage = React.createClass({
 	getInitialState: function () {
     	return {
-      		subject: '',
-      		recipient: '',
+      		subject: this.props.data._source.title ? this.props.data._source.title : '',
+      		recipient: this.props.data._source.owner ? this.props.data._source.owner : '',
       		message: ''
     	};
   	},

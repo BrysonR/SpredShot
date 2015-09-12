@@ -9,7 +9,7 @@ const Listings = React.createClass({
           listing._source.imageUrl.indexOf('http') != -1)
       {
         return (
-            <Listing key={listing._id} imageUrl={listing._source.imageUrl} title={listing._source.title} price={listing._source.price} url={listing._source.link} />
+            <Listing key={listing._id} id={listing._source.listingId} imageUrl={listing._source.imageUrl} title={listing._source.title} price={listing._source.price} url={listing._source.link} />
         );
       }
     });

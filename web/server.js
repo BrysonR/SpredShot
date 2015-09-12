@@ -78,11 +78,11 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user.userId);
 });
 
 passport.deserializeUser(function(id, done) {
-  User.findById(id, function (err, user) {
+  User.findOne({userId: id}, function (err, user) {
     done(err, user);
   });
 });
@@ -99,6 +99,11 @@ var isAuthenticated = function (req) {
 
 var i = 0;
 
+var generateListingId = function (callback) {
+    var listingId = Math.floor((Math.random() * 1000000) + 1);
+    callback(listingId);
+}
+
 var generateUserId = function (callback) {
     var userId = Math.floor((Math.random() * 1000000) + 1);
 
@@ -106,7 +111,7 @@ var generateUserId = function (callback) {
         if(user != null) {
             i++;
             console.log(userId);
-            if(i <= 5) {
+            if(i <= 50) {
                 generateUserId();
             } else {
                 callback(null);
@@ -160,6 +165,22 @@ var isSanitary = function (message, callback) {
         }
     }
     callback(sanitary);
+}
+
+var getListing = function (listingId, callback) {
+    elasticClient.search({
+        index: 'equipment',
+        body: {
+            query: {
+                match: {
+                    'listingId': listingId
+                }
+            }
+        },
+        size: 1
+    }).then(function (resp) {
+        callback(resp.hits.hits[0]);
+    });
 }
 
 server.get('/', function(req, res) {
@@ -234,7 +255,21 @@ server.get('/listings/:query', function(req, res) {
     });
 });
 
-server.post('/rabbit', function(req, res) {
+server.post('/listing_redirect', function (req, res) {
+    var listingId = req.body.listingId;
+
+    req.session.listingId = listingId;
+
+    var response = {
+        statusCode: 200,
+        message: "Success"
+    }
+    console.log(JSON.stringify(response), req.session.listingId);
+
+    res.send(JSON.stringify(response));
+})
+
+server.post('/rabbit', function (req, res) {
     rabbitConn.then(function (conn) {
 
         return when(conn.createChannel().then(function(ch) {
@@ -243,21 +278,26 @@ server.post('/rabbit', function(req, res) {
                 durable: true
             })
 
-            req.body.guid = uuid.v4();
-            req.body.link = "/listing/" + req.body.title;
+            req.body.id = generateListingId(function (listingId) {
+                req.body.link = "/listing/" + listingId;
+                req.body.listingId = listingId;
+                req.body.ownerId = req.session.passport.user;
+                getUserName(req.session.passport.user, function(username) {
+                    req.body.owner = username;
+                    var message = JSON.stringify(req.body);
 
-            var message = JSON.stringify(req.body);
+                    return ok.then(function() {
+                        ch.publish(ex, '', new Buffer(message));
+                        console.log(" [x] Sent '%s'", message);
+                        var response = {
+                            status  : 200,
+                            success : 'Listing Posted Successfully'
+                        }
 
-            return ok.then(function() {
-                ch.publish(ex, '', new Buffer(message));
-                console.log(" [x] Sent '%s'", message);
-                var response = {
-                    status  : 200,
-                    success : 'Listing Posted Successfully'
-                }
-
-                res.end(JSON.stringify(response));
-            });
+                        res.end(JSON.stringify(response));
+                    });
+                });
+            })
         }));
     });
 });
@@ -347,7 +387,7 @@ server.get('/messages', function(req, res) {
         res.redirect('/login');
     } else {
         var markup,
-            userId,
+            userId = req.session.passport.user,
             finalData = {
                 inbox: [],
                 sent: []
@@ -408,44 +448,36 @@ server.get('/messages', function(req, res) {
             });
         }
 
-        getUserId(req, function(id) {
-            if (id != null) {
-                userId = id;
+        elasticClient.search({
+            index: 'messages',
+            body: {
+                query: {
+                    match: {
+                        'recipient': userId
+                    }
+                }
+            },
+            size: 100
+        }).then(function (resp) {
+            finalData.inbox = resp.hits.hits;
 
-                elasticClient.search({
-                    index: 'messages',
-                    body: {
-                        query: {
-                            match: {
-                                'recipient': userId
-                            }
-                        }
-                    },
-                    size: 100
-                }).then(function (resp) {
-                    finalData.inbox = resp.hits.hits;
-
-                    (function next(index) {
-                        if (finalData.inbox.length === 0) {
-                            getSentMessages();
-                        }
-                        else if (index < finalData.inbox.length) {
-                            getUserName(finalData.inbox[index]._source.sender, function (username) {
-                                console.log(username);
-                                finalData.inbox[index]._source.sender = username;
-                                console.log(finalData);
-                                next(index + 1);
-                            });
-                        } else {
-                            getSentMessages();
-                        }
-                    })(0, finalData);
-                }, function (err) {
-                    res.send(err);
-                });
-            } else {
-                res.redirect('/messages#userIdError');
-            }
+            (function next(index) {
+                if (finalData.inbox.length === 0) {
+                    getSentMessages();
+                }
+                else if (index < finalData.inbox.length) {
+                    getUserName(finalData.inbox[index]._source.sender, function (username) {
+                        console.log(username);
+                        finalData.inbox[index]._source.sender = username;
+                        console.log(finalData);
+                        next(index + 1);
+                    });
+                } else {
+                    getSentMessages();
+                }
+            })(0, finalData);
+        }, function (err) {
+            res.send(err);
         });
     }
 });
@@ -454,18 +486,39 @@ server.get('/messages/compose', function(req, res) {
     if (!isAuthenticated(req)) {
         res.redirect('/login');
     } else {
-        res.setHeader('Content-Type', 'text/html');
+        if (req.session.listingId) {
+            getListing(req.session.listingId, function (listing) {
+                res.setHeader('Content-Type', 'text/html');
 
-        var page = React.createFactory(App.Page);
+                var page = React.createFactory(App.Page);
 
-        var markup = React.renderToStaticMarkup(page({
-                app: App.ComposeMessage,
-                valign: true,
-                authenticated: isAuthenticated(req),
-                activeLink: "messages"
-        }));
+                console.log(listing._source.owner, listing._source.title);
 
-        res.send(markup);
+                var markup = React.renderToStaticMarkup(page({
+                        app: App.ComposeMessage,
+                        valign: true,
+                        data: listing,
+                        authenticated: isAuthenticated(req),
+                        activeLink: "messages"
+                }));
+
+                res.send(markup);
+            });
+            req.session.listingId = undefined;
+        } else {
+            res.setHeader('Content-Type', 'text/html');
+
+            var page = React.createFactory(App.Page);
+
+            var markup = React.renderToStaticMarkup(page({
+                    app: App.ComposeMessage,
+                    valign: true,
+                    authenticated: isAuthenticated(req),
+                    activeLink: "messages"
+            }));
+
+            res.send(markup);
+        }
     }
 });
 
@@ -479,7 +532,7 @@ server.post('/messages/send', function(req, res) {
         } else {
             recipientId = user.userId;
 
-            User.findOne({_id: req.session.passport.user}, function(err, user) {
+            User.findOne({userId: req.session.passport.user}, function(err, user) {
                 if (err) {
                     console.log(err);
                 } else {

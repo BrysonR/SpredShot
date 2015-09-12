@@ -1,6 +1,25 @@
 var React = require('react');
 
 const Card = React.createClass({
+    handleSelection : function() {
+        var data = {
+            listingId: this.props.id
+        }
+
+        $.ajax({
+            url: '/listing_redirect',
+            type: 'POST',
+            contentType: 'application/json',
+            async: true,
+            data: JSON.stringify(data)
+        }).always(function(res) {
+            var response = JSON.parse(res);
+            debugger;
+            if (response.statusCode == 200) {
+              window.location = '/messages/compose';
+            }
+        });
+    },
     render: function() {
 
       var cardStyle = {
@@ -18,7 +37,7 @@ const Card = React.createClass({
               <p dangerouslySetInnerHTML={{__html: this.props.title}}></p>
             </div>
             <div className="card-action brown lighten-1 waves-effect">
-              <a href={this.props.url}>Click Here For Details</a>
+              <a onClick={this.handleSelection}>Click Here For Details</a>
             </div>
           </div>
         </div>
