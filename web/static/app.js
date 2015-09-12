@@ -59,9 +59,9 @@ const Scripts = React.createClass({
 
         return (
             <div>
-                <script src="/js/jquery-2.1.1.min.js"></script>
-                <script src="/js/react-0.13.1.js"></script>
-                <script src="/js/materialize.min.js"></script>
+                <script src="/js-lib/jquery-2.1.1.min.js"></script>
+                <script src="/js-lib/react-0.13.1.js"></script>
+                <script src="/js-lib/materialize.min.js"></script>
                 <script src="/js/bundle.min.js"></script>
                 <script src="/js/nav_init.js"></script>
                 { additionalScripts }
