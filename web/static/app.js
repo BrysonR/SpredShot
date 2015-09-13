@@ -37,7 +37,7 @@ const Head = React.createClass({
               <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
               <title>Guns N Fun</title>
               <link rel="shortcut icon" href="/images/favicon.png" />
-              <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+              <link rel="stylesheet" href="/css/icon-style.css" />
               <link rel="stylesheet" href="/css/index.css" />
               <link rel="stylesheet" href="/css/materialize.css" />
               { additionalStyles }
