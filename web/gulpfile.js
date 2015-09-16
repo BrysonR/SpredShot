@@ -39,12 +39,12 @@ function transpileScssSource(path, dest) {
 
 gulp.task('bamfify:js', function () {
     return gulp.src(jsPaths.src)
-        .pipe(sourcemaps.init())
+        // .pipe(sourcemaps.init())
         .pipe(babel())
         .pipe(uglify())
-        .pipe(sourcemaps.write(jsPaths.maps, {
-          inludeContent: false
-        }))
+        // .pipe(sourcemaps.write(jsPaths.maps, {
+        //   inludeContent: false
+        // }))
         .pipe(gulp.dest(jsPaths.build));
 });
 
@@ -59,11 +59,11 @@ gulp.task('bamfify-react:js', function () {
   .bundle()
   .pipe(source('bundle.min.js'))
   .pipe(buffer())
-  .pipe(sourcemaps.init({
-      loadMaps: true
-  }))
+  // .pipe(sourcemaps.init({
+  //     loadMaps: true
+  // }))
   .pipe(uglify())
-  .pipe(sourcemaps.write(jsPaths.maps))
+  // .pipe(sourcemaps.write(jsPaths.maps))
   .pipe(gulp.dest(jsPaths.build));
 });
 
