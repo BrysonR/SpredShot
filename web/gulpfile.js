@@ -76,33 +76,31 @@ gulp.task('watch', function() {
     gulp.watch(jsPaths.all, ['bamfify:js', 'bamfify-react:js']);
 })
 
-// gulp.task('demon', function () {
-//   nodemon({
-//     script: 'server.js',
-//     watch: './',
-//     ext: 'js',
-//     env: {
-//       'NODE_ENV': 'development'
-//     },
-//     tasks: function (changedFiles) {
-//       var tasks = []
-//       console.log(changedFiles);
-//       changedFiles.forEach(function (file) {
-//         if (path.extname(file) === '.js' &&
-//           path.dirname(file) !== jsPaths.build &&
-//           !~tasks.indexOf('bamfify:js')) tasks.push('bamfify:js') && tasks.push('bamfify-react:js')
-//         if (path.extname(file) === '.scss' &&
-//           path.dirname(file) !== stylePaths.build &&
-//           !~tasks.indexOf('bamfify:scss')) tasks.push('bamfify:scss')
-//       })
-//       return tasks
-//     }
-//   })
-//   .on('start', ['watch'])
-//   .on('change', ['watch'])
-//   .on('restart', function () {
-//     console.log('restarted!');
-//   });
-// });
+gulp.task('demon', function () {
+  nodemon({
+    script: 'server.js',
+    env: {
+      'NODE_ENV': 'development'
+    },
+  //   tasks: function (changedFiles) {
+  //     var tasks = []
+  //     console.log(changedFiles);
+  //     changedFiles.forEach(function (file) {
+  //       if (path.extname(file) === '.js' &&
+  //         path.dirname(file) !== jsPaths.build &&
+  //         !~tasks.indexOf('bamfify:js')) tasks.push('bamfify:js') && tasks.push('bamfify-react:js')
+  //       if (path.extname(file) === '.scss' &&
+  //         path.dirname(file) !== stylePaths.build &&
+  //         !~tasks.indexOf('bamfify:scss')) tasks.push('bamfify:scss')
+  //     })
+  //     return tasks
+  //   }
+  })
+  // .on('start', ['watch'])
+  // .on('change', ['watch'])
+  .on('restart', function () {
+    console.log('restarted!');
+  });
+});
 
-gulp.task('default', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss']);
+gulp.task('default', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss', 'demon']);
