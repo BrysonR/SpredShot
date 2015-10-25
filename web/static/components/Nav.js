@@ -6,8 +6,8 @@ const Nav = React.createClass({
       <div className="navbar-fixed">
         <nav className="z-depth-2 teal darken-2">
           <div className="nav-wrapper teal darken-2">
-            <a href="#" className="brand-logo"><img src="/images/logo.svg" width="100px" height="64px"/></a>
-            <a href="#" data-activates="sideBar" className="button-collapse"><i className="waves-effect waves-teal lighten-2 large mdi-navigation-menu"></i></a>
+            <a href="/" className="brand-logo"><img src="/images/logo.svg" width="100px" height="64px"/></a>
+            <a href="/" data-activates="sideBar" className="button-collapse"><i className="waves-effect waves-teal lighten-2 large mdi-navigation-menu"></i></a>
             <ul className="right hide-on-med-and-down">
 
               {this.props.authenticated ? "" :
