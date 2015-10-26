@@ -147,12 +147,6 @@ var getUserName = function (userId, callback) {
 }
 
 var isSanitary = function (message, callback) {
-    // blns.forEach(function(naughtString) {
-    //     if(message.indexOf(naughtyString) > -1) {
-    //         callback(false);
-    //     }
-    // });
-
     var sanitary = true;
 
     for (var i = 0; i < blns.length; i++) {

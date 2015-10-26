@@ -16,6 +16,7 @@ var jsPaths = {
     cleanPath: ['public/js/*'],
     all: ['static/js/**/*.js', 'static/components/**/*.js', 'static/*.js'],
     src: ['static/js/**/*.js'],
+    components: ['static/components/'],
     maps: './',
     build: 'public/js',
     app: 'static/browser.js'
@@ -25,6 +26,10 @@ var stylePaths = {
     cleanPath: ['public/css/*'],
     src: ['static/scss/**/*.scss'],
     build: 'public/css'
+}
+
+var watchPaths = {
+    all: ['server.js', 'gulpfile.js', 'static/js/**/*.js', 'static/components/**/*.js', 'static/*.js']
 }
 
 function transpileScssSource(path, dest) {
@@ -71,36 +76,59 @@ gulp.task('bamfify:scss', function () {
   return transpileScssSource(stylePaths.src, stylePaths.build);
 });
 
-gulp.task('watch', function() {
+gulp.task('watch:scss', function() {
     gulp.watch(stylePaths.src, ['bamfify:scss']);
-    gulp.watch(jsPaths.all, ['bamfify:js', 'bamfify-react:js']);
 })
 
 gulp.task('demon', function () {
+  // gulp.watch(watchPaths.all, function () {
+  //     nodemon({
+  //       script: 'server.js'
+  //     })
+  // });
   nodemon({
     script: 'server.js',
+    watch: [
+      watchPaths.all
+    ],
+    ignore: '*.scss',
     env: {
       'NODE_ENV': 'development'
     },
-  //   tasks: function (changedFiles) {
-  //     var tasks = []
-  //     console.log(changedFiles);
-  //     changedFiles.forEach(function (file) {
-  //       if (path.extname(file) === '.js' &&
-  //         path.dirname(file) !== jsPaths.build &&
-  //         !~tasks.indexOf('bamfify:js')) tasks.push('bamfify:js') && tasks.push('bamfify-react:js')
-  //       if (path.extname(file) === '.scss' &&
-  //         path.dirname(file) !== stylePaths.build &&
-  //         !~tasks.indexOf('bamfify:scss')) tasks.push('bamfify:scss')
-  //     })
-  //     return tasks
-  //   }
+    tasks: function (changedFiles) {
+      var tasks = [];
+      console.log('BRYSON');
+      console.log(changedFiles);
+      changedFiles.forEach(function (file) {
+        console.log('bryson');
+        if (path.extname(file) === '.js' &&
+          path.dirname(file) !== jsPaths.build &&
+          path.dirname(file) !== jsPaths.components &&
+          !~tasks.indexOf('bamfify:js')) {
+
+          tasks.push('bamfify:js')
+        } else if (path.extname(file) === '.js' &&
+          path.dirname(file) !== jsPaths.build &&
+          path.dirname(file) === jsPaths.components &&
+          !~tasks.indexOf('bamfify-react:js')) {
+
+          tasks.push('bamfify-react:js')
+        }
+      })
+      console.log(tasks);
+      return tasks
+    }
   })
-  // .on('start', ['watch'])
-  // .on('change', ['watch'])
+  .on('crash', function () {
+    console.log('ERMYGOD IT CRASHEDD!!!!!');
+  })
+  .on('change', function () {
+    console.log('And then i CHANGED!')
+    nodemon.emit('restart');
+  })
   .on('restart', function () {
     console.log('restarted!');
   });
 });
 
-gulp.task('default', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss', 'demon']);
+gulp.task('default', ['bamfify:js', 'bamfify-react:js', 'bamfify:scss', 'demon', 'watch:scss']);
