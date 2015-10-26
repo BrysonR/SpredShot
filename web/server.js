@@ -16,7 +16,8 @@ var express = require('express'),
     bcrypt = require('bcrypt-nodejs'),
     App = require('./static/app');
     when = require('when'),
-    blns = require('./blns.json');
+    blns = require('./blns.json'),
+    ReactDomServer = require('react-dom/server');
 
 server.use(express.static(__dirname + '/public'));
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -184,7 +185,7 @@ server.get('/', function(req, res) {
 
     var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(page({
+    var markup = ReactDomServer.renderToStaticMarkup(page({
         app: App.Search,
         scripts: ['/js/searchInit.js'],
         valign: true,
@@ -203,7 +204,7 @@ server.get('/list', function(req, res) {
 
         var page = React.createFactory(App.Page);
 
-        var markup = React.renderToStaticMarkup(page({
+        var markup = ReactDomServer.renderToStaticMarkup(page({
             app: App.List,
             valign: true,
             authenticated: isAuthenticated(req),
@@ -235,7 +236,7 @@ server.get('/listings/:query', function(req, res) {
         console.log(resp.hits.hits);
         var page = React.createFactory(App.Page);
 
-        var markup = React.renderToStaticMarkup(page({
+        var markup = ReactDomServer.renderToStaticMarkup(page({
             app: App.Listings,
             valign: false,
             data: resp.hits.hits,
@@ -302,7 +303,7 @@ server.get('/login', function(req, res) {
 
     var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(page({
+    var markup = ReactDomServer.renderToStaticMarkup(page({
         app: App.Login,
         valign: true,
         authenticated: isAuthenticated(req),
@@ -328,7 +329,7 @@ server.get('/register', function(req, res) {
 
     var page = React.createFactory(App.Page);
 
-    var markup = React.renderToStaticMarkup(page({
+    var markup = ReactDomServer.renderToStaticMarkup(page({
         app: App.Register,
         valign: true, authenticated: isAuthenticated(req),
         activeLink: "register"
@@ -403,7 +404,7 @@ server.get('/messages', function(req, res) {
                 var renderApp = function() {
                     var page = React.createFactory(App.Page);
 
-                    markup = React.renderToStaticMarkup(page({
+                    markup = ReactDomServer.renderToStaticMarkup(page({
                         app: App.Messages,
                         styles: ['/css/messages.css'],
                         data: finalData,
@@ -488,7 +489,7 @@ server.get('/messages/compose', function(req, res) {
 
                 console.log(listing._source.owner, listing._source.title);
 
-                var markup = React.renderToStaticMarkup(page({
+                var markup = ReactDomServer.renderToStaticMarkup(page({
                         app: App.ComposeMessage,
                         valign: true,
                         data: listing,
@@ -504,7 +505,7 @@ server.get('/messages/compose', function(req, res) {
 
             var page = React.createFactory(App.Page);
 
-            var markup = React.renderToStaticMarkup(page({
+            var markup = ReactDomServer.renderToStaticMarkup(page({
                     app: App.ComposeMessage,
                     valign: true,
                     authenticated: isAuthenticated(req),

@@ -1,3 +1,4 @@
+debugger;
 var React = require('react'),
     Nav = React.createFactory(require('./components/Nav.js')),
     ListApp = React.createFactory(require('./components/List.js')),

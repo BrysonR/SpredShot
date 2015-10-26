@@ -60,7 +60,7 @@ gulp.task('bamfify-react:js', function () {
     debug: false
   })
   .transform(babelify)
-  .transform(literalify.configure({react: 'window.React'}))
+  .transform(literalify.configure({react: 'window.React'))
   .bundle()
   .pipe(source('bundle.min.js'))
   .pipe(buffer())

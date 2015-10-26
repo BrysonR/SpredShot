@@ -7,13 +7,14 @@ var React = require('react'),
     List = React.createFactory(require('./components/List.js')),
     Register = React.createFactory(require('./components/Register.js')),
     Messages = React.createFactory(require('./components/Messages.js')),
-    ComposeMessage = React.createFactory(require('./components/ComposeMessage.js'));
+    ComposeMessage = React.createFactory(require('./components/ComposeMessage.js')),
+    ReactDomServer = require('react-dom/server');;
 
 const NavBar = React.createClass({
     render: function() {
         return (
             <div>
-                <div id="nav" dangerouslySetInnerHTML={ { __html: React.renderToString(Nav({authenticated: this.props.authenticated, activeLink: this.props.activeLink})) } }></div>
+                <div id="nav" dangerouslySetInnerHTML={ { __html: ReactDomServer.renderToString(Nav({authenticated: this.props.authenticated, activeLink: this.props.activeLink})) } }></div>
                 <script dangerouslySetInnerHTML={ { __html: 'var authenticated = ' + JSON.stringify(this.props.authenticated) } }></script>
                 <script dangerouslySetInnerHTML={ { __html: 'var activeLink = ' + JSON.stringify(this.props.activeLink) } }></script>
             </div>
@@ -60,7 +61,7 @@ const Scripts = React.createClass({
         return (
             <div>
                 <script src="/js-lib/jquery-2.1.1.min.js"></script>
-                <script src="/js-lib/react-0.13.1.js"></script>
+                <script src="/js-lib/react.min.js"></script>
                 <script src="/js-lib/materialize.min.js"></script>
                 <script src="/js/bundle.min.js"></script>
                 <script src="/js/nav_init.js"></script>
@@ -80,7 +81,7 @@ const Page = React.createClass({
 
               { this.props.data ? <script dangerouslySetInnerHTML={ { __html: 'var data = ' + JSON.stringify(this.props.data) } }></script> : '' }
 
-              <div id="content" className={ this.props.valign ? "container valign-wrapper" : "container" } dangerouslySetInnerHTML={ { __html: React.renderToString( this.props.app({ data: this.props.data }) ) } }></div>
+              <div id="content" className={ this.props.valign ? "container valign-wrapper" : "container" } dangerouslySetInnerHTML={ { __html: ReactDomServer.renderToString( this.props.app({ data: this.props.data }) ) } }></div>
 
               <Scripts scripts={ this.props.scripts } />
           </body>
