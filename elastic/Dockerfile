@@ -1,4 +1,4 @@
-FROM elasticsearch:1.5
+FROM elasticsearch:2.0.0
 
 MAINTAINER Brent Mills
 

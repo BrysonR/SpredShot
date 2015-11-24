@@ -1,10 +1,10 @@
 rabbit:
-  image: rabbitmq:3.5.0-management
+  image: rabbitmq:3.5.6-management
   ports:
    - "8080:15672"
    - "5672:5672"
 mongo:
-  image: mongo:3.0
+  image: mongo:3.0.7
   ports:
    - "27017:27017"
 elastic:
