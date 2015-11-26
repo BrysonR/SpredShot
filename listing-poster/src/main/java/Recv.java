@@ -3,6 +3,7 @@
  */
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.Date;
 
 import com.rabbitmq.client.ConnectionFactory;
@@ -28,8 +29,8 @@ public class Recv {
         String esIndex = "equipment";
         String esType = "listing";
 
-        Client client = new TransportClient()
-                .addTransportAddress(new InetSocketTransportAddress(esHost, 9300));
+        Client client = TransportClient.builder().build()
+                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(esHost), 9300));
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(rabbitHost);
