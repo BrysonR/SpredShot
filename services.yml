@@ -12,3 +12,12 @@ elastic:
   ports:
    - "9200:9200"
    - "9300:9300"
+logsene:
+  image: sematext/sematext-agent-docker
+  restart: always
+  volumes:
+   - /var/run/docker.sock:/var/run/docker.sock
+  environment:
+    HOSTNAME: "${HOSTNAME}"
+    LOGSENE_TOKEN: 461ec6fd-2cb7-4475-93d7-3edbd51796e0
+    SPM_TOKEN: 649bce6f-2c64-4cd6-a7e8-a7ec4a25ca20
