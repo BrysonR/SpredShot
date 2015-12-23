@@ -1,0 +1,1 @@
+$(function(){$("#search").keydown(function(n){if(13==n.which){n.preventDefault();var i=$("#search").val();window.location="listings/"+i}})});

@@ -5,7 +5,7 @@ web:
   ports:
    - "3069:3069"
   volumes:
-   - ./web:/spredshot
+   - ./web/src:/spredshot
   external_links:
    - "spredshot_elastic_1:elastic"
    - "spredshot_rabbit_1:rabbit"

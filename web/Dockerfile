@@ -12,6 +12,10 @@ RUN npm link browserify
 
 RUN mkdir /spredshot
 
+WORKDIR /spredshot
+
+ADD ./src ./
+
 EXPOSE 3069
 
 CMD gulp --gulpfile /spredshot/gulpfile.js

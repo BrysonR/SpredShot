@@ -1,0 +1,43 @@
+html {
+  width: 100%;
+  height: 100%; }
+
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: black;
+  letter-spacing: 2px; }
+
+.list-container {
+  width: 100%;
+  height: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  display: -webkit-flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-align-items: center;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5D23FF), color-stop(56%, #fff), color-stop(100%, #5D23FF));
+  background-size: cover;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+  .list-container .list-item {
+    width: 75%;
+    height: 55px;
+    font-size: 24px;
+    padding-left: 15px;
+    margin-bottom: 15px; }
+  .list-container .list-button {
+    border: 0;
+    background-color: #9874FF;
+    color: black;
+    cursor: pointer; }
+  .list-container .list-button:active:focus {
+    outline: none; }
+  .list-container .list-button:focus {
+    outline: none; }
