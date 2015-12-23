@@ -5,24 +5,24 @@ web:
   ports:
    - "3069:3069"
   volumes:
-   - ./web:/gunsnfun
+   - ./web:/spredshot
   external_links:
-   - "gunsnfun_elastic_1:elastic"
-   - "gunsnfun_rabbit_1:rabbit"
-   - "gunsnfun_mongo_1:mongo"
+   - "spredshot_elastic_1:elastic"
+   - "spredshot_rabbit_1:rabbit"
+   - "spredshot_mongo_1:mongo"
 # scraper:
 #   build: ./scraper/
 #   environment:
 #     APP_ENV: development
 #   external_links:
-#    - "gunsnfun_rabbit_1:rabbit"
+#    - "spredshot_rabbit_1:rabbit"
 listingposter:
   build: ./listing-poster/
   external_links:
-   - "gunsnfun_rabbit_1:rabbit"
-   - "gunsnfun_elastic_1:elastic"
+   - "spredshot_rabbit_1:rabbit"
+   - "spredshot_elastic_1:elastic"
 listingpercolator:
   build: ./listing-percolator/
   external_links:
-   - "gunsnfun_rabbit_1:rabbit"
-   - "gunsnfun_elastic_1:elastic"
+   - "spredshot_rabbit_1:rabbit"
+   - "spredshot_elastic_1:elastic"
