@@ -10,8 +10,8 @@ RUN npm link gulp
 
 RUN npm link browserify
 
-RUN mkdir /gunsnfun
+RUN mkdir /spredshot
 
 EXPOSE 3069
 
-CMD gulp --gulpfile /gunsnfun/gulpfile.js
+CMD gulp --gulpfile /spredshot/gulpfile.js
