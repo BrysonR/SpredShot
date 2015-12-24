@@ -1,7 +1,7 @@
 rabbit:
   image: rabbitmq:3.5.6-management
   ports:
-   - "8080:15672"
+   - "15672:15672"
    - "5672:5672"
 mongo:
   image: mongo:3.0.7
