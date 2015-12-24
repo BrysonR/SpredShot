@@ -7,4 +7,4 @@ jenkins:
   cpu_shares: 256
   container_name: spredshot_jenkins
   volumes:
-   - /data/jenkins:/var/jenkins_home
+   - /data/spredshot/jenkins:/var/jenkins_home
