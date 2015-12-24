@@ -598,4 +598,4 @@ server.post('/messages/send', function(req, res) {
     });
 });
 
-server.listen(3069);
+server.listen(process.env.PORT || 3069);
