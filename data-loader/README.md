@@ -8,6 +8,6 @@ docker build -t data-loader .
 
 #Run Local Instructions (SECOND):
 
-docker run --link gunsnfun_elastic_1:elastic data-loader
+docker run --link spredshot_elastic_1:elastic data-loader
 
 TODO: move connection strings to env variable
