@@ -1,0 +1,17 @@
+rabbit:
+  extends:
+    file: services.yml
+    service: rabbit
+mongo_transient:
+  extends:
+    file: services.yml
+    service: mongo
+elastic_transient:
+  extends:
+    file: services.yml
+    service: elastic
+logsene:
+  extends:
+    file: services.yml
+    service: logsene
+

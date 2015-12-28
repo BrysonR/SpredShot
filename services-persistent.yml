@@ -1,0 +1,27 @@
+rabbit:
+  extends:
+    file: services.yml
+    service: rabbit
+mongo_data:
+  image: alpine:3.2
+  entrypoint: /bin/sh
+mongo_persistent:
+  extends:
+    file: services.yml
+    service: mongo
+  volumes_from:
+   - mongo_data
+elastic_data:
+  image: alpine:3.2
+  entrypoint: /bin/sh
+elastic_persistent:
+  extends:
+    file: services.yml
+    service: elastic
+  volumes_from:
+   - elastic_data
+logsene:
+  extends:
+    file: services.yml
+    service: logsene
+
