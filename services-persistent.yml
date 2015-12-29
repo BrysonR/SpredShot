@@ -5,6 +5,8 @@ rabbit:
 mongo_data:
   image: alpine:3.2
   entrypoint: /bin/sh
+  volumes:
+   - /data/db/
 mongo_persistent:
   extends:
     file: services.yml
@@ -14,6 +16,8 @@ mongo_persistent:
 elastic_data:
   image: alpine:3.2
   entrypoint: /bin/sh
+  volumes:
+   - /usr/share/elasticsearch/data
 elastic_persistent:
   extends:
     file: services.yml
