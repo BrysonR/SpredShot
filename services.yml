@@ -7,11 +7,15 @@ mongo:
   image: mongo:3.0.7
   ports:
    - "27017:27017"
+  volumes:
+   - mongo_data:/data/db/
 elastic:
   build: ./elastic/
   ports:
    - "9200:9200"
    - "9300:9300"
+  volumes:
+   - elastic_data:/usr/share/elasticsearch/data/
 logsene:
   image: sematext/sematext-agent-docker
   restart: always

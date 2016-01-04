@@ -14,17 +14,16 @@ SpredShot is an online marketplace for guns.
 
 The server is configured to run on port 3069.
 
-## Transient vs persistent storage
+## Storage
 
-There are situations where we need to persist data such as production and when we don't such as in testing.  2 separate files exist to manage this.  Right now they are on the same ports so you can't run both together.  The best way to handle this is to use the persistent storage config and delete data containers as needed.
+Storage is handled through named volumes in docker.  The data directory in the containers that need persistent storage is mapped out to a directory in the host OS.  This is similar to the data containers that used to be best practice, however, it does not need an actual container definition.  Named volumes can be managed with the "docker volume" command and will not be wiped even with a --force-recreate flag from docker-compose.
 
-* Persistent storage
-  - Storage is handled in data containers.  As long as we don't ever change the configs docker will always bring up the same one with all our data.  If you need to wipe the data just delete the appropriate data container and it will be recreated on next startup.
-  - docker-compose -f services-persistent.yml up -d
+Data management
 
-* Transient storage
-  - All storage is handled within the container so we need to tell docker to not reuse the containers.
-  - docker-compose -f services-transient.yml up -d --force-recreate
+* Named volumes survive all container restarts, recreates, apocalypses.
+* You can view current volumes and where they are being stored with "docker volume ls".
+* To access the raw data via mac/windows you must "docker-machine ssh default", then "sudo su", then go to the directory listed with "docker volume ls".
+* To wipe a volume you must REMOVE the container currently using it. You can then use "docker volume rm <volume_name>"
 
 ## History
 
