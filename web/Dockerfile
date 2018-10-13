@@ -1,8 +1,8 @@
-FROM node:0.12.7
+FROM node:9.4.0
 
 MAINTAINER Bryson Reynolds
 
-RUN npm install debug express path elasticsearch react-dom literalify forever node-jsx react gulp-babel babelify@6.4.0 vinyl-source-stream gulp-nodemon nodemon@1.4.1 gulp-sass jquery amqplib when body-parser gulp-autoprefixer passport@0.2.2 passport-local mongoose@4.0 bcrypt-nodejs express-session node-uuid gulp-uglify vinyl-buffer babel-core gulp-sourcemaps
+RUN npm install debug express path elasticsearch@8.0.1 react-dom@0.14.3 literalify forever node-jsx react@0.14.3 gulp-babel babelify@6.4.0 vinyl-source-stream gulp-nodemon nodemon gulp-sass@2.0.4 jquery amqplib when body-parser gulp-autoprefixer passport@0.2.2 passport-local mongoose@4.0 bcrypt-nodejs express-session node-uuid gulp-uglify vinyl-buffer @babel/core gulp-sourcemaps
 
 RUN npm --global install browserify gulp
 
