@@ -28,6 +28,7 @@ textarea {
   color: white !important; }
 
 .container {
+  height: calc(100% - 64px);
   height: -webkit-calc(100% - 64px);
   padding-top: 50px; }
 
